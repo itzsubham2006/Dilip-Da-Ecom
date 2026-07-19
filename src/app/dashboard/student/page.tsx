@@ -37,12 +37,12 @@ export default async function StudentDashboardPage() {
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-ztext">Recent orders</h2>
-            <Link href="/restaurants" className="text-sm font-semibold" style={{ color: '#E23744' }}>Order now &rarr;</Link>
+            <Link href="/" className="text-sm font-semibold" style={{ color: '#E23744' }}>Order now &rarr;</Link>
           </div>
           <div className="bg-white rounded-xl shadow-z p-12 text-center">
             <ShoppingBag size={36} className="mx-auto mb-3" style={{ color: '#9C9C9C' }} />
-            <p className="text-ztext-light">No orders yet. Start exploring restaurants!</p>
-            <Link href="/restaurants" className="button-z button-z-primary mt-4">Browse restaurants</Link>
+            <p className="text-ztext-light">No orders yet. Browse our menu!</p>
+            <Link href="/" className="button-z button-z-primary mt-4">View menu</Link>
           </div>
         </div>
       </div>

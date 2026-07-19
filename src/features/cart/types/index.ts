@@ -5,14 +5,10 @@ export interface CartItem {
   quantity: number;
   veg: boolean;
   image: string;
-  restaurantSlug: string;
-  restaurantName: string;
 }
 
 export interface CartState {
   items: CartItem[];
-  restaurantSlug: string | null;
-  restaurantName: string | null;
 }
 
 export interface CartStore extends CartState {

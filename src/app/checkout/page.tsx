@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { MapPin, CreditCard, Banknote, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { useCartStore } from '@/features/cart/store';
-import type { CartItem } from '@/features/cart/types';
 import { loadRazorpayScript, openRazorpayCheckout } from '@/features/payments/services/razorpay';
 
 const paymentMethods = [
@@ -17,8 +16,7 @@ const paymentMethods = [
 export default function CheckoutPage() {
   const router = useRouter();
   const store = useCartStore();
-  const items: CartItem[] = store.items;
-  const { restaurantName, subtotal, deliveryFee, taxAmount, total, clearCart } = store;
+  const { items, subtotal, deliveryFee, taxAmount, total, clearCart } = store;
   const [paymentMethod, setPaymentMethod] = useState('razorpay');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('Kolkata');
@@ -35,7 +33,7 @@ export default function CheckoutPage() {
         <div className="container-z mx-auto max-w-xl text-center py-16">
           <h1 className="text-2xl font-bold text-ztext">Your bag is empty</h1>
           <p className="text-ztext-light mt-2">Add items before checking out.</p>
-          <Link href="/restaurants" className="button-z button-z-primary mt-6">Browse restaurants</Link>
+          <Link href="/" className="button-z button-z-primary mt-6">View menu</Link>
         </div>
       </div>
     );
@@ -49,40 +47,23 @@ export default function CheckoutPage() {
     if (paymentMethod === 'razorpay') {
       const loaded = await loadRazorpayScript();
       if (!loaded || !razorpayKey) {
-        setPlacing(false);
-        if (!razorpayKey) {
-          await new Promise((r) => setTimeout(r, 1200));
-          clearCart();
-          router.push('/order/confirmed');
-          return;
-        }
-        setError('Failed to load payment gateway. Using demo mode.');
-        await new Promise((r) => setTimeout(r, 1200));
+        await new Promise((r) => setTimeout(r, 1000));
         clearCart();
         router.push('/order/confirmed');
         return;
       }
-
       openRazorpayCheckout({
         key: razorpayKey,
         amount: total() * 100,
         name: 'Dilip Da',
-        description: `Order from ${restaurantName}`,
-        prefill: { name: '', email: '', contact: '' },
+        description: 'Food order',
         onSuccess: () => { clearCart(); router.push('/order/confirmed'); },
         onFailure: (err) => { setError(err); setPlacing(false); },
       });
       return;
     }
 
-    if (paymentMethod === 'bnpl') {
-      await new Promise((r) => setTimeout(r, 1200));
-      clearCart();
-      router.push('/order/confirmed');
-      return;
-    }
-
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 1000));
     clearCart();
     router.push('/order/confirmed');
   }
@@ -144,10 +125,10 @@ export default function CheckoutPage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-z p-6 sticky top-24">
               <h2 className="font-bold text-ztext mb-4">Order summary</h2>
-              <div className="text-sm text-ztext-light mb-3">{restaurantName} • {items.length} item{items.length > 1 ? 's' : ''}</div>
-              <div className="space-y-2 max-h-40 overflow-y-auto">
+              <p className="text-sm text-ztext-light mb-3">Dilip Da • {items.length} item{items.length > 1 ? 's' : ''}</p>
+              <div className="space-y-2 max-h-36 overflow-y-auto text-sm">
                 {items.map((item) => (
-                  <div key={item.id} className="flex justify-between text-sm">
+                  <div key={item.id} className="flex justify-between">
                     <span className="text-ztext truncate mr-2">{item.quantity}x {item.name}</span>
                     <span className="font-medium text-ztext shrink-0">₹{item.price * item.quantity}</span>
                   </div>
@@ -160,7 +141,7 @@ export default function CheckoutPage() {
                 <div className="border-t border-zborder pt-3 flex justify-between font-bold text-ztext text-base"><span>Total</span><span>₹{total()}</span></div>
               </div>
               {error && <p className="text-xs mt-2" style={{ color: '#E23744' }}>{error}</p>}
-              <button onClick={handlePlaceOrder} disabled={placing || !address.trim()} className="button-z button-z-primary w-full mt-6 h-12 text-base font-bold" style={{ opacity: (!address.trim() && !placing) ? 0.6 : 1 }}>
+              <button onClick={handlePlaceOrder} disabled={placing || !address.trim()} className="button-z button-z-primary w-full mt-5 h-11 text-sm font-bold" style={{ opacity: (!address.trim() && !placing) ? 0.6 : 1 }}>
                 {placing ? 'Processing...' : `Place order • ₹${total()}`}
               </button>
               <p className="text-xs text-ztext-lighter text-center mt-3">By placing this order, you agree to our Terms</p>
