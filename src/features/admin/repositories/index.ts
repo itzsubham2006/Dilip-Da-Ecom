@@ -1,0 +1,569 @@
+import { createAdminClient } from '@/infrastructure/supabase/admin';
+import type {
+  DashboardStats, AdminStudent, AdminMerchant, AdminOrder,
+  CreditAccountAdmin, PaymentAdmin, AuditEntry, SystemSetting,
+  PaginatedResponse, AdminFilter,
+} from '../types';
+
+export class AdminRepository {
+  async getDashboardStats(): Promise<DashboardStats | null> {
+    const admin = createAdminClient();
+    const { data, error } = await admin.rpc('get_admin_dashboard');
+    if (error) return null;
+    return data as unknown as DashboardStats;
+  }
+
+  async getStudents(filter: AdminFilter = {}): Promise<PaginatedResponse<AdminStudent>> {
+    const admin = createAdminClient();
+    const { search, status, page = 1, pageSize = 20, sortBy = 'created_at', sortOrder = 'desc' } = filter;
+    let query = admin
+      .from('profiles')
+      .select('*, credit_account:credit_accounts(*)', { count: 'exact' })
+      .eq('role', 'student')
+      .is('deleted_at', null);
+    if (status === 'active') query = query.eq('is_active', true);
+    if (status === 'suspended') query = query.eq('is_active', false);
+    if (search) {
+      query = query.or(
+        `full_name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%`,
+      );
+    }
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' });
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await query.range(from, to);
+    return {
+      data: (data ?? []) as unknown as AdminStudent[],
+      total: count ?? 0,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count ?? 0) / pageSize),
+    };
+  }
+
+  async getStudentById(id: string): Promise<AdminStudent | null> {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('profiles')
+      .select('*, credit_account:credit_accounts(*)')
+      .eq('id', id)
+      .is('deleted_at', null)
+      .single();
+    return data as unknown as AdminStudent | null;
+  }
+
+  async updateStudentStatus(id: string, isActive: boolean): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('profiles')
+      .update({ is_active: isActive })
+      .eq('id', id);
+    if (error) throw new Error(error.message);
+  }
+
+  async resetStudentVerification(id: string): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('credit_accounts')
+      .update({ verification_status: 'pending' })
+      .eq('user_id', id);
+    if (error) throw new Error(error.message);
+  }
+
+  async getMerchants(filter: AdminFilter = {}): Promise<PaginatedResponse<AdminMerchant>> {
+    const admin = createAdminClient();
+    const { search, status, page = 1, pageSize = 20, sortBy = 'created_at', sortOrder = 'desc' } = filter;
+    let query = admin
+      .from('profiles')
+      .select('*, restaurant:restaurants(*)', { count: 'exact' })
+      .eq('role', 'merchant')
+      .is('deleted_at', null);
+    if (status === 'active') query = query.eq('is_active', true);
+    if (status === 'suspended') query = query.eq('is_active', false);
+    if (search) {
+      query = query.or(
+        `full_name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%`,
+      );
+    }
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' });
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await query.range(from, to);
+    return {
+      data: (data ?? []) as unknown as AdminMerchant[],
+      total: count ?? 0,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count ?? 0) / pageSize),
+    };
+  }
+
+  async getMerchantById(id: string): Promise<AdminMerchant | null> {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('profiles')
+      .select('*, restaurant:restaurants(*)')
+      .eq('id', id)
+      .is('deleted_at', null)
+      .single();
+    return data as unknown as AdminMerchant | null;
+  }
+
+  async approveMerchant(merchantId: string, restaurantId: string): Promise<void> {
+    const admin = createAdminClient();
+    const { error: rError } = await admin
+      .from('restaurants')
+      .update({ status: 'active' })
+      .eq('id', restaurantId);
+    if (rError) throw new Error(rError.message);
+    const { error: pError } = await admin
+      .from('profiles')
+      .update({ is_active: true })
+      .eq('id', merchantId);
+    if (pError) throw new Error(pError.message);
+  }
+
+  async rejectMerchant(merchantId: string, restaurantId: string): Promise<void> {
+    const admin = createAdminClient();
+    const { error: rError } = await admin
+      .from('restaurants')
+      .update({ status: 'closed' })
+      .eq('id', restaurantId);
+    if (rError) throw new Error(rError.message);
+    const { error: pError } = await admin
+      .from('profiles')
+      .update({ is_active: false })
+      .eq('id', merchantId);
+    if (pError) throw new Error(pError.message);
+  }
+
+  async updateMerchantStatus(id: string, isActive: boolean): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('profiles')
+      .update({ is_active: isActive })
+      .eq('id', id);
+    if (error) throw new Error(error.message);
+  }
+
+  async updateCommission(merchantId: string, commissionRate: number): Promise<void> {
+    const admin = createAdminClient();
+    const { data: restaurants } = await admin
+      .from('restaurants')
+      .select('id')
+      .eq('owner_id', merchantId);
+    if (!restaurants || restaurants.length === 0) throw new Error('No restaurant found');
+    for (const r of restaurants) {
+      const { error } = await admin
+        .from('restaurant_settings')
+        .upsert({ restaurant_id: r.id, commission_rate: commissionRate }, { onConflict: 'restaurant_id' });
+      if (error) throw new Error(error.message);
+    }
+  }
+
+  async getOrders(filter: AdminFilter & { restaurantId?: string } = {}): Promise<PaginatedResponse<AdminOrder>> {
+    const admin = createAdminClient();
+    const { search, status, page = 1, pageSize = 20, sortBy = 'created_at', sortOrder = 'desc', fromDate, toDate, restaurantId } = filter;
+    let query = admin
+      .from('orders')
+      .select('*, order_items(*), user:profiles!user_id(full_name, email), restaurant:restaurants!restaurant_id(name)', { count: 'exact' })
+      .is('deleted_at', null);
+    if (status && status !== 'all') query = query.eq('status', status);
+    if (search) {
+      query = query.or(
+        `tracking_code.ilike.%${search}%,customer_name.ilike.%${search}%,customer_email.ilike.%${search}%`,
+      );
+    }
+    if (fromDate) query = query.gte('created_at', fromDate);
+    if (toDate) query = query.lte('created_at', toDate);
+    if (restaurantId) query = query.eq('restaurant_id', restaurantId);
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' });
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await query.range(from, to);
+    return {
+      data: (data ?? []) as unknown as AdminOrder[],
+      total: count ?? 0,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count ?? 0) / pageSize),
+    };
+  }
+
+  async getOrderById(id: string): Promise<AdminOrder | null> {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('orders')
+      .select('*, order_items(*), user:profiles!user_id(full_name, email), restaurant:restaurants!restaurant_id(name)')
+      .eq('id', id)
+      .single();
+    return data as unknown as AdminOrder | null;
+  }
+
+  async updateOrderStatus(orderId: string, status: string, reason?: string): Promise<void> {
+    const admin = createAdminClient();
+    const order = await this.getOrderById(orderId);
+    if (!order) throw new Error('Order not found');
+    const historyEntry = {
+      status,
+      timestamp: new Date().toISOString(),
+      note: reason ?? null,
+      changed_by: 'admin',
+    };
+    const existingHistory = (order.status_history ?? []) as Array<Record<string, unknown>>;
+    const statusHistory = [...existingHistory, historyEntry];
+    const updateData: Record<string, unknown> = {
+      status,
+      status_history: statusHistory,
+    };
+    if (reason && (status === 'cancelled' || status === 'declined')) {
+      updateData.cancellation_reason = reason;
+    }
+    if (status === 'cancelled') updateData.cancelled_at = new Date().toISOString();
+    if (status === 'completed' || status === 'delivered') updateData.delivered_at = new Date().toISOString();
+    const { error } = await admin.from('orders').update(updateData).eq('id', orderId);
+    if (error) throw new Error(error.message);
+  }
+
+  async getCreditAccounts(filter: AdminFilter = {}): Promise<PaginatedResponse<CreditAccountAdmin>> {
+    const admin = createAdminClient();
+    const { search, status, page = 1, pageSize = 20, sortBy = 'created_at', sortOrder = 'desc' } = filter;
+    let query = admin
+      .from('credit_accounts')
+      .select('*, user:profiles!user_id(full_name, email)', { count: 'exact' })
+      .is('deleted_at', null);
+    if (status && status !== 'all') query = query.eq('status', status);
+    if (search) {
+      query = query.or(
+        `user.full_name.ilike.%${search}%,user.email.ilike.%${search}%`,
+      );
+    }
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' });
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await query.range(from, to);
+    return {
+      data: (data ?? []) as unknown as CreditAccountAdmin[],
+      total: count ?? 0,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count ?? 0) / pageSize),
+    };
+  }
+
+  async getCreditAccountById(id: string): Promise<CreditAccountAdmin | null> {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('credit_accounts')
+      .select('*, user:profiles!user_id(full_name, email)')
+      .eq('id', id)
+      .single();
+    return data as unknown as CreditAccountAdmin | null;
+  }
+
+  async updateCreditLimit(accountId: string, newLimit: number): Promise<CreditAccountAdmin> {
+    const admin = createAdminClient();
+    const account = await this.getCreditAccountById(accountId);
+    if (!account) throw new Error('Account not found');
+    const diff = newLimit - account.credit_limit;
+    const { data, error } = await admin
+      .from('credit_accounts')
+      .update({
+        credit_limit: newLimit,
+        available_credit: Math.max(0, account.available_credit + diff),
+        outstanding: Math.max(0, account.outstanding),
+      })
+      .eq('id', accountId)
+      .select('*, user:profiles!user_id(full_name, email)')
+      .single();
+    if (error) throw new Error(error.message);
+    return data as unknown as CreditAccountAdmin;
+  }
+
+  async updateCreditStatus(accountId: string, status: string): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('credit_accounts')
+      .update({ status })
+      .eq('id', accountId);
+    if (error) throw new Error(error.message);
+  }
+
+  async waiveLateFee(repaymentId: string): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('credit_repayments')
+      .update({ late_fee_applied: 0 })
+      .eq('id', repaymentId);
+    if (error) throw new Error(error.message);
+  }
+
+  async getCreditTransactions(accountId: string, limit = 50, offset = 0) {
+    const admin = createAdminClient();
+    const { data, count } = await admin
+      .from('credit_transactions')
+      .select('*', { count: 'exact' })
+      .eq('credit_account_id', accountId)
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+    return { data: data ?? [], total: count ?? 0 };
+  }
+
+  async getPayments(filter: AdminFilter = {}): Promise<PaginatedResponse<PaymentAdmin>> {
+    const admin = createAdminClient();
+    const { search, status, page = 1, pageSize = 20, sortBy = 'created_at', sortOrder = 'desc', fromDate, toDate } = filter;
+    let query = admin
+      .from('payments')
+      .select('*, order:orders!order_id(tracking_code, status)', { count: 'exact' });
+    if (status && status !== 'all') query = query.eq('status', status);
+    if (search) {
+      query = query.or(
+        `gateway_payment_id.ilike.%${search}%,gateway_order_id.ilike.%${search}%,order.tracking_code.ilike.%${search}%`,
+      );
+    }
+    if (fromDate) query = query.gte('created_at', fromDate);
+    if (toDate) query = query.lte('created_at', toDate);
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' });
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await query.range(from, to);
+    return {
+      data: (data ?? []) as unknown as PaymentAdmin[],
+      total: count ?? 0,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count ?? 0) / pageSize),
+    };
+  }
+
+  async processRefund(paymentId: string, amount: number, reason: string): Promise<void> {
+    const admin = createAdminClient();
+    const { data: payment, error: fetchError } = await admin
+      .from('payments')
+      .select('*')
+      .eq('id', paymentId)
+      .single();
+    if (fetchError || !payment) throw new Error('Payment not found');
+    if (payment.status !== 'confirmed') throw new Error('Only confirmed payments can be refunded');
+    const currentRefunded = payment.refund_amount ?? 0;
+    const newRefunded = currentRefunded + amount;
+    if (newRefunded > payment.amount) throw new Error('Refund amount exceeds payment amount');
+    const newStatus = newRefunded >= payment.amount ? 'refunded' : 'partially_refunded';
+    const { error } = await admin
+      .from('payments')
+      .update({ refund_amount: newRefunded, status: newStatus })
+      .eq('id', paymentId);
+    if (error) throw new Error(error.message);
+    if (payment.payment_method === 'bnpl') {
+      const { data: order } = await admin
+        .from('orders')
+        .select('*, credit_transactions(*)')
+        .eq('id', payment.order_id)
+        .single();
+      if (order) {
+        const { data: creditTx } = await admin
+          .from('credit_transactions')
+          .select('credit_account_id')
+          .eq('order_id', payment.order_id)
+          .eq('type', 'purchase')
+          .single();
+        if (creditTx) {
+          await admin
+            .from('credit_accounts')
+            .update({
+              available_credit: admin.rpc('', {}).then,
+            })
+            .eq('id', creditTx.credit_account_id);
+        }
+      }
+    }
+    await this.createAuditLog({
+      table_name: 'payments',
+      record_id: paymentId,
+      action: 'refund',
+      new_data: { refund_amount: newRefunded, status: newStatus, reason },
+      old_data: { refund_amount: currentRefunded, status: payment.status },
+    });
+  }
+
+  async getAuditLogs(filter: AdminFilter & { tableName?: string } = {}): Promise<PaginatedResponse<AuditEntry>> {
+    const admin = createAdminClient();
+    const { search, page = 1, pageSize = 50, sortBy = 'created_at', sortOrder = 'desc', fromDate, toDate, tableName } = filter;
+    let query = admin
+      .from('audit_logs')
+      .select('*, profile:profiles!changed_by(full_name)', { count: 'exact' });
+    if (tableName) query = query.eq('table_name', tableName);
+    if (search) {
+      query = query.or(
+        `table_name.ilike.%${search}%,action.ilike.%${search}%,record_id::text.ilike.%${search}%`,
+      );
+    }
+    if (fromDate) query = query.gte('created_at', fromDate);
+    if (toDate) query = query.lte('created_at', toDate);
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' });
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await query.range(from, to);
+    const rawEntries = (data ?? []) as unknown as AuditEntry[];
+    const entries = rawEntries.map((e) => {
+      const entry = e as unknown as Record<string, unknown>;
+      const profile = entry.profile as Record<string, unknown> | undefined;
+      return { ...e, changed_by_name: (profile?.full_name as string) ?? null };
+    });
+    return {
+      data: entries,
+      total: count ?? 0,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count ?? 0) / pageSize),
+    };
+  }
+
+  async getSystemSettings(): Promise<SystemSetting[]> {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('system_settings')
+      .select('*')
+      .order('key', { ascending: true });
+    return (data ?? []) as SystemSetting[];
+  }
+
+  async updateSystemSetting(id: string, value: string, updatedBy: string): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('system_settings')
+      .update({ value, updated_by: updatedBy, updated_at: new Date().toISOString() })
+      .eq('id', id);
+    if (error) throw new Error(error.message);
+  }
+
+  async createAuditLog(entry: {
+    table_name: string;
+    record_id?: string | null;
+    action: string;
+    old_data?: Record<string, unknown> | null;
+    new_data?: Record<string, unknown> | null;
+    changed_by?: string | null;
+  }): Promise<void> {
+    const admin = createAdminClient();
+    await admin.from('audit_logs').insert({
+      table_name: entry.table_name,
+      record_id: entry.record_id,
+      action: entry.action,
+      old_data: entry.old_data ?? null,
+      new_data: entry.new_data ?? null,
+      changed_by: entry.changed_by,
+    });
+  }
+
+  async getUserOrderHistory(userId: string, page = 1, pageSize = 20): Promise<PaginatedResponse<AdminOrder>> {
+    const admin = createAdminClient();
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await admin
+      .from('orders')
+      .select('*, order_items(*)', { count: 'exact' })
+      .eq('user_id', userId)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false })
+      .range(from, to);
+    return {
+      data: (data ?? []) as unknown as AdminOrder[],
+      total: count ?? 0,
+      page,
+      pageSize,
+      totalPages: Math.ceil((count ?? 0) / pageSize),
+    };
+  }
+
+  async getStudentCreditHistory(userId: string) {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('credit_accounts')
+      .select('*, credit_transactions(*)')
+      .eq('user_id', userId)
+      .is('deleted_at', null)
+      .single();
+    return data as unknown as (CreditAccountAdmin & { credit_transactions: Array<Record<string, unknown>> }) | null;
+  }
+
+  async getMerchantRevenue(merchantId: string) {
+    const admin = createAdminClient();
+    const { data: restaurants } = await admin
+      .from('restaurants')
+      .select('id, name')
+      .eq('owner_id', merchantId);
+    if (!restaurants || restaurants.length === 0) return null;
+    const restaurantIds = restaurants.map((r: { id: string }) => r.id);
+    const { data: orders } = await admin
+      .from('orders')
+      .select('id, total, status, created_at')
+      .in('restaurant_id', restaurantIds)
+      .in('status', ['completed', 'delivered'])
+      .order('created_at', { ascending: false });
+    return { restaurants, orders: orders ?? [] };
+  }
+
+  async getMerchantAnalytics(merchantId: string) {
+    const admin = createAdminClient();
+    const { data: restaurants } = await admin
+      .from('restaurants')
+      .select('id, name, status, is_open, created_at')
+      .eq('owner_id', merchantId);
+    return restaurants ?? [];
+  }
+
+  async getStudentPaymentHistory(userId: string, page = 1, pageSize = 20) {
+    const admin = createAdminClient();
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    const { data, count } = await admin
+      .from('payments')
+      .select('*', { count: 'exact' })
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .range(from, to);
+    return { data: data ?? [], total: count ?? 0 };
+  }
+
+  async bulkUpdateStudentStatus(userIds: string[], isActive: boolean): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('profiles')
+      .update({ is_active: isActive })
+      .in('id', userIds);
+    if (error) throw new Error(error.message);
+  }
+
+  async bulkUpdateMerchantStatus(userIds: string[], isActive: boolean): Promise<void> {
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from('profiles')
+      .update({ is_active: isActive })
+      .in('id', userIds);
+    if (error) throw new Error(error.message);
+  }
+
+  async getLowStockProducts(threshold: number) {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('products')
+      .select('*, restaurant:restaurants!restaurant_id(name)')
+      .eq('track_inventory', true)
+      .lte('stock_quantity', threshold)
+      .eq('is_active', true);
+    return data ?? [];
+  }
+
+  async getRecentPayments(limit = 20) {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('payments')
+      .select('*, order:orders!order_id(tracking_code)')
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    return data ?? [];
+  }
+}
+
+export const adminRepository = new AdminRepository();

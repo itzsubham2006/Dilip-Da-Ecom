@@ -1,0 +1,160 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import {
+  LayoutDashboard, Users, Store, ShoppingBag, Banknote,
+  Settings, Shield, LogOut, Menu, X, Bell,
+  ClipboardList, Wallet,
+} from 'lucide-react';
+import { getServerSession } from '@/features/auth/actions';
+
+interface SidebarItem {
+  label: string;
+  href: string;
+  icon: React.ElementType;
+  badge?: number | string;
+}
+
+const sidebarItems: SidebarItem[] = [
+  { label: 'Dashboard', href: '/dashboard/admin', icon: LayoutDashboard },
+  { label: 'Students', href: '/dashboard/admin/students', icon: Users },
+  { label: 'Merchants', href: '/dashboard/admin/merchants', icon: Store },
+  { label: 'Orders', href: '/dashboard/admin/orders', icon: ShoppingBag },
+  { label: 'BNPL', href: '/dashboard/admin/bnpl', icon: Wallet },
+  { label: 'Payments', href: '/dashboard/admin/payments', icon: Banknote },
+  { label: 'Settings', href: '/dashboard/admin/settings', icon: Settings },
+  { label: 'Audit Logs', href: '/dashboard/admin/audit-logs', icon: ClipboardList },
+];
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [adminName, setAdminName] = useState('Admin');
+  const [adminRole, setAdminRole] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { user } = await getServerSession();
+        if (user) {
+          setAdminName(user.fullName);
+          setAdminRole(user.role ?? '');
+        }
+      } catch {}
+    })();
+  }, []);
+
+  const isActive = useCallback((href: string) => {
+    if (href === '/dashboard/admin') return pathname === '/dashboard/admin';
+    return pathname.startsWith(href);
+  }, [pathname]);
+
+  const handleSignOut = async () => {
+    const { createClient } = await import('@/infrastructure/supabase/client');
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push('/auth/login');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:z-auto ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex items-center justify-between px-5 h-16 border-b border-gray-100">
+          <Link href="/dashboard/admin" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-zred flex items-center justify-center">
+              <Shield size={16} className="text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-900 leading-tight">Admin</p>
+              <p className="text-[10px] text-gray-500 leading-tight">Panel</p>
+            </div>
+          </Link>
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
+            <X size={18} className="text-gray-500" />
+          </button>
+        </div>
+
+        <nav className="p-3 space-y-0.5 overflow-y-auto max-h-[calc(100vh-4rem)]">
+          {sidebarItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                isActive(item.href)
+                  ? 'bg-zred/10 text-zred shadow-sm'
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+              }`}
+            >
+              <item.icon size={18} />
+              <span>{item.label}</span>
+              {item.badge && (
+                <span className="ml-auto text-[10px] font-bold bg-zred text-white px-1.5 py-0.5 rounded-full">
+                  {item.badge}
+                </span>
+              )}
+            </Link>
+          ))}
+
+          <div className="pt-4 mt-4 border-t border-gray-100">
+            <button
+              onClick={handleSignOut}
+              className="flex w-full items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-red-600 transition-all"
+            >
+              <LogOut size={18} />
+              <span>Sign out</span>
+            </button>
+          </div>
+        </nav>
+      </aside>
+
+      {/* Main content area */}
+      <div className="lg:pl-64">
+        {/* Top bar */}
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-lg border-b border-gray-200">
+          <div className="flex items-center justify-between px-4 lg:px-6 h-16">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Menu size={20} className="text-gray-600" />
+            </button>
+
+            <div className="hidden lg:flex items-center gap-2">
+              <span className="text-xs text-gray-400">Super Admin</span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <Bell size={18} className="text-gray-500" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-zred rounded-full" />
+              </button>
+              <div className="flex items-center gap-2.5 pl-3 border-l border-gray-200">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-zred to-red-400 flex items-center justify-center text-white text-xs font-bold">
+                  {adminName.charAt(0).toUpperCase()}
+                </div>
+                <div className="hidden sm:block">
+                  <p className="text-sm font-medium text-gray-900 leading-tight">{adminName}</p>
+                  <p className="text-[11px] text-gray-500 leading-tight capitalize">{adminRole.replace('_', ' ')}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Page content */}
+        <main className="p-4 lg:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}

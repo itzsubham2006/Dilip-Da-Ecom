@@ -7,6 +7,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { useCartStore } from '@/features/cart/store';
 
 const navLinks = [
+  { label: 'Home', href: '/' },
   { label: 'Menu', href: '/menu' },
   { label: 'Track', href: '/order/track' },
 ];
@@ -162,7 +163,7 @@ export default function LandingNavbar() {
       </div>
 
       {mobileOpen && (
-        <div className="sm:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 px-4 py-4 space-y-1">
+        <div className="sm:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 px-4 py-4 space-y-1 z-[60] relative">
           {navLinks.map((link) => (
             <Link
               key={link.label}

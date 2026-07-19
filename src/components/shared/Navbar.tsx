@@ -97,7 +97,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div className="border-t border-zborder bg-white dark:bg-[#1E1E1E] sm:hidden px-4 py-3 space-y-1">
+        <div className="border-t border-zborder bg-white dark:bg-[#1E1E1E] sm:hidden px-4 py-3 space-y-1 z-[60] relative">
           {navLinks.map((link) => (
             <Link
               key={link.label}
