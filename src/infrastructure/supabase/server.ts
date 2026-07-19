@@ -1,24 +1,24 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import type { Database } from './schema';
+import { env } from '@/config/env';
 
 export async function createServerSupabaseClient() {
+  if (!env.supabase.isConfigured) {
+    return null;
+  }
+
   const cookieStore = await cookies();
 
-  return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
-          });
-        },
+  return createServerClient(env.supabase.url!, env.supabase.anonKey!, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) => {
+          cookieStore.set(name, value, options);
+        });
       },
     },
-  );
+  });
 }

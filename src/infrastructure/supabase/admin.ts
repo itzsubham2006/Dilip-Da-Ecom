@@ -1,15 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from './schema';
+import { env } from '@/config/env';
 
 export function createAdminClient() {
-  return createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
+  if (!env.supabase.serviceRoleKey) {
+    throw new Error(
+      'Supabase service role key not configured. Set SUPABASE_SERVICE_ROLE_KEY in .env.local',
+    );
+  }
+
+  return createClient(env.supabase.url!, env.supabase.serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
     },
-  );
+  });
 }

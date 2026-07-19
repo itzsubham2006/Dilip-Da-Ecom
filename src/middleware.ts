@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@supabase/ssr';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 const publicRoutes = new Set([
   '/',
@@ -13,14 +14,6 @@ const publicRoutes = new Set([
   '/search',
 ]);
 
-const roleRoutePrefixes: Record<string, string> = {
-  student: '/dashboard/student',
-  merchant: '/dashboard/merchant',
-  delivery: '/dashboard/delivery',
-  admin: '/dashboard/admin',
-  super_admin: '/dashboard/admin',
-};
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -28,10 +21,21 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  const isPublicRoute =
+    publicRoutes.has(pathname) ||
+    pathname.startsWith('/product/') ||
+    pathname.startsWith('/restaurant/');
+
+  if (!supabaseUrl) {
+    return NextResponse.next();
+  }
+
+  const { createServerClient } = await import('@supabase/ssr');
+
   let response = NextResponse.next({ request: { headers: request.headers } });
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseUrl,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
@@ -53,11 +57,6 @@ export async function middleware(request: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const isPublicRoute =
-    publicRoutes.has(pathname) ||
-    pathname.startsWith('/product/') ||
-    pathname.startsWith('/restaurant/');
-
   if (!session && !isPublicRoute) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
@@ -74,6 +73,13 @@ export async function middleware(request: NextRequest) {
     const userRole = profile?.role as string | undefined;
 
     if (userRole) {
+      const roleRoutePrefixes: Record<string, string> = {
+        student: '/dashboard/student',
+        merchant: '/dashboard/merchant',
+        delivery: '/dashboard/delivery',
+        admin: '/dashboard/admin',
+        super_admin: '/dashboard/admin',
+      };
       const allowedPrefix = roleRoutePrefixes[userRole];
       if (pathname.startsWith('/dashboard') && allowedPrefix && !pathname.startsWith(allowedPrefix)) {
         return NextResponse.redirect(new URL(allowedPrefix, request.url));
