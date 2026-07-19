@@ -5,10 +5,9 @@ import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 export async function getServerSession() {
   const supabase = await createServerSupabaseClient();
   if (!supabase) return { user: null };
-  const { data } = await supabase.auth.getSession();
-  if (!data.session?.user) return { user: null };
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { user: null };
 
-  const user = data.session.user;
   return {
     user: {
       id: user.id,
@@ -25,13 +24,13 @@ export async function getServerProfile() {
   const supabase = await createServerSupabaseClient();
   if (!supabase) return { profile: null };
 
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.user) return { profile: null };
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { profile: null };
 
   const { data } = await supabase
     .from('profiles')
     .select('*')
-    .eq('id', session.user.id)
+    .eq('id', user.id)
     .single();
 
   return { profile: data };
@@ -41,13 +40,12 @@ export async function updateServerProfile(updates: { role?: string; phone?: stri
   const supabase = await createServerSupabaseClient();
   if (!supabase) return { error: 'Supabase not configured' };
 
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.user) return { error: 'Not authenticated' };
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated' };
 
   const { error } = await supabase
     .from('profiles')
-    .update(updates)
-    .eq('id', session.user.id);
+    .upsert({ id: user.id, ...updates });
 
   if (error) return { error: error.message };
 
@@ -62,8 +60,8 @@ export async function completeOnboarding(formData: FormData) {
   const supabase = await createServerSupabaseClient();
   if (!supabase) return { error: 'Supabase not configured', redirect: null };
 
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.user) return { error: 'Not authenticated', redirect: null };
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated', redirect: null };
 
   const role = formData.get('role') as string;
   const phone = formData.get('phone') as string;
@@ -74,8 +72,7 @@ export async function completeOnboarding(formData: FormData) {
 
   const { error: profileError } = await supabase
     .from('profiles')
-    .update({ role, phone: phone || null })
-    .eq('id', session.user.id);
+    .upsert({ id: user.id, role, phone: phone || null });
 
   if (profileError) return { error: profileError.message, redirect: null };
 

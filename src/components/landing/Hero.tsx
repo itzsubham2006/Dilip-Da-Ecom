@@ -26,7 +26,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/55" />
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 animate-fade-up">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white tracking-tight leading-none">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-white tracking-tight leading-none">
           Dilip Stores
         </h1>
         <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/80 mt-4 sm:mt-6 font-light tracking-wide animate-fade-up">

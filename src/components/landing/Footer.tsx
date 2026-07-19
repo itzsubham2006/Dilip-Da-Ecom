@@ -8,7 +8,7 @@ export default function LandingFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="text-xl font-black tracking-tight">
+            <Link href="/" className="text-xl font-bold tracking-tight">
               <span className="text-white">Dilip </span>
               <span style={{ color: '#E23744' }}>Stores</span>
             </Link>
@@ -19,7 +19,7 @@ export default function LandingFooter() {
           <div>
             <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
             <div className="space-y-2.5">
-              <Link href="/" className="block text-sm hover:text-white transition-colors">Menu</Link>
+              <Link href="/menu" className="block text-sm hover:text-white transition-colors">Menu</Link>
               <Link href="/order/track" className="block text-sm hover:text-white transition-colors">Track Order</Link>
               <Link href="/cart" className="block text-sm hover:text-white transition-colors">Cart</Link>
             </div>

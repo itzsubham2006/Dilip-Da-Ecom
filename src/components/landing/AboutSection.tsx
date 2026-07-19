@@ -46,7 +46,7 @@ export default function AboutSection() {
           }`}
         >
           <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1A1A1A] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] tracking-tight">
               About{' '}
               <span style={{ color: '#E23744' }}>Dilip Stores</span>
             </h2>
@@ -90,7 +90,7 @@ export default function AboutSection() {
                 key={stat.label}
                 className="bg-[#FAFAFA] rounded-2xl p-6 sm:p-8 text-center hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow"
               >
-                <p className="text-3xl sm:text-4xl font-black text-zred">{stat.value}</p>
+                <p className="text-3xl sm:text-4xl font-bold text-zred">{stat.value}</p>
                 <p className="text-[#696969] text-sm sm:text-base mt-1.5">{stat.label}</p>
               </div>
             ))}

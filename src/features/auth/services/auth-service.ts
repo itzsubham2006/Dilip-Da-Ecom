@@ -65,12 +65,11 @@ export const authService = {
     return { profile: data, error: null };
   },
 
-  async updateProfile(userId: string, updates: { full_name?: string; role?: string; phone?: string }) {
+  async updateProfile(userId: string, updates: { full_name?: string; role?: string; phone?: string; email?: string }) {
     const supabase = createClient();
     const { data, error } = await supabase
       .from('profiles')
-      .update(updates)
-      .eq('id', userId)
+      .upsert({ id: userId, is_active: true, email: '', full_name: '', role: '', ...updates })
       .select()
       .single();
     if (error) return { profile: null, error: error.message };

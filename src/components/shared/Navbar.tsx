@@ -10,7 +10,7 @@ import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Menu', href: '/' },
+  { label: 'Menu', href: '/menu' },
   { label: 'Track', href: '/order/track' },
 ];
 
@@ -41,7 +41,7 @@ export default function Navbar() {
         <nav className="hidden sm:flex items-center gap-1 ml-auto" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
-              key={link.href}
+              key={link.label}
               href={link.href}
               className={`button-z button-z-ghost text-sm font-medium transition-colors ${
                 isActive(link.href) ? 'text-zred bg-red-50 dark:bg-red-950/30' : ''
@@ -100,7 +100,7 @@ export default function Navbar() {
         <div className="border-t border-zborder bg-white dark:bg-[#1E1E1E] sm:hidden px-4 py-3 space-y-1">
           {navLinks.map((link) => (
             <Link
-              key={link.href}
+              key={link.label}
               href={link.href}
               onClick={() => setOpen(false)}
               className={`flex items-center gap-2 py-2.5 px-3 text-sm font-medium rounded-lg ${

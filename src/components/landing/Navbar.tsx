@@ -2,19 +2,30 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Menu, X } from 'lucide-react';
+import { ShoppingBag, Menu, X, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store';
 import { useCartStore } from '@/features/cart/store';
 
 const navLinks = [
-  { label: 'Menu', href: '#featured' },
+  { label: 'Menu', href: '/menu' },
   { label: 'Track', href: '/order/track' },
 ];
 
 export default function LandingNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dark, setDark] = useState(() => {
+    if (typeof document === 'undefined') return false;
+    return document.documentElement.classList.contains('dark');
+  });
   const { isAuthenticated, signOut } = useAuthStore();
+
+  function toggleTheme() {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('dilip-da-theme', next ? 'dark' : 'light');
+  }
   const cartCount = useCartStore((s) => s.totalItems());
 
   useEffect(() => {
@@ -33,7 +44,7 @@ export default function LandingNavbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <Link href="/" className="text-xl sm:text-2xl font-black tracking-tight shrink-0">
+          <Link href="/" className="text-xl sm:text-2xl font-bold tracking-tight shrink-0">
             <span className="text-white">Dilip </span>
             <span style={{ color: '#E23744' }}>Stores</span>
           </Link>
@@ -87,6 +98,17 @@ export default function LandingNavbar() {
                 Sign in
               </Link>
             )}
+            <button
+              onClick={toggleTheme}
+              className={`p-2.5 rounded-xl transition-colors ${
+                scrolled
+                  ? 'text-[#1A1A1A] hover:bg-gray-100'
+                  : 'text-white/90 hover:text-white hover:bg-white/10'
+              }`}
+              aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {dark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
             <Link
               href="/cart"
               className={`relative p-2.5 rounded-xl transition-colors ${
@@ -118,6 +140,15 @@ export default function LandingNavbar() {
                 </span>
               )}
             </Link>
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-colors ${
+                scrolled ? 'text-[#1A1A1A] hover:bg-gray-100' : 'text-white/90 hover:text-white hover:bg-white/10'
+              }`}
+              aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {dark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
             <button
               onClick={() => setMobileOpen((v) => !v)}
               className={`p-2 rounded-lg transition-colors ${

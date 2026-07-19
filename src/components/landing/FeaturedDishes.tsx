@@ -1,38 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useCartStore } from '@/features/cart/store';
+import { ShoppingBag } from 'lucide-react';
 
 const dishes = [
-  {
-    name: 'Kolkata Biryani',
-    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop',
-    price: '₹280',
-  },
-  {
-    name: 'Macher Jhol',
-    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae7b0?w=400&h=400&fit=crop',
-    price: '₹220',
-  },
-  {
-    name: 'Shorshe Ilish',
-    image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop',
-    price: '₹350',
-  },
-  {
-    name: 'Mutton Kosha',
-    image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop',
-    price: '₹320',
-  },
-  {
-    name: 'Misti Doi',
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop',
-    price: '₹80',
-  },
-  {
-    name: 'Daal & Rice',
-    image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=400&fit=crop',
-    price: '₹160',
-  },
+  { id: 'featured-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop', price: 280, veg: false },
+  { id: 'featured-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae7b0?w=400&h=400&fit=crop', price: 220, veg: false },
+  { id: 'featured-3', name: 'Shorshe Ilish', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop', price: 350, veg: false },
+  { id: 'featured-4', name: 'Mutton Kosha', image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop', price: 320, veg: false },
+  { id: 'featured-5', name: 'Misti Doi', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop', price: 80, veg: true },
+  { id: 'featured-6', name: 'Daal & Rice', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=400&fit=crop', price: 160, veg: true },
 ];
 
 function useScrollReveal(threshold = 0.15) {
@@ -60,6 +38,11 @@ function useScrollReveal(threshold = 0.15) {
 
 function DishCard({ dish, index }: { dish: (typeof dishes)[0]; index: number }) {
   const { ref, isVisible } = useScrollReveal(0.1);
+  const addItem = useCartStore((s) => s.addItem);
+
+  function handleAdd() {
+    addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image });
+  }
 
   return (
     <div
@@ -81,7 +64,10 @@ function DishCard({ dish, index }: { dish: (typeof dishes)[0]; index: number }) 
       </div>
       <div className="p-4 sm:p-5">
         <h3 className="font-semibold text-[#1A1A1A] text-sm sm:text-base">{dish.name}</h3>
-        <p className="text-zred font-bold text-sm sm:text-base mt-1">{dish.price}</p>
+        <p className="text-zred font-bold text-sm sm:text-base mt-1">₹{dish.price}</p>
+        <button onClick={handleAdd} className="mt-3 w-full text-xs font-bold text-white bg-zred rounded-lg py-2 hover:bg-zred-dark transition-colors flex items-center justify-center gap-1.5">
+          <ShoppingBag size={13} /> Add to Cart
+        </button>
       </div>
     </div>
   );
@@ -99,7 +85,7 @@ export default function FeaturedDishes() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1A1A1A] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] tracking-tight">
             Our Signature Dishes
           </h2>
           <p className="text-[#696969] text-base sm:text-lg mt-3 sm:mt-4 max-w-xl mx-auto">
