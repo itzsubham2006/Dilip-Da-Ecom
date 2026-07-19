@@ -1,0 +1,100 @@
+export type OrderStatus = 'pending' | 'accepted' | 'declined' | 'preparing' | 'ready' | 'assigned' | 'out_for_delivery' | 'delivered' | 'completed' | 'cancelled';
+
+export type PaymentStatus = 'pending' | 'confirmed' | 'failed' | 'refunded';
+
+export type PaymentMethod = 'razorpay' | 'bnpl' | 'cod';
+
+export interface OrderItem {
+  id: string;
+  order_id: string;
+  product_id: string;
+  product_name: string;
+  product_price: number;
+  quantity: number;
+  unit_price: number;
+  subtotal: number;
+  special_instructions: string | null;
+  created_at: string;
+}
+
+export interface Order {
+  id: string;
+  tracking_code: string;
+  user_id: string | null;
+  restaurant_id: string;
+  delivery_address_id: string | null;
+  delivery_partner_id: string | null;
+  status: OrderStatus;
+  status_history: Array<{ status: OrderStatus; timestamp: string; note?: string }> | null;
+  subtotal: number;
+  delivery_fee: number;
+  tax_amount: number;
+  discount_amount: number;
+  total: number;
+  customer_name: string | null;
+  customer_email: string | null;
+  customer_phone: string | null;
+  delivery_address: Record<string, unknown> | null;
+  delivery_notes: string | null;
+  payment_method: PaymentMethod | null;
+  payment_status: PaymentStatus;
+  scheduled_at: string | null;
+  accepted_at: string | null;
+  prepared_at: string | null;
+  delivered_at: string | null;
+  cancelled_at: string | null;
+  cancellation_reason: string | null;
+  created_at: string;
+  updated_at: string;
+  order_items?: OrderItem[];
+}
+
+export interface OrdersFilter {
+  status?: OrderStatus | 'all';
+  search?: string;
+  page?: number;
+  pageSize?: number;
+  sortBy?: 'created_at' | 'total' | 'status';
+  sortOrder?: 'asc' | 'desc';
+}
+
+export interface OrdersResponse {
+  orders: Order[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export const ORDER_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
+  pending: ['accepted', 'declined'],
+  accepted: ['preparing', 'cancelled'],
+  declined: [],
+  preparing: ['ready', 'cancelled'],
+  ready: ['assigned', 'out_for_delivery', 'completed', 'cancelled'],
+  assigned: ['out_for_delivery'],
+  out_for_delivery: ['delivered'],
+  delivered: ['completed'],
+  completed: [],
+  cancelled: [],
+};
+
+export function canTransition(from: OrderStatus, to: OrderStatus): boolean {
+  return ORDER_TRANSITIONS[from]?.includes(to) ?? false;
+}
+
+export function getOrderTimelineEvent(status: OrderStatus): string {
+  const map: Record<OrderStatus, string> = {
+    pending: 'Order placed',
+    accepted: 'Order accepted',
+    declined: 'Order declined',
+    preparing: 'Preparing your food',
+    ready: 'Order ready',
+    assigned: 'Delivery partner assigned',
+    out_for_delivery: 'Out for delivery',
+    delivered: 'Delivered',
+    completed: 'Completed',
+    cancelled: 'Cancelled',
+  };
+  return map[status] ?? status;
+}
