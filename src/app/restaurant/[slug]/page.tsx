@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { Star, Clock, MapPin, ArrowLeft, Bike } from 'lucide-react';
+import { Star, Clock, ArrowLeft, Bike } from 'lucide-react';
 import type { Metadata } from 'next';
+import { MenuItems } from './MenuItems';
 
 const menus = [
   {
@@ -30,6 +31,7 @@ const menus = [
 
 const restaurant = {
   name: 'Punjab Dhaba',
+  slug: 'punjab-dhaba',
   cuisine: 'North Indian, Mughlai, Punjabi',
   rating: 4.5,
   totalRatings: 1250,
@@ -82,7 +84,6 @@ export default async function RestaurantPage({ params }: { params: Promise<{ slu
               <span className="text-xs text-ztext-light font-medium mt-1">{restaurant.cost}</span>
             </div>
           </div>
-
           {restaurant.isOpen && (
             <div className="mt-4 flex items-center gap-2 text-xs">
               <span className="w-2 h-2 rounded-full bg-zgreen" />
@@ -95,44 +96,7 @@ export default async function RestaurantPage({ params }: { params: Promise<{ slu
       </div>
 
       <div className="container-z mx-auto px-4 mt-8 pb-12">
-        <div className="flex gap-4 border-b border-zborder mb-6 overflow-x-auto">
-          {menus.map((m) => (
-            <a key={m.category} href={`#${m.category}`} className="shrink-0 pb-3 text-sm font-medium text-ztext-light hover:text-zred border-b-2 border-transparent hover:border-zred transition-colors">
-              {m.category}
-            </a>
-          ))}
-        </div>
-
-        {menus.map((section) => (
-          <div key={section.category} id={section.category} className="mb-10 scroll-mt-24">
-            <h2 className="text-xl font-bold text-ztext mb-2">{section.category}</h2>
-            <div className="divide-y divide-zborder">
-              {section.items.map((item) => (
-                <div key={item.name} className="py-5 flex gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs ${item.veg ? 'text-zgreen' : 'text-zred'}`}>
-                        {item.veg ? '🟢' : '🔴'}
-                      </span>
-                      {item.popular && <span className="text-xs font-bold text-zred">Bestseller</span>}
-                    </div>
-                    <h3 className="font-semibold text-ztext mt-1">{item.name}</h3>
-                    <p className="text-sm font-medium text-ztext mt-0.5">₹{item.price}</p>
-                    <p className="text-xs text-ztext-light mt-1 leading-relaxed">{item.desc}</p>
-                  </div>
-                  <div className="flex flex-col items-center gap-2 shrink-0">
-                    <div className="w-24 h-24 rounded-lg overflow-hidden bg-zgray">
-                      <img src={item.img} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
-                    </div>
-                    <button className="text-xs font-bold text-zred border border-zred rounded-lg px-5 py-1.5 hover:bg-zred hover:text-white transition-colors">
-                      ADD
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+        <MenuItems sections={menus} restaurantSlug={restaurant.slug} restaurantName={restaurant.name} />
       </div>
     </div>
   );

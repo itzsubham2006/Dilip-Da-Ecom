@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Search, MapPin, UserRound, ShoppingBag, ChevronDown, Menu, X } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store';
+import { useCartStore } from '@/features/cart/store';
 import ThemeToggle from './ThemeToggle';
 
 const navItems = [
@@ -18,6 +19,7 @@ export default function Navbar() {
   const dashboardHref = user?.role
     ? `/dashboard/${user.role === 'super_admin' ? 'admin' : user.role}`
     : '/auth/login';
+  const cartCount = useCartStore((s) => s.totalItems());
 
   return (
     <header className="nav-z">
@@ -56,8 +58,13 @@ export default function Navbar() {
           ) : (
             <Link href="/auth/login" className="button-z button-z-primary text-sm">Sign in</Link>
           )}
-          <Link href="/cart" className="icon-button-z">
+          <Link href="/cart" className="icon-button-z relative">
             <ShoppingBag size={18} />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-zred text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {cartCount > 9 ? '9+' : cartCount}
+              </span>
+            )}
           </Link>
         </div>
 
