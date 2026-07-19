@@ -1,7 +1,6 @@
 'use server';
 
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
-import { cookies } from 'next/headers';
 
 export async function getServerSession() {
   const supabase = await createServerSupabaseClient();

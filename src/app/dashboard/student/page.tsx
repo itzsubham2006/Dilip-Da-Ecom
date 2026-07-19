@@ -15,9 +15,9 @@ export default async function StudentDashboardPage() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: ShoppingBag, label: 'Active orders', value: '2', href: '#' },
-            { icon: CreditCard, label: 'Ethics Pay credit', value: '₹4,200', href: '/bnpl' },
-            { icon: Clock, label: 'Past orders', value: '12', href: '#' },
+            { icon: ShoppingBag, label: 'Active orders', value: '2', href: '/order/track' },
+            { icon: CreditCard, label: 'Ethics Pay credit', value: 'View &rarr;', href: '/dashboard/student/credit' },
+            { icon: Clock, label: 'Past orders', value: '12', href: '/order/track' },
             { icon: History, label: 'Saved addresses', value: '3', href: '#' },
           ].map((s) => (
             <Link key={s.label} href={s.href} className="bg-white rounded-xl shadow-z p-5 transition-shadow hover:shadow-z-hover">

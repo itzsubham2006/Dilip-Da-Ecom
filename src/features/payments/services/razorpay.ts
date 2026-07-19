@@ -1,6 +1,35 @@
+interface RazorpayWindow {
+  Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id?: string;
+  prefill?: { name?: string; email?: string; contact?: string };
+  handler: (response: RazorpayResponse) => void;
+  modal: { ondismiss: () => void };
+}
+
+interface RazorpayInstance {
+  open: () => void;
+}
+
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
+
 export async function loadRazorpayScript(): Promise<boolean> {
   return new Promise((resolve) => {
-    if ((window as any).Razorpay) { resolve(true); return; }
+    if ((window as unknown as RazorpayWindow).Razorpay) {
+      resolve(true);
+      return;
+    }
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
@@ -18,10 +47,10 @@ export function openRazorpayCheckout(options: {
   description?: string;
   orderId?: string;
   prefill?: { name?: string; email?: string; contact?: string };
-  onSuccess: (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => void;
+  onSuccess: (response: RazorpayResponse) => void;
   onFailure: (error: string) => void;
 }) {
-  const rzp = new (window as any).Razorpay({
+  const rzp = new (window as unknown as RazorpayWindow).Razorpay({
     key: options.key,
     amount: options.amount,
     currency: options.currency ?? 'INR',
@@ -29,7 +58,7 @@ export function openRazorpayCheckout(options: {
     description: options.description ?? '',
     order_id: options.orderId,
     prefill: options.prefill ?? {},
-    handler(response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) {
+    handler(response: RazorpayResponse) {
       options.onSuccess(response);
     },
     modal: {

@@ -25,6 +25,74 @@
 
 html { scroll-behavior: smooth; }
 
+.dark {
+  --color-zbg: #121212;
+  --color-zgray: #1E1E1E;
+  --color-ztext: #E8E8E8;
+  --color-ztext-light: #A8A8A8;
+  --color-ztext-lighter: #686868;
+  --color-zborder: #2A2A2A;
+  --shadow-z: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-z-hover: 0 8px 24px rgba(0,0,0,0.5);
+  --shadow-z-modal: 0 16px 48px rgba(0,0,0,0.6);
+}
+
+.dark body {
+  background: #121212;
+  color: #E8E8E8;
+}
+
+.dark .nav-z,
+.dark .card-z,
+.dark .bg-white {
+  background: #1E1E1E;
+}
+
+.dark .button-z-outline {
+  background: #1E1E1E;
+  border-color: #2A2A2A;
+}
+
+.dark .button-z-ghost:hover:not(:disabled) {
+  background: #2A2A2A;
+}
+
+.dark .input-z {
+  background: #1E1E1E;
+  border-color: #2A2A2A;
+}
+
+.dark .input-z:focus {
+  border-color: var(--color-zred);
+}
+
+.dark .footer-z {
+  background: #1E1E1E;
+  border-color: #2A2A2A;
+}
+
+.dark .tag-z {
+  background: #2A2A2A;
+  color: #A8A8A8;
+}
+
+.dark .tag-z:hover {
+  background: #333;
+}
+
+.dark .icon-button-z:hover {
+  background: #2A2A2A;
+}
+
+.dark .text-black {
+  color: #E8E8E8;
+}
+
+.dark [style*="color: black"],
+.dark [style*="color:black"] {
+  color: #E8E8E8 !important;
+}
+
 body {
   margin: 0;
   min-width: 320px;

@@ -13,9 +13,22 @@ export const metadata: Metadata = {
   description: 'Authentic Bengali food cooked with love. Order from Dilip Da. Pay with Ethics Pay BNPL.',
 };
 
+const themeScript = `
+  (function() {
+    var theme = localStorage.getItem('dilip-da-theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (theme === 'dark' || (!theme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-screen bg-white font-sans antialiased">
         <Providers>
           <NavbarWrapper />

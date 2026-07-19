@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import { useCartStore } from '@/features/cart/store';
 import { ShoppingBag, Minus, Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -22,7 +21,7 @@ interface MenuSection {
 
 export function MenuItems({ sections }: { sections: MenuSection[] }) {
   const store = useCartStore();
-  const { items: cartItems, addItem, updateQuantity, subtotal, deliveryFee, taxAmount, total, totalItems } = store;
+  const { items: cartItems, addItem, updateQuantity, total, totalItems } = store;
   const cartCount = totalItems();
 
   function getQty(id: string) {

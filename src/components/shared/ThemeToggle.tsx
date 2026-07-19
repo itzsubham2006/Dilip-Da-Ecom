@@ -1,18 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { useEffect, useState } from 'react';
+
+function getInitialDark(): boolean {
+  if (typeof document === 'undefined') return false;
+  return document.documentElement.classList.contains('dark');
+}
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem('dilip-da-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = stored === 'dark' || (!stored && prefersDark);
-    setDark(isDark);
-    document.documentElement.classList.toggle('dark', isDark);
-  }, []);
+  const [dark, setDark] = useState(getInitialDark);
 
   function toggle() {
     const next = !dark;

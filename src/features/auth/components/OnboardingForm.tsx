@@ -27,7 +27,7 @@ export function OnboardingForm() {
     if (!user) { setError('Failed to update profile'); setLoading(false); return; }
     const { error: profileError } = await authService.updateProfile(user.id, { full_name: user.fullName, role: selectedRole, phone: phone || undefined });
     if (profileError) { setError(profileError); setLoading(false); return; }
-    setUser({ ...user, role: selectedRole as any, phone: phone || null });
+    setUser({ ...user, role: selectedRole as 'student' | 'merchant' | 'delivery' | 'admin' | 'super_admin', phone: phone || null });
     const dashboards: Record<string, string> = { student: '/dashboard/student', merchant: '/dashboard/merchant', delivery: '/dashboard/delivery' };
     router.push(dashboards[selectedRole] ?? '/');
     router.refresh();
