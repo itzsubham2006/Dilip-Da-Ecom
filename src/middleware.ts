@@ -1,12 +1,13 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const publicRoutes = new Set([
   '/',
-  '/login',
-  '/register',
-  '/forgot-password',
+  '/auth/login',
+  '/auth/signup',
+  '/auth/callback',
   '/restaurants',
   '/products',
   '/cart',
@@ -26,7 +27,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/product/') ||
     pathname.startsWith('/restaurant/');
 
-  if (!supabaseUrl) {
+  if (!supabaseUrl || !supabaseAnonKey) {
     return NextResponse.next();
   }
 
@@ -34,36 +35,40 @@ export async function middleware(request: NextRequest) {
 
   let response = NextResponse.next({ request: { headers: request.headers } });
 
-  const supabase = createServerClient(
-    supabaseUrl,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-          response = NextResponse.next({ request: { headers: request.headers } });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          );
-        },
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+        response = NextResponse.next({ request: { headers: request.headers } });
+        cookiesToSet.forEach(({ name, value, options }) =>
+          response.cookies.set(name, value, options),
+        );
       },
     },
-  );
+  });
 
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session && !isPublicRoute) {
-    const loginUrl = new URL('/login', request.url);
+  if (!session && !isPublicRoute && !pathname.startsWith('/auth/')) {
+    const loginUrl = new URL('/auth/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   if (session) {
+    if (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/signup')) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
+    if (pathname.startsWith('/auth/onboarding')) {
+      return NextResponse.next();
+    }
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
@@ -84,10 +89,6 @@ export async function middleware(request: NextRequest) {
       if (pathname.startsWith('/dashboard') && allowedPrefix && !pathname.startsWith(allowedPrefix)) {
         return NextResponse.redirect(new URL(allowedPrefix, request.url));
       }
-    }
-
-    if (pathname === '/login' || pathname === '/register') {
-      return NextResponse.redirect(new URL('/', request.url));
     }
   }
 

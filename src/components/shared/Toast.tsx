@@ -36,11 +36,11 @@ export default function Toast() {
   if (!notice) return null;
 
   return (
-    <div className="fixed bottom-5 left-1/2 z-[80] w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 rounded-sm border border-moss/20 bg-paper p-4 shadow-soft sm:left-auto sm:right-5 sm:translate-x-0">
+    <div className="fixed bottom-5 left-1/2 z-[80] w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 rounded-lg bg-white shadow-z-modal border border-zborder p-4 sm:left-auto sm:right-5 sm:translate-x-0">
       <div className="flex items-center gap-3">
-        <CheckCircle2 className="shrink-0 text-moss" size={20} />
-        <p className="flex-1 text-sm font-semibold text-ink">{notice.message}</p>
-        <button className="grid size-8 place-items-center text-ink/48 hover:text-ink" type="button" onClick={() => setNotice(null)} aria-label="Dismiss">
+        <CheckCircle2 className="shrink-0" size={20} style={{ color: '#24963F' }} />
+        <p className="flex-1 text-sm font-semibold text-ztext">{notice.message}</p>
+        <button className="grid size-8 place-items-center text-ztext-lighter hover:text-ztext" type="button" onClick={() => setNotice(null)} aria-label="Dismiss">
           <X size={16} />
         </button>
       </div>

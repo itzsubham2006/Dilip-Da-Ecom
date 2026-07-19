@@ -16,10 +16,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-bg font-sans antialiased">
+      <body className="min-h-screen bg-white font-sans antialiased">
         <Providers>
           <Navbar />
-          <main className="min-h-[calc(100vh-8rem)]">{children}</main>
+          <main className="min-h-[calc(100vh-4rem)]">{children}</main>
           <Footer />
           <Toast />
         </Providers>
