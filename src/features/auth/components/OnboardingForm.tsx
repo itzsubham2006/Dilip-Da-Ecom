@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../store';
 import { authService } from '../services/auth-service';
 
@@ -12,7 +11,6 @@ const roles = [
 ] as const;
 
 export function OnboardingForm() {
-  const router = useRouter();
   const setUser = useAuthStore((s) => s.setUser);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [phone, setPhone] = useState('');
@@ -29,8 +27,7 @@ export function OnboardingForm() {
     if (profileError) { setError(profileError); setLoading(false); return; }
     setUser({ ...user, role: selectedRole as 'student' | 'merchant' | 'delivery' | 'admin' | 'super_admin', phone: phone || null });
     const dashboards: Record<string, string> = { student: '/dashboard/student', merchant: '/dashboard/merchant', delivery: '/dashboard/delivery' };
-    router.push(dashboards[selectedRole] ?? '/');
-    router.refresh();
+    window.location.href = dashboards[selectedRole] ?? '/';
   }
 
   return (

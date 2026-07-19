@@ -1,13 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authService } from '../services/auth-service';
 import { OAuthButtons } from './OAuthButtons';
 
 export function LoginForm() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,8 +18,7 @@ export function LoginForm() {
     const { user, error: err } = await authService.signIn(email, password);
     setLoading(false);
     if (err) { setError(err); return; }
-    if (user?.role) { router.push('/'); } else { router.push('/auth/onboarding'); }
-    router.refresh();
+    window.location.href = user?.role ? '/' : '/auth/onboarding';
   }
 
   return (

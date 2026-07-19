@@ -1,13 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authService } from '../services/auth-service';
 import { OAuthButtons } from './OAuthButtons';
 
 export function SignupForm() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -21,7 +19,7 @@ export function SignupForm() {
     const { user, error: err } = await authService.signUp(email, password, fullName);
     setLoading(false);
     if (err) { setError(err); return; }
-    if (user) { router.push('/auth/onboarding'); router.refresh(); }
+    if (user) { window.location.href = '/auth/onboarding'; }
     else { setError('Check your email for a confirmation link.'); }
   }
 
