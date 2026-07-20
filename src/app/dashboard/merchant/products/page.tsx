@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Plus, Search, UtensilsCrossed, Edit3, Archive, Eye } from 'lucide-react';
 import { getProducts, archiveProduct, restoreProduct, getCategories } from '@/features/products/actions';
 import type { Product, Category } from '@/features/products/types';
@@ -87,8 +88,8 @@ export default function ProductsPage() {
         <div className="space-y-2">
           {filtered.map((p) => (
             <div key={p.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0">
-                {p.image ? <img src={p.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-gray-400"><UtensilsCrossed size={18} /></div>}
+              <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0 relative">
+                {p.image ? <Image src={p.image} alt="" fill className="object-cover" sizes="48px" /> : <div className="w-full h-full flex items-center justify-center text-gray-400"><UtensilsCrossed size={18} /></div>}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">

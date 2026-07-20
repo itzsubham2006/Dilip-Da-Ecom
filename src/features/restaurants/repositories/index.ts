@@ -1,13 +1,17 @@
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import type { Restaurant, RestaurantSettings, MerchantDashboard, RevenueOverview } from '../types';
 
+const RESTAURANT_COLUMNS = 'id, owner_id, name, slug, description, cuisine_type, phone, email, address_line1, address_line2, city, state, postal_code, latitude, longitude, cover_image, logo_url, opening_time, closing_time, delivery_fee, min_order_amount, delivery_radius_km, is_active, is_open, status, created_at, updated_at, deleted_at';
+
+const SETTINGS_COLUMNS = 'id, restaurant_id, prep_time_minutes, max_orders_slot, allow_preorder, allow_scheduled, gst_number, fssai_license, bank_account, upi_id, commission_rate, created_at, updated_at';
+
 export class RestaurantRepository {
   async findByOwnerId(ownerId: string): Promise<Restaurant | null> {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return null;
     const { data } = await supabase
       .from('restaurants')
-      .select('*')
+      .select(RESTAURANT_COLUMNS)
       .eq('owner_id', ownerId)
       .eq('deleted_at', null)
       .maybeSingle();
@@ -19,7 +23,7 @@ export class RestaurantRepository {
     if (!supabase) return null;
     const { data } = await supabase
       .from('restaurants')
-      .select('*')
+      .select(RESTAURANT_COLUMNS)
       .eq('id', id)
       .eq('deleted_at', null)
       .maybeSingle();
@@ -31,7 +35,7 @@ export class RestaurantRepository {
     if (!supabase) return null;
     const { data } = await supabase
       .from('restaurant_settings')
-      .select('*')
+      .select(SETTINGS_COLUMNS)
       .eq('restaurant_id', restaurantId)
       .maybeSingle();
     return data;
@@ -44,7 +48,7 @@ export class RestaurantRepository {
       .from('restaurant_settings')
       .update(updates)
       .eq('restaurant_id', restaurantId)
-      .select()
+      .select(SETTINGS_COLUMNS)
       .single();
     return data;
   }

@@ -1,12 +1,13 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useCartStore } from '@/features/cart/store';
 import { ShoppingBag } from 'lucide-react';
 
 const dishes = [
   { id: 'featured-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop', price: 280, veg: false },
-  { id: 'featured-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae7b0?w=400&h=400&fit=crop', price: 220, veg: false },
+  { id: 'featured-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1574482620811-04b3a9b0e8a3?w=400&h=400&fit=crop', price: 220, veg: false },
   { id: 'featured-3', name: 'Shorshe Ilish', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop', price: 350, veg: false },
   { id: 'featured-4', name: 'Mutton Kosha', image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop', price: 320, veg: false },
   { id: 'featured-5', name: 'Misti Doi', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop', price: 80, veg: true },
@@ -54,12 +55,13 @@ function DishCard({ dish, index }: { dish: (typeof dishes)[0]; index: number }) 
       }`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="aspect-square overflow-hidden">
-        <img
+      <div className="aspect-square overflow-hidden relative">
+        <Image
           src={dish.image}
           alt={dish.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-          loading="lazy"
+          fill
+          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+          sizes="(max-width: 768px) 50vw, 33vw"
         />
       </div>
       <div className="p-4 sm:p-5">

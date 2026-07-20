@@ -1,13 +1,17 @@
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import type { Product, ProductFormData, Category, CategoryFormData, ProductsFilter } from '../types';
 
+const PRODUCT_COLUMNS = 'id, restaurant_id, category_id, name, slug, description, price, compare_at_price, cost_per_unit, unit, is_vegetarian, is_vegan, is_gluten_free, spice_level, preparation_time, image, is_active, is_available, stock_quantity, track_inventory, sort_order, tags, created_at, updated_at, deleted_at';
+
+const CATEGORY_COLUMNS = 'id, restaurant_id, name, slug, description, display_order, is_active, created_at, updated_at';
+
 export class ProductRepository {
   async findByRestaurant(restaurantId: string, filter: ProductsFilter = {}): Promise<Product[]> {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return [];
     let query = supabase
       .from('products')
-      .select('*')
+      .select(PRODUCT_COLUMNS)
       .eq('restaurant_id', restaurantId)
       .eq('deleted_at', null)
       .order('sort_order', { ascending: true })
@@ -30,7 +34,7 @@ export class ProductRepository {
     if (!supabase) return null;
     const { data } = await supabase
       .from('products')
-      .select('*')
+      .select(PRODUCT_COLUMNS)
       .eq('id', id)
       .eq('deleted_at', null)
       .maybeSingle();
@@ -63,7 +67,7 @@ export class ProductRepository {
         track_inventory: data.track_inventory ?? false,
         tags: data.tags ?? null,
       })
-      .select()
+      .select(PRODUCT_COLUMNS)
       .single();
     return product as Product | null;
   }
@@ -94,7 +98,7 @@ export class ProductRepository {
       .update(updateData)
       .eq('id', id)
       .eq('restaurant_id', restaurantId)
-      .select()
+      .select(PRODUCT_COLUMNS)
       .single();
     return product as Product | null;
   }
@@ -138,7 +142,7 @@ export class ProductRepository {
       .update({ stock_quantity: quantity, updated_at: new Date().toISOString() })
       .eq('id', id)
       .eq('restaurant_id', restaurantId)
-      .select()
+      .select(PRODUCT_COLUMNS)
       .single();
     return data as Product | null;
   }
@@ -150,7 +154,7 @@ export class CategoryRepository {
     if (!supabase) return [];
     let query = supabase
       .from('categories')
-      .select('*')
+      .select(CATEGORY_COLUMNS)
       .eq('restaurant_id', restaurantId)
       .order('display_order', { ascending: true });
     if (!includeInactive) query = query.eq('is_active', true);
@@ -161,7 +165,7 @@ export class CategoryRepository {
   async findById(id: string): Promise<Category | null> {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return null;
-    const { data } = await supabase.from('categories').select('*').eq('id', id).maybeSingle();
+    const { data } = await supabase.from('categories').select(CATEGORY_COLUMNS).eq('id', id).maybeSingle();
     return data as Category | null;
   }
 
@@ -170,7 +174,7 @@ export class CategoryRepository {
     if (!supabase) return null;
     const { count } = await supabase
       .from('categories')
-      .select('*', { count: 'exact', head: true })
+      .select('id', { count: 'exact', head: true })
       .eq('restaurant_id', restaurantId);
     const slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const { data: category } = await supabase
@@ -183,7 +187,7 @@ export class CategoryRepository {
         display_order: (count ?? 0) + 1,
         is_active: data.is_active ?? true,
       })
-      .select()
+      .select(CATEGORY_COLUMNS)
       .single();
     return category as Category | null;
   }
@@ -200,7 +204,7 @@ export class CategoryRepository {
       .update(updateData)
       .eq('id', id)
       .eq('restaurant_id', restaurantId)
-      .select()
+      .select(CATEGORY_COLUMNS)
       .single();
     return category as Category | null;
   }

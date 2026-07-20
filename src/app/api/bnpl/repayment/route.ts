@@ -1,8 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import { repaymentService } from '@/features/bnpl/services/repayment-service';
+import { repaymentRequestSchema } from '@/schemas/api';
+import { csrfGuard } from '@/lib/csrf';
+import { rateLimit, RATE_LIMIT_CONFIGS, rateLimitKey } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
+  const csrfResponse = csrfGuard(request);
+  if (csrfResponse) return csrfResponse;
+
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const rateResult = await rateLimit(rateLimitKey('repayment', ip), RATE_LIMIT_CONFIGS.strict);
+  if (!rateResult.success) {
+    return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
+  }
+
   try {
     const supabase = await createServerSupabaseClient();
     if (!supabase) {
@@ -14,11 +26,16 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { repaymentId, amount, gatewayPaymentId } = body;
 
-    if (!repaymentId) {
-      return NextResponse.json({ error: 'repaymentId is required' }, { status: 400 });
+    const parsed = repaymentRequestSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: parsed.error.issues.map((i) => ({ field: i.path.join('.'), message: i.message })) },
+        { status: 400 },
+      );
     }
+
+    const { repaymentId, amount, gatewayPaymentId } = parsed.data;
 
     let result;
     if (gatewayPaymentId) {

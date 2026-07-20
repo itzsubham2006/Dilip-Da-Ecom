@@ -8,7 +8,7 @@ export class NotificationRepository {
     const { type, is_read, page = 1, pageSize = 20 } = filter;
     let query = supabase
       .from('notifications')
-      .select('*', { count: 'exact' })
+      .select('id, user_id, type, title, body, data, is_read, read_at, created_at', { count: 'exact' })
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
     if (type && type !== 'all') query = query.eq('type', type);
@@ -18,7 +18,7 @@ export class NotificationRepository {
     const { data, count } = await query;
     const { count: unread } = await supabase
       .from('notifications')
-      .select('*', { count: 'exact', head: true })
+      .select('id', { count: 'exact', head: true })
       .eq('user_id', userId)
       .eq('is_read', false);
     return {
@@ -71,7 +71,7 @@ export class NotificationRepository {
         body: notification.body ?? null,
         data: notification.data ?? null,
       })
-      .select()
+      .select('id, user_id, type, title, body, data, is_read, read_at, created_at')
       .single();
     return data as Notification | null;
   }
@@ -81,7 +81,7 @@ export class NotificationRepository {
     if (!supabase) return 0;
     const { count } = await supabase
       .from('notifications')
-      .select('*', { count: 'exact', head: true })
+      .select('id', { count: 'exact', head: true })
       .eq('user_id', userId)
       .eq('is_read', false);
     return count ?? 0;

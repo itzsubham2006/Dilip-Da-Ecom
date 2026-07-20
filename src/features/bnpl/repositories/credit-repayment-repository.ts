@@ -1,13 +1,15 @@
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import type { CreditRepayment } from '../types';
 
+const COLUMNS = 'id, credit_account_id, transaction_id, amount, due_date, paid_at, late_fee_applied, status, payment_method, gateway_payment_id, created_at, updated_at';
+
 export class CreditRepaymentRepository {
   async findByAccountId(accountId: string): Promise<CreditRepayment[]> {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return [];
     const { data } = await supabase
       .from('credit_repayments')
-      .select('*')
+      .select(COLUMNS)
       .eq('credit_account_id', accountId)
       .order('due_date', { ascending: true });
     return (data || []) as CreditRepayment[];
@@ -18,7 +20,7 @@ export class CreditRepaymentRepository {
     if (!supabase) return null;
     const { data } = await supabase
       .from('credit_repayments')
-      .select('*')
+      .select(COLUMNS)
       .eq('id', id)
       .single();
     return data as CreditRepayment | null;
@@ -29,7 +31,7 @@ export class CreditRepaymentRepository {
     if (!supabase) return [];
     const { data } = await supabase
       .from('credit_repayments')
-      .select('*')
+      .select(COLUMNS)
       .in('status', ['pending', 'partial'])
       .lt('due_date', new Date().toISOString().split('T')[0])
       .order('due_date', { ascending: true });
@@ -51,7 +53,7 @@ export class CreditRepaymentRepository {
         due_date: repayment.dueDate,
         status: 'pending',
       })
-      .select()
+      .select(COLUMNS)
       .single();
     if (error) throw new Error(error.message);
     return data as CreditRepayment;
@@ -94,7 +96,7 @@ export class CreditRepaymentRepository {
     if (!supabase) return [];
     const { data } = await supabase
       .from('credit_repayments')
-      .select('*')
+      .select(COLUMNS)
       .eq('credit_account_id', accountId)
       .in('status', ['pending', 'partial'])
       .order('due_date', { ascending: true })

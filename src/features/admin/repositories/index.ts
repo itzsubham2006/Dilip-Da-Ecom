@@ -340,7 +340,7 @@ export class AdminRepository {
     const admin = createAdminClient();
     const { data: payment, error: fetchError } = await admin
       .from('payments')
-      .select('*')
+      .select('id, order_id, amount, refund_amount, status, payment_method')
       .eq('id', paymentId)
       .single();
     if (fetchError || !payment) throw new Error('Payment not found');
@@ -423,7 +423,7 @@ export class AdminRepository {
     const admin = createAdminClient();
     const { data } = await admin
       .from('system_settings')
-      .select('*')
+      .select('id, key, value, type, description, updated_by, created_at, updated_at')
       .order('key', { ascending: true });
     return (data ?? []) as SystemSetting[];
   }

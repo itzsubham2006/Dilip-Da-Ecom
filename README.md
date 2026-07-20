@@ -1,83 +1,44 @@
 # Dilip Da — Homestyle Bengali Cuisine
 
+![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss)
+![License](https://img.shields.io/badge/License-Private-red)
+
 A food ordering platform built with Next.js 16, Supabase, and TypeScript. Features **Ethics Pay BNPL** (Buy Now, Pay Later) credit system for students.
 
-## Tech Stack
+## Features
 
-- **Framework**: Next.js 16 (App Router, Turbopack)
-- **Database**: Supabase (PostgreSQL + RLS)
-- **Auth**: Supabase SSR (email/password + Google OAuth)
-- **State**: Zustand (client), React Query (server)
-- **Styling**: Tailwind CSS v4 + CSS variables
-- **Payments**: Razorpay (full) + BNPL (Ethics Pay)
-- **Forms**: React Hook Form + Zod v4
-- **Icons**: Lucide React
+- **Role-based dashboards** — Student, Merchant, Delivery, Admin
+- **BNPL Credit System** — Buy now, pay later with automated repayment schedules
+- **Real-time Order Tracking** — Track orders from preparation to delivery
+- **Razorpay Integration** — Secure card payments
+- **Google OAuth** — One-click sign-in
+- **Server Components** — RSC-first architecture for fast page loads
+- **Security** — CSRF protection, rate limiting, Zod validation, RLS policies
 
-## Project Structure
-
-```
-src/
-├── app/                    # Next.js App Router pages
-│   ├── (menu)/            # Menu components
-│   ├── auth/              # Login, signup, onboarding
-│   ├── cart/              # Shopping cart page
-│   ├── checkout/          # Checkout with Razorpay + BNPL
-│   ├── dashboard/         # Role-based dashboards
-│   │   └── student/
-│   │       └── credit/    # BNPL credit dashboard
-│   ├── order/             # Order tracking & confirmation
-│   └── api/               # API routes (BNPL repayments, etc.)
-├── components/
-│   ├── landing/           # Landing page components
-│   └── shared/            # Shared UI (Navbar, Footer, Toast, ThemeToggle)
-├── features/              # Feature-based modules
-│   ├── auth/              # Authentication & authorization
-│   ├── bnpl/              # Ethics Pay BNPL system
-│   │   ├── actions/       # Server actions
-│   │   ├── components/    # Dashboard & payment option UI
-│   │   ├── repositories/  # Data access (Repository Pattern)
-│   │   ├── schemas/       # Zod validation schemas
-│   │   ├── services/      # Business logic
-│   │   └── types/         # TypeScript types
-│   ├── cart/              # Shopping cart
-│   └── payments/          # Razorpay integration
-├── infrastructure/
-│   └── supabase/          # DB clients, schema types
-├── lib/                   # Utilities & error classes
-└── config/                # Environment config
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20+
-- Supabase project
-- Razorpay account (optional, for card payments)
-
-### Setup
-
-1. Clone the repo
-2. Copy `.env.example` to `.env.local` and fill in:
-   - Supabase URL and keys
-   - Razorpay key ID and secret (optional)
-3. Run migrations against your Supabase database:
+## Quick Start
 
 ```bash
-# Point the supabase CLI at your project, or run schema.sql manually
-```
-
-4. Install dependencies and run:
-
-```bash
+# 1. Clone and install
 npm install
+
+# 2. Set up environment
+cp .env.example .env.local
+# Fill in your Supabase URL and keys
+
+# 3. Run migrations
+# Execute supabase/migrations/*.sql against your Supabase database
+
+# 4. Start developing
 npm run dev
 ```
 
-### Scripts
+## Scripts
 
 | Command | Description |
-|---------|-------------|
+|---|---|
 | `npm run dev` | Start dev server with Turbopack |
 | `npm run build` | Production build |
 | `npm run start` | Start production server |
@@ -85,76 +46,48 @@ npm run dev
 | `npm run typecheck` | TypeScript type checking |
 | `npm run format` | Format with Prettier |
 
-## Ethics Pay BNPL System
-
-### Features
-
-- **Credit Verification**: Student verification workflow with eligibility checks
-- **Credit Limit Assignment**: Configurable per-student credit limits
-- **BNPL Checkout**: Purchase on credit with automatic ledger entries
-- **Credit Ledger**: Complete transaction history with balance tracking
-- **Due Date Management**: Automatic repayment schedule generation
-- **Late Fee Engine**: Configurable late fees (daily, weekly, percentage, fixed)
-- **Repayment Flow**: Full, partial, and Razorpay repayments
-- **Credit Restoration**: Automatic credit restoration on repayment
-- **Student Dashboard**: Real-time credit overview with React Query
-- **Audit Trail**: Immutable logs for all credit actions
-
-### Architecture
+## Project Structure
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│  Components  │────▶│   Actions    │────▶│  Services   │
-│  (Client)    │     │  (Server)    │     │  (Logic)    │
-└─────────────┘     └──────────────┘     └──────┬──────┘
-                                                │
-                                        ┌───────▼──────┐
-                                        │ Repositories │
-                                        │  (Data)      │
-                                        └───────┬──────┘
-                                                │
-                                        ┌───────▼──────┐
-                                        │   Supabase   │
-                                        │  (PostgreSQL)│
-                                        └──────────────┘
+src/
+├── app/                    # Next.js App Router pages (RSC-first)
+├── components/             # Shared & landing components
+├── features/               # Feature modules (auth, bnpl, cart, etc.)
+│   ├── auth/               # Auth, onboarding, role management
+│   ├── bnpl/               # Ethics Pay BNPL system
+│   ├── cart/               # Shopping cart (Zustand)
+│   ├── payments/           # Razorpay integration
+│   ├── products/           # Menu & categories
+│   ├── restaurants/        # Restaurant management
+│   └── orders/             # Order lifecycle
+├── infrastructure/         # Supabase clients, DB schema types
+├── lib/                    # Rate limiter, CSRF, logger
+├── schemas/                # Zod validation schemas
+└── config/                 # Environment configuration
 ```
-
-### Database Tables
-
-| Table | Purpose |
-|-------|---------|
-| `credit_accounts` | Student credit accounts with limits and verification |
-| `credit_transactions` | Immutable ledger of all credit movements |
-| `credit_repayments` | Repayment schedule entries |
-| `credit_audit_logs` | Immutable audit trail for compliance |
-
-### Key Services
-
-| Service | Responsibility |
-|---------|---------------|
-| `CreditVerificationService` | Student verification & eligibility |
-| `CreditLimitService` | Credit limit assignment & utilization |
-| `BNPLCheckoutService` | BNPL checkout validation & processing |
-| `CreditLedgerService` | Transaction recording & integrity checks |
-| `DueDateService` | Repayment schedule & overdue detection |
-| `LateFeeService` | Late fee calculation & application |
-| `RepaymentService` | Full/partial/razorpay repayment processing |
-| `CreditRestorationService` | Credit restoration after repayment |
-| `AuditService` | Immutable audit logging |
-
-## Database Migrations
-
-Migrations are in `supabase/migrations/`. Run against your Supabase project in order.
 
 ## Role-Based Access
 
 | Role | Access |
-|------|--------|
+|---|---|
 | `student` | Order food, manage BNPL credit |
-| `merchant` | Manage restaurant & menu |
+| `merchant` | Manage restaurant, menu, orders |
 | `delivery` | View & update delivery assignments |
-| `admin` | Full access to all data |
+| `admin` | Full platform management |
 | `super_admin` | Same as admin |
+
+## Documentation
+
+| Document | Description |
+|---|---|
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | System architecture and design patterns |
+| [DEPLOYMENT.md](./DEPLOYMENT.md) | Deployment guide for Vercel and manual servers |
+| [SECURITY.md](./SECURITY.md) | Security overview, auth, RLS, and hardening |
+| [.env.example](./.env.example) | Environment variable reference |
+
+## Deployment
+
+Deploy to Vercel with one click, or run on any Node.js server. See [DEPLOYMENT.md](./DEPLOYMENT.md) for details.
 
 ## License
 

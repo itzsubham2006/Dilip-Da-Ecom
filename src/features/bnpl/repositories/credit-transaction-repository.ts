@@ -1,13 +1,15 @@
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import type { CreditTransaction } from '../types';
 
+const COLUMNS = 'id, credit_account_id, order_id, type, amount, balance_before, balance_after, description, reference, created_at';
+
 export class CreditTransactionRepository {
   async findByAccountId(accountId: string, limit = 20): Promise<CreditTransaction[]> {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return [];
     const { data } = await supabase
       .from('credit_transactions')
-      .select('*')
+      .select(COLUMNS)
       .eq('credit_account_id', accountId)
       .order('created_at', { ascending: false })
       .limit(limit);
@@ -19,7 +21,7 @@ export class CreditTransactionRepository {
     if (!supabase) return null;
     const { data } = await supabase
       .from('credit_transactions')
-      .select('*')
+      .select(COLUMNS)
       .eq('order_id', orderId)
       .single();
     return data as CreditTransaction | null;
@@ -30,11 +32,11 @@ export class CreditTransactionRepository {
     if (!supabase) return [];
     const { data } = await supabase
       .from('credit_transactions')
-      .select('*, credit_accounts!inner(user_id)')
+      .select(COLUMNS + ', credit_accounts!inner(user_id)')
       .eq('credit_accounts.user_id', userId)
       .order('created_at', { ascending: false })
       .limit(limit);
-    return (data || []) as CreditTransaction[];
+    return (data || []) as unknown as CreditTransaction[];
   }
 
   async create(tx: {
@@ -61,7 +63,7 @@ export class CreditTransactionRepository {
         description: tx.description || null,
         reference: tx.reference || null,
       })
-      .select()
+      .select(COLUMNS)
       .single();
     if (error) throw new Error(error.message);
     return data as CreditTransaction;

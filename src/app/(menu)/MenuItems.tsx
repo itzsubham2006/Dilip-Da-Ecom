@@ -1,8 +1,9 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import { useCartStore } from '@/features/cart/store';
 import { ShoppingBag, Minus, Plus } from 'lucide-react';
-import Link from 'next/link';
 
 interface MenuItem {
   id: string;
@@ -60,8 +61,8 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
                     <p className="text-xs text-ztext-light mt-1 leading-relaxed">{item.desc}</p>
                   </div>
                   <div className="flex flex-col items-center gap-2 shrink-0">
-                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-zgray">
-                      <img src={item.img} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-zgray relative">
+                      <Image src={item.img} alt={item.name} fill className="object-cover" sizes="80px" />
                     </div>
                     {qty === 0 ? (
                       <button onClick={() => handleAdd(item)} className="text-[11px] font-bold text-zred border border-zred rounded-lg px-4 py-1 hover:bg-zred hover:text-white transition-colors">

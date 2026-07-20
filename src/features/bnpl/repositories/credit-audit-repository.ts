@@ -1,13 +1,15 @@
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import type { CreditAuditLog, CreditAuditAction } from '../types';
 
+const COLUMNS = 'id, user_id, action, previous_value, new_value, reason, ip_address, user_agent, metadata, created_at';
+
 export class CreditAuditRepository {
   async findByUserId(userId: string, limit = 50): Promise<CreditAuditLog[]> {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return [];
     const { data } = await supabase
       .from('credit_audit_logs')
-      .select('*')
+      .select(COLUMNS)
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(limit);
@@ -38,7 +40,7 @@ export class CreditAuditRepository {
         user_agent: log.userAgent || null,
         metadata: log.metadata || null,
       })
-      .select()
+      .select(COLUMNS)
       .single();
     if (error) throw new Error(error.message);
     return data as CreditAuditLog;

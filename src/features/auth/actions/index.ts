@@ -29,7 +29,7 @@ export async function getServerProfile() {
 
   const { data } = await supabase
     .from('profiles')
-    .select('*')
+    .select('id, email, full_name, phone, avatar_url, role, is_active, created_at, updated_at')
     .eq('id', user.id)
     .single();
 

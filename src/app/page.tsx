@@ -1,10 +1,10 @@
-'use client';
+import dynamic from 'next/dynamic';
 
+const Hero = dynamic(() => import('@/components/landing/Hero'));
+const FeaturedDishes = dynamic(() => import('@/components/landing/FeaturedDishes'));
+const AboutSection = dynamic(() => import('@/components/landing/AboutSection'));
+const LandingFooter = dynamic(() => import('@/components/landing/Footer'));
 import LandingNavbar from '@/components/landing/Navbar';
-import Hero from '@/components/landing/Hero';
-import FeaturedDishes from '@/components/landing/FeaturedDishes';
-import AboutSection from '@/components/landing/AboutSection';
-import LandingFooter from '@/components/landing/Footer';
 
 export default function Home() {
   return (

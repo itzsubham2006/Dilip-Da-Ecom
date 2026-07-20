@@ -2,13 +2,15 @@ import { createAdminClient } from '@/infrastructure/supabase/admin';
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import type { CreditAccount } from '../types';
 
+const COLUMNS = 'id, user_id, credit_limit, available_credit, outstanding, status, verification_status, credit_score, interest_rate, late_fee_rate, due_days, last_repayment_at, activated_at, created_at, updated_at';
+
 export class CreditAccountRepository {
   async findByUserId(userId: string): Promise<CreditAccount | null> {
     const supabase = await createServerSupabaseClient();
     if (!supabase) return null;
     const { data } = await supabase
       .from('credit_accounts')
-      .select('*')
+      .select(COLUMNS)
       .eq('user_id', userId)
       .is('deleted_at', null)
       .single();
@@ -20,7 +22,7 @@ export class CreditAccountRepository {
     if (!supabase) return null;
     const { data } = await supabase
       .from('credit_accounts')
-      .select('*')
+      .select(COLUMNS)
       .eq('id', id)
       .is('deleted_at', null)
       .single();

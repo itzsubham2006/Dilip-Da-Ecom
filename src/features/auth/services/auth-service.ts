@@ -49,16 +49,16 @@ export const authService = {
 
   async getSession(): Promise<{ user: AuthUser | null }> {
     const supabase = createClient();
-    const { data } = await supabase.auth.getSession();
-    if (!data.session?.user) return { user: null };
-    return { user: mapUser(data.session.user) };
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return { user: null };
+    return { user: mapUser(data.user) };
   },
 
   async fetchProfile(userId: string) {
     const supabase = createClient();
     const { data, error } = await supabase
       .from('profiles')
-      .select('*')
+      .select('id, email, full_name, phone, avatar_url, role, is_active, created_at, updated_at')
       .eq('id', userId)
       .single();
     if (error || !data) return { profile: null, error: error?.message ?? 'Profile not found' };
@@ -70,7 +70,7 @@ export const authService = {
     const { data, error } = await supabase
       .from('profiles')
       .upsert({ id: userId, is_active: true, email: '', full_name: '', role: '', ...updates })
-      .select()
+      .select('id, email, full_name, phone, avatar_url, role, is_active, created_at, updated_at')
       .single();
     if (error) return { profile: null, error: error.message };
     return { profile: data, error: null };

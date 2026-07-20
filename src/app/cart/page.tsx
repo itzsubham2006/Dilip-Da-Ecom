@@ -1,7 +1,8 @@
 'use client';
 
-import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/features/cart/store';
 
 export default function CartPage() {
@@ -40,8 +41,8 @@ export default function CartPage() {
           <div className="lg:col-span-2 space-y-3">
             {items.map((item) => (
               <div key={item.id} className="bg-white rounded-xl shadow-z p-4 flex gap-4 items-center">
-                <div className="w-16 h-16 rounded-lg overflow-hidden bg-zgray shrink-0">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                <div className="w-16 h-16 rounded-lg overflow-hidden bg-zgray shrink-0 relative">
+                  <Image src={item.image} alt={item.name} fill className="object-cover" sizes="64px" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-ztext text-sm truncate">{item.name}</h3>
