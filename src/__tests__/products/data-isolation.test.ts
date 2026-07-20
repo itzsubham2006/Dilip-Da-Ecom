@@ -1,4 +1,3 @@
-import { describe, it, expect } from '@jest/globals';
 
 describe('Product Repository - Data Isolation', () => {
   const repo = {

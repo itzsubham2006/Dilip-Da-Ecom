@@ -1,0 +1,30 @@
+import { test, expect } from '@playwright/test';
+
+test('login page renders form', async ({ page }) => {
+  await page.goto('/auth/login');
+  await expect(page.getByRole('heading')).toBeVisible();
+});
+
+test('login page has email and password fields', async ({ page }) => {
+  await page.goto('/auth/login');
+  const emailInput = page.getByLabel(/email/i);
+  const passwordInput = page.getByLabel(/password/i);
+  await expect(emailInput).toBeVisible();
+  await expect(passwordInput).toBeVisible();
+});
+
+test('login page has submit button', async ({ page }) => {
+  await page.goto('/auth/login');
+  await expect(page.getByRole('button', { name: /sign in/i })).toBeVisible();
+});
+
+test('signup page renders and links to login', async ({ page }) => {
+  await page.goto('/auth/signup');
+  await expect(page.getByText(/sign up/i).first()).toBeVisible();
+});
+
+test('unauthenticated access to dashboard redirects to login', async ({ page }) => {
+  await page.goto('/dashboard/merchant');
+  await page.waitForURL(/\/auth\/login/);
+  await expect(page).toHaveURL(/\/auth\/login/);
+});

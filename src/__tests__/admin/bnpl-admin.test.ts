@@ -1,4 +1,3 @@
-import { describe, it, expect } from '@jest/globals';
 
 describe('BNPL Administration', () => {
   const account = {

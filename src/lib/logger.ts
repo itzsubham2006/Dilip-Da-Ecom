@@ -1,8 +1,8 @@
 const SENSITIVE_KEYS = new Set([
   'password', 'token', 'secret', 'key', 'authorization', 'cookie',
-  'session', 'jwt', 'access_token', 'refresh_token', 'api_key',
-  'gateway_payment_id', 'gateway_signature', 'gateway_order_id',
-  'razorpay_payment_id', 'razorpay_order_id', 'razorpay_signature',
+  'session', 'jwt', 'accesstoken', 'refreshtoken', 'apikey',
+  'gatewaypaymentid', 'gatewaysignature', 'gatewayorderid',
+  'razorpaypaymentid', 'razorpayorderid', 'razorpaysignature',
 ]);
 
 function redact(obj: unknown, depth = 0): unknown {

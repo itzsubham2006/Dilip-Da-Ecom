@@ -1,18 +1,19 @@
 import { creditVerificationService } from '@/features/bnpl/services/credit-verification-service';
 
-// Mock the repositories
-jest.mock('@/features/bnpl/repositories/credit-account-repository', () => ({
+import { vi } from 'vitest';
+
+vi.mock('@/features/bnpl/repositories/credit-account-repository', () => ({
   creditAccountRepository: {
-    findByUserId: jest.fn(),
-    create: jest.fn(),
-    updateVerificationStatus: jest.fn(),
-    findById: jest.fn(),
+    findByUserId: vi.fn(),
+    create: vi.fn(),
+    updateVerificationStatus: vi.fn(),
+    findById: vi.fn(),
   },
 }));
 
-jest.mock('@/features/bnpl/repositories/credit-audit-repository', () => ({
+vi.mock('@/features/bnpl/repositories/credit-audit-repository', () => ({
   creditAuditRepository: {
-    create: jest.fn(),
+    create: vi.fn(),
   },
 }));
 
@@ -20,18 +21,18 @@ import { creditAccountRepository } from '@/features/bnpl/repositories/credit-acc
 
 describe('CreditVerificationService', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns eligible for new users with no account', async () => {
-    (creditAccountRepository.findByUserId as jest.Mock).mockResolvedValue(null);
+    (creditAccountRepository.findByUserId as ReturnType<typeof vi.fn>).mockResolvedValue(null);
     const result = await creditVerificationService.checkEligibility('new-user');
     expect(result.eligible).toBe(true);
     expect(result.reason).toBe('New user, account can be created');
   });
 
   it('returns not eligible for rejected accounts', async () => {
-    (creditAccountRepository.findByUserId as jest.Mock).mockResolvedValue({
+    (creditAccountRepository.findByUserId as ReturnType<typeof vi.fn>).mockResolvedValue({
       id: 'acc-1',
       user_id: 'user-1',
       verification_status: 'rejected',
@@ -43,7 +44,7 @@ describe('CreditVerificationService', () => {
   });
 
   it('returns not eligible for suspended accounts', async () => {
-    (creditAccountRepository.findByUserId as jest.Mock).mockResolvedValue({
+    (creditAccountRepository.findByUserId as ReturnType<typeof vi.fn>).mockResolvedValue({
       id: 'acc-1',
       user_id: 'user-1',
       verification_status: 'verified',
@@ -55,7 +56,7 @@ describe('CreditVerificationService', () => {
   });
 
   it('returns not eligible for closed accounts', async () => {
-    (creditAccountRepository.findByUserId as jest.Mock).mockResolvedValue({
+    (creditAccountRepository.findByUserId as ReturnType<typeof vi.fn>).mockResolvedValue({
       id: 'acc-1',
       user_id: 'user-1',
       verification_status: 'verified',
@@ -67,7 +68,7 @@ describe('CreditVerificationService', () => {
   });
 
   it('returns eligible for verified active accounts', async () => {
-    (creditAccountRepository.findByUserId as jest.Mock).mockResolvedValue({
+    (creditAccountRepository.findByUserId as ReturnType<typeof vi.fn>).mockResolvedValue({
       id: 'acc-1',
       user_id: 'user-1',
       verification_status: 'verified',

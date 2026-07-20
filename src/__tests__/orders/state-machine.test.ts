@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+
 import { canTransition, getOrderTimelineEvent, ORDER_TRANSITIONS } from '@/features/orders/types';
 
 describe('Order State Machine', () => {

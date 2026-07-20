@@ -1,4 +1,3 @@
-import { describe, it, expect } from '@jest/globals';
 
 describe('Audit Log Generation', () => {
   function createAuditEntry(overrides = {}) {

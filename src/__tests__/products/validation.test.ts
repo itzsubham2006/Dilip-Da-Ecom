@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+
 import type { ProductFormData } from '@/features/products/types';
 
 function validateProductForm(data: Partial<ProductFormData>): string[] {

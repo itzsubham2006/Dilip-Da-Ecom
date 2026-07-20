@@ -35,6 +35,52 @@ cp .env.example .env.local
 npm run dev
 ```
 
+## Architecture
+
+```mermaid
+flowchart TD
+    Client["Browser Client<br/>(RSC Islands + Client Components)"]
+
+    subgraph NextJS ["Next.js 16 (Turbopack)"]
+        MW["Middleware<br/>(Auth Guard + Rate Limiting + Security Headers)"]
+        AP["App Router<br/>(RSC Pages + Server Actions)"]
+        API["API Routes<br/>(BNPL Repayment)"]
+        RSC["React Server Components"]
+        SA["Server Actions<br/>(Auth, Orders, Products)"]
+    end
+
+    subgraph Supabase ["Supabase Backend"]
+        PG[(PostgreSQL<br/>with RLS)]
+        AUTH["Auth Service<br/>(Supabase SSR)"]
+    end
+
+    subgraph External ["External Services"]
+        RAZ["Razorpay<br/>(Payments)"]
+        UPSTASH["Upstash Redis<br/>(Rate Limiting — Production)"]
+    end
+
+    Client --> MW
+    MW --> AP
+    Client --> SA
+    AP --> RSC
+    AP --> SA
+
+    SA --> AUTH
+    SA --> PG
+    API --> AUTH
+    API --> PG
+    RSC --> AUTH
+    RSC --> PG
+
+    API -.-> UPSTASH
+    Client --> RAZ
+
+    style Client fill:#e1f5fe
+    style NextJS fill:#fff3e0
+    style Supabase fill:#e8f5e9
+    style External fill:#fce4ec
+```
+
 ## Scripts
 
 | Command | Description |
@@ -45,6 +91,9 @@ npm run dev
 | `npm run lint` | Run ESLint |
 | `npm run typecheck` | TypeScript type checking |
 | `npm run format` | Format with Prettier |
+| `npm test` | Run Vitest unit/integration tests |
+| `npm run test:coverage` | Run tests with coverage report |
+| `npm run test:e2e` | Run Playwright E2E tests |
 
 ## Project Structure
 
@@ -83,6 +132,9 @@ src/
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | System architecture and design patterns |
 | [DEPLOYMENT.md](./DEPLOYMENT.md) | Deployment guide for Vercel and manual servers |
 | [SECURITY.md](./SECURITY.md) | Security overview, auth, RLS, and hardening |
+| [DATABASE.md](./DATABASE.md) | Database schema, indexes, RLS policies, BNPL ledger |
+| [API.md](./API.md) | Server actions, API routes, rate limit tiers |
+| [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md) | Annotated project directory structure |
 | [.env.example](./.env.example) | Environment variable reference |
 
 ## Deployment

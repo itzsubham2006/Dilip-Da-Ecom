@@ -1,4 +1,3 @@
-import { describe, it, expect } from '@jest/globals';
 
 describe('System Settings', () => {
   const defaultSettings = {
@@ -59,14 +58,14 @@ describe('System Settings', () => {
   });
 
   it('groups settings by category', () => {
-    const groups = {};
+    const groups: Record<string, string[]> = {};
     const keys = Object.keys(defaultSettings);
     for (const key of keys) {
       const prefix = key.split('_')[0];
       if (!groups[prefix]) groups[prefix] = [];
       groups[prefix].push(key);
     }
-    expect(groups['late_fee']).toContain('late_fee_percentage');
-    expect(groups['late_fee']).toContain('late_fee_type');
+    expect(groups['late']).toContain('late_fee_percentage');
+    expect(groups['late']).toContain('late_fee_type');
   });
 });

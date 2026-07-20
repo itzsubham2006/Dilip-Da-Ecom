@@ -1,4 +1,3 @@
-import { describe, it, expect } from '@jest/globals';
 
 describe('Merchant Approval Workflow', () => {
   const pendingMerchant = {

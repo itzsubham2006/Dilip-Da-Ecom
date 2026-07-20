@@ -35,7 +35,9 @@ describe('validateCsrf', () => {
   });
 
   it('allows requests from NEXT_PUBLIC_APP_URL', () => {
+    vi.stubEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000');
     const result = validateCsrf(mockRequest('http://localhost:3000', 'localhost:3001'));
     expect(result.valid).toBe(true);
+    vi.unstubAllEnvs();
   });
 });
