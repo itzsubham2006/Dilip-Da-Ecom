@@ -16,5 +16,7 @@ export default async function DashboardPage() {
     super_admin: '/dashboard/admin',
   };
 
-  redirect(dashboards[role as string] ?? '/');
+  const dashboardPath = dashboards[role as string];
+  if (!dashboardPath) redirect('/auth/onboarding');
+  redirect(dashboardPath);
 }

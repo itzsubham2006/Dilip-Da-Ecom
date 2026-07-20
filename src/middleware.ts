@@ -60,9 +60,9 @@ export async function middleware(request: NextRequest) {
       .from('profiles')
       .select('role')
       .eq('id', session.user.id)
-      .single();
+      .maybeSingle();
 
-    const role = profile?.role as string;
+    const role = (profile?.role ?? session.user.user_metadata?.role) as string | undefined;
     if (!role) {
       return NextResponse.redirect(new URL('/auth/onboarding', request.url));
     }
