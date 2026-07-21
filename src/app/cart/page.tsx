@@ -32,7 +32,7 @@ export default function CartPage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-ztext">Your bag</h1>
-            <p className="text-ztext-light text-sm mt-1">Dilip Da • {count} item{count > 1 ? 's' : ''}</p>
+            <p className="text-ztext-light text-sm mt-1">Dilipda • {count} item{count > 1 ? 's' : ''}</p>
           </div>
           <button onClick={clearCart} className="text-sm text-ztext-lighter hover:text-zred transition-colors">Clear</button>
         </div>
@@ -45,17 +45,17 @@ export default function CartPage() {
                   <Image src={item.image} alt={item.name} fill className="object-cover" sizes="64px" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-ztext text-sm truncate">{item.name}</h3>
+                  <h2 className="font-semibold text-ztext text-sm truncate">{item.name}</h2>
                   <p className="text-sm font-medium text-ztext mt-0.5">₹{item.price}</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1.5 border border-zborder rounded-lg">
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="p-1.5 hover:bg-zgray transition-colors rounded-l-lg"><Minus size={13} /></button>
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label={`Decrease quantity of ${item.name}`} className="p-1.5 hover:bg-zgray transition-colors rounded-l-lg"><Minus size={13} /></button>
                     <span className="text-sm font-semibold w-5 text-center">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="p-1.5 hover:bg-zgray transition-colors rounded-r-lg"><Plus size={13} /></button>
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label={`Increase quantity of ${item.name}`} className="p-1.5 hover:bg-zgray transition-colors rounded-r-lg"><Plus size={13} /></button>
                   </div>
                   <p className="font-bold text-ztext w-14 text-right text-sm">₹{item.price * item.quantity}</p>
-                  <button onClick={() => removeItem(item.id)} className="p-1.5 text-ztext-lighter hover:text-zred transition-colors"><Trash2 size={15} /></button>
+                  <button onClick={() => removeItem(item.id)} aria-label={`Remove ${item.name} from cart`} className="p-1.5 text-ztext-lighter hover:text-zred transition-colors"><Trash2 size={15} /></button>
                 </div>
               </div>
             ))}

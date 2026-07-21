@@ -1,6 +1,5 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import {
   Wallet,
   CreditCard,
@@ -16,6 +15,7 @@ import {
 } from 'lucide-react';
 import { getCreditDashboard, getAuditLogs } from '../actions';
 import { formatCurrency } from '@/lib/utils';
+import { useServerAction } from '@/lib/useServerAction';
 
 function statusBadge(status: string) {
   const styles: Record<string, string> = {
@@ -33,15 +33,8 @@ function statusBadge(status: string) {
 }
 
 export default function StudentCreditDashboard() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['credit-dashboard'],
-    queryFn: getCreditDashboard,
-  });
-
-  const { data: auditData } = useQuery({
-    queryKey: ['credit-audit-logs'],
-    queryFn: getAuditLogs,
-  });
+  const { data: dashboard, isLoading, error } = useServerAction(getCreditDashboard);
+  const { data: auditData } = useServerAction(getAuditLogs);
 
   if (isLoading) {
     return (
@@ -51,16 +44,15 @@ export default function StudentCreditDashboard() {
     );
   }
 
-  if (error || data?.error) {
+  if (error) {
     return (
       <div className="text-center py-16">
         <XCircle className="w-12 h-12 text-zred mx-auto mb-4" />
-        <p className="text-ztext-light">{data?.error || 'Failed to load dashboard'}</p>
+        <p className="text-ztext-light">{error || 'Failed to load dashboard'}</p>
       </div>
     );
   }
 
-  const dashboard = data?.data;
   if (!dashboard || !dashboard.account) {
     return (
       <div className="text-center py-16">
@@ -126,7 +118,7 @@ export default function StudentCreditDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Account Details */}
         <div className="bg-white dark:bg-[#1E1E1E] rounded-xl shadow-z p-6">
-          <h3 className="font-bold text-ztext mb-4">Account Details</h3>
+          <h2 className="font-bold text-ztext mb-4">Account Details</h2>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-ztext-light">Status</span>
@@ -161,10 +153,10 @@ export default function StudentCreditDashboard() {
 
         {/* Upcoming Repayments */}
         <div className="bg-white dark:bg-[#1E1E1E] rounded-xl shadow-z p-6">
-          <h3 className="font-bold text-ztext mb-4 flex items-center gap-2">
+          <h2 className="font-bold text-ztext mb-4 flex items-center gap-2">
             <CalendarClock className="w-4 h-4 text-zred" />
             Upcoming Payments
-          </h3>
+          </h2>
           {upcomingRepayments.length === 0 ? (
             <div className="text-center py-8">
               <CheckCircle2 className="w-8 h-8 text-zgreen mx-auto mb-2" />
@@ -221,7 +213,7 @@ export default function StudentCreditDashboard() {
 
       {/* Recent Transactions */}
       <div className="bg-white dark:bg-[#1E1E1E] rounded-xl shadow-z p-6">
-        <h3 className="font-bold text-ztext mb-4">Recent Transactions</h3>
+        <h2 className="font-bold text-ztext mb-4">Recent Transactions</h2>
         {recentTransactions.length === 0 ? (
           <div className="text-center py-8">
             <p className="text-sm text-ztext-light">No transactions yet</p>
@@ -264,11 +256,11 @@ export default function StudentCreditDashboard() {
       </div>
 
       {/* Audit Trail */}
-      {auditData?.data && auditData.data.length > 0 && (
+      {auditData && auditData.length > 0 && (
         <div className="bg-white dark:bg-[#1E1E1E] rounded-xl shadow-z p-6">
-          <h3 className="font-bold text-ztext mb-4">Activity Log</h3>
+          <h2 className="font-bold text-ztext mb-4">Activity Log</h2>
           <div className="space-y-2">
-            {auditData.data.slice(0, 10).map((log) => (
+            {auditData.slice(0, 10).map((log) => (
               <div key={log.id} className="flex items-start gap-3 py-2 border-b border-zborder dark:border-[#2A2A2A] last:border-0">
                 <Clock className="w-4 h-4 text-ztext-lighter mt-0.5 shrink-0" />
                 <div className="flex-1 min-w-0">

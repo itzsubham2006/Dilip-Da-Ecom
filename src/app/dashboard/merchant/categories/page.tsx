@@ -80,7 +80,7 @@ export default function CategoriesPage() {
 
       {showForm && (
         <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6 max-w-md">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4">{editing ? 'Edit category' : 'New category'}</h3>
+          <h2 className="text-sm font-semibold text-gray-900 mb-4">{editing ? 'Edit category' : 'New category'}</h2>
           <div className="space-y-3">
             <div>
               <label className="text-xs font-medium text-gray-500">Name</label>
@@ -111,7 +111,7 @@ export default function CategoriesPage() {
             <div key={cat.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition-shadow">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-gray-900 text-sm">{cat.name}</h3>
+                  <h2 className="font-medium text-gray-900 text-sm">{cat.name}</h2>
                   {!cat.is_active && <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Hidden</span>}
                 </div>
                 <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">

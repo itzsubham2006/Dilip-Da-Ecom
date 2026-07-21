@@ -77,7 +77,7 @@ export default function CheckoutPage() {
       openRazorpayCheckout({
         key: razorpayKey,
         amount: total() * 100,
-        name: 'Dilip Da',
+        name: 'Dilipda',
         description: 'Food order',
         onSuccess: () => { clearCart(); router.push('/order/confirmed'); },
         onFailure: (err) => { setError(err); setPlacing(false); },
@@ -170,7 +170,7 @@ export default function CheckoutPage() {
                 <h2 className="font-bold text-ztext mb-4 flex items-center gap-2">
                   <ShoppingBag size={16} style={{ color: '#E23744' }} /> Order summary
                 </h2>
-                <p className="text-sm text-ztext-light mb-3">Dilip Da &bull; {items.length} item{items.length > 1 ? 's' : ''}</p>
+                <p className="text-sm text-ztext-light mb-3">Dilipda &bull; {items.length} item{items.length > 1 ? 's' : ''}</p>
                 <div className="space-y-2 max-h-36 overflow-y-auto text-sm pr-1">
                   {items.map((item) => (
                     <div key={item.id} className="flex justify-between">

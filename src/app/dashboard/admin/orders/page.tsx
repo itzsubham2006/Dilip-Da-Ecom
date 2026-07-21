@@ -133,7 +133,7 @@ export default function AdminOrdersPage() {
           { label: 'All status', value: 'all' },
           ...ORDER_STATUSES.map((s) => ({ label: s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()), value: s })),
         ]} />
-        <button onClick={() => fetchOrders()} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchOrders()} aria-label="Refresh orders" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
@@ -162,7 +162,7 @@ export default function AdminOrdersPage() {
           <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl my-8" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900">Order Details</h3>
-              <button onClick={() => setSelectedOrder(null)} className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
+              <button onClick={() => setSelectedOrder(null)} aria-label="Close details" className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
             </div>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between"><span className="text-gray-500">Tracking</span><span className="font-mono font-medium">{selectedOrder.tracking_code}</span></div>

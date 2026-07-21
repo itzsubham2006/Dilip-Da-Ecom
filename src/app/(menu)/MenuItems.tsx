@@ -70,9 +70,9 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
                       </button>
                     ) : (
                       <div className="flex items-center gap-1.5 bg-zred text-white rounded-lg px-1.5 py-0.5">
-                        <button onClick={() => updateQuantity(item.id, qty - 1)} className="p-0.5"><Minus size={11} /></button>
+                        <button onClick={() => updateQuantity(item.id, qty - 1)} aria-label={`Decrease quantity of ${item.name}`} className="p-0.5"><Minus size={11} /></button>
                         <span className="text-xs font-bold w-3 text-center">{qty}</span>
-                        <button onClick={() => updateQuantity(item.id, qty + 1)} className="p-0.5"><Plus size={11} /></button>
+                        <button onClick={() => updateQuantity(item.id, qty + 1)} aria-label={`Increase quantity of ${item.name}`} className="p-0.5"><Plus size={11} /></button>
                       </div>
                     )}
                   </div>

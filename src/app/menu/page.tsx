@@ -1,4 +1,6 @@
-import { MenuItems } from '../(menu)/MenuItems';
+import dynamic from 'next/dynamic';
+
+const MenuItems = dynamic(() => import('../(menu)/MenuItems').then((m) => ({ default: m.MenuItems })));
 
 const sections = [
   {

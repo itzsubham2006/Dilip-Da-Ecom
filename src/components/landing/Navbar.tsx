@@ -39,15 +39,15 @@ export default function LandingNavbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-white/80 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.06)]'
+          ? 'bg-white sm:bg-white/80 sm:backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.06)]'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link href="/" className="text-xl sm:text-2xl font-bold tracking-tight shrink-0">
-            <span className="text-white">Dilip </span>
-            <span style={{ color: '#E23744' }}>Stores</span>
+            <span className="text-white">Dilip</span>
+            <span style={{ color: '#E23744' }}>da</span>
           </Link>
 
           <nav className="hidden sm:flex items-center gap-1">
@@ -57,7 +57,7 @@ export default function LandingNavbar() {
                 href={link.href}
                 className={`px-4 py-2 text-sm font-medium rounded-xl transition-colors ${
                   scrolled
-                    ? 'text-[#1A1A1A] hover:bg-gray-100'
+                    ? 'text-[#1A1A1A] dark:text-ztext hover:bg-gray-100'
                     : 'text-white/90 hover:text-white hover:bg-white/10'
                 }`}
               >
@@ -70,7 +70,7 @@ export default function LandingNavbar() {
                   href="/dashboard"
                   className={`px-4 py-2 text-sm font-medium rounded-xl transition-colors ${
                     scrolled
-                      ? 'text-[#1A1A1A] hover:bg-gray-100'
+                      ? 'text-[#1A1A1A] dark:text-ztext hover:bg-gray-100'
                       : 'text-white/90 hover:text-white hover:bg-white/10'
                   }`}
                 >
@@ -103,7 +103,7 @@ export default function LandingNavbar() {
               onClick={toggleTheme}
               className={`p-2.5 rounded-xl transition-colors ${
                 scrolled
-                  ? 'text-[#1A1A1A] hover:bg-gray-100'
+                  ? 'text-[#1A1A1A] dark:text-ztext hover:bg-gray-100'
                   : 'text-white/90 hover:text-white hover:bg-white/10'
               }`}
               aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -112,9 +112,10 @@ export default function LandingNavbar() {
             </button>
             <Link
               href="/cart"
+              aria-label="Shopping cart"
               className={`relative p-2.5 rounded-xl transition-colors ${
                 scrolled
-                  ? 'text-[#1A1A1A] hover:bg-gray-100'
+                  ? 'text-[#1A1A1A] dark:text-ztext hover:bg-gray-100'
                   : 'text-white/90 hover:text-white hover:bg-white/10'
               }`}
             >
@@ -130,8 +131,9 @@ export default function LandingNavbar() {
           <div className="flex items-center gap-2 sm:hidden">
             <Link
               href="/cart"
+              aria-label="Shopping cart"
               className={`relative p-2 rounded-lg transition-colors ${
-                scrolled ? 'text-[#1A1A1A]' : 'text-white'
+                scrolled ? 'text-[#1A1A1A] dark:text-ztext' : 'text-white'
               }`}
             >
               <ShoppingBag size={20} />
@@ -144,7 +146,7 @@ export default function LandingNavbar() {
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-colors ${
-                scrolled ? 'text-[#1A1A1A] hover:bg-gray-100' : 'text-white/90 hover:text-white hover:bg-white/10'
+                scrolled ? 'text-[#1A1A1A] dark:text-ztext hover:bg-gray-100' : 'text-white/90 hover:text-white hover:bg-white/10'
               }`}
               aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
             >
@@ -152,8 +154,9 @@ export default function LandingNavbar() {
             </button>
             <button
               onClick={() => setMobileOpen((v) => !v)}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               className={`p-2 rounded-lg transition-colors ${
-                scrolled ? 'text-[#1A1A1A]' : 'text-white'
+                scrolled ? 'text-[#1A1A1A] dark:text-ztext' : 'text-white'
               }`}
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -163,30 +166,30 @@ export default function LandingNavbar() {
       </div>
 
       {mobileOpen && (
-        <div className="sm:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 px-4 py-4 space-y-1 z-[60] relative">
+        <div className="sm:hidden bg-white dark:bg-[#1E1E1E] border-t border-gray-200 dark:border-[#2A2A2A] px-4 py-4 space-y-1 z-[60] relative">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block py-2.5 px-3 text-sm font-medium text-[#1A1A1A] rounded-lg hover:bg-gray-50"
+              className="block py-2.5 px-3 text-sm font-medium text-[#1A1A1A] dark:text-[#E8E8E8] rounded-lg hover:bg-gray-50 dark:hover:bg-[#2A2A2A]"
             >
               {link.label}
             </Link>
           ))}
-          <div className="pt-2 mt-2 border-t border-gray-100">
+          <div className="pt-2 mt-2 border-t border-gray-200 dark:border-[#2A2A2A]">
             {isAuthenticated ? (
               <>
                 <Link
                   href="/dashboard"
                   onClick={() => setMobileOpen(false)}
-                  className="block py-2.5 px-3 text-sm font-medium text-[#1A1A1A] rounded-lg hover:bg-gray-50"
+                  className="block py-2.5 px-3 text-sm font-medium text-[#1A1A1A] dark:text-[#E8E8E8] rounded-lg hover:bg-gray-50 dark:hover:bg-[#2A2A2A]"
                 >
                   Dashboard
                 </Link>
                 <button
                   onClick={() => { signOut(); setMobileOpen(false); }}
-                  className="block w-full text-left py-2.5 px-3 text-sm font-medium text-zred rounded-lg hover:bg-red-50"
+                  className="block w-full text-left py-2.5 px-3 text-sm font-medium text-zred rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
                 >
                   Sign out
                 </button>

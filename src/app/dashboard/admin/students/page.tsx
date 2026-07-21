@@ -169,7 +169,7 @@ export default function AdminStudentsPage() {
           { label: 'Active', value: 'active' },
           { label: 'Suspended', value: 'suspended' },
         ]} />
-        <button onClick={() => fetchStudents()} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchStudents()} aria-label="Refresh students" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>

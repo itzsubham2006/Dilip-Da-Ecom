@@ -1,6 +1,8 @@
 import { createServerSupabaseClient } from '@/infrastructure/supabase/server';
 import { redirect } from 'next/navigation';
-import StudentCreditDashboard from '@/features/bnpl/components/StudentCreditDashboard';
+import dynamic from 'next/dynamic';
+
+const StudentCreditDashboard = dynamic(() => import('@/features/bnpl/components/StudentCreditDashboard'));
 
 export default async function CreditDashboardPage() {
   const supabase = await createServerSupabaseClient();

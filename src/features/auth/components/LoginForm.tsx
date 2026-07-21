@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { authService } from '../services/auth-service';
 import { OAuthButtons } from './OAuthButtons';
 
-export function LoginForm() {
+export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,7 +25,7 @@ export function LoginForm() {
     <div className="w-full max-w-md mx-auto">
       <div className="bg-white rounded-xl shadow-z p-8">
         <h1 className="text-2xl font-bold text-ztext mb-1">Welcome back</h1>
-        <p className="text-ztext-light text-sm mb-6">Sign in to your Dilip Da account</p>
+        <p className="text-ztext-light text-sm mb-6">Sign in to your Dilipda account</p>
 
         <OAuthButtons />
 

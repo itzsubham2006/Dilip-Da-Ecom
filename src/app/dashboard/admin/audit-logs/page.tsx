@@ -108,7 +108,7 @@ export default function AdminAuditLogsPage() {
           className="px-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred bg-white appearance-none cursor-pointer">
           {tableOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
-        <button onClick={() => fetchLogs()} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchLogs()} aria-label="Refresh logs" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
@@ -133,7 +133,7 @@ export default function AdminAuditLogsPage() {
           <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900">Audit Entry</h3>
-              <button onClick={() => setSelectedLog(null)} className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
+              <button onClick={() => setSelectedLog(null)} aria-label="Close details" className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
             </div>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between"><span className="text-gray-500">Timestamp</span><span>{new Date(selectedLog.created_at).toLocaleString()}</span></div>

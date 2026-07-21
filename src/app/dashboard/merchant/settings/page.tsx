@@ -95,13 +95,13 @@ export default function SettingsPage() {
           {restaurant && <p className="text-sm text-gray-500 mt-0.5">{restaurant.name}</p>}
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={fetchSettings} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
+          <button onClick={fetchSettings} aria-label="Refresh settings" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
         </div>
       </div>
 
       <div className="max-w-2xl space-y-6">
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4">Restaurant Settings</h3>
+          <h2 className="text-sm font-semibold text-gray-900 mb-4">Restaurant Settings</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-medium text-gray-500">Prep time (minutes)</label>

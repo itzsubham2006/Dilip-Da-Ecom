@@ -173,7 +173,7 @@ export default function AdminMerchantsPage() {
           { label: 'Active', value: 'active' },
           { label: 'Suspended', value: 'suspended' },
         ]} />
-        <button onClick={() => fetchMerchants()} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchMerchants()} aria-label="Refresh merchants" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>

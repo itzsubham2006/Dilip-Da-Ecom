@@ -89,11 +89,11 @@ export default function ProductsPage() {
           {filtered.map((p) => (
             <div key={p.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition-shadow">
               <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0 relative">
-                {p.image ? <Image src={p.image} alt="" fill className="object-cover" sizes="48px" /> : <div className="w-full h-full flex items-center justify-center text-gray-400"><UtensilsCrossed size={18} /></div>}
+                {p.image ? <Image src={p.image} alt={p.name} fill className="object-cover" sizes="48px" /> : <div className="w-full h-full flex items-center justify-center text-gray-400"><UtensilsCrossed size={18} /></div>}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-gray-900 text-sm truncate">{p.name}</h3>
+                  <h2 className="font-medium text-gray-900 text-sm truncate">{p.name}</h2>
                   {!p.is_active && <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Archived</span>}
                   {p.is_vegetarian && <span className="text-[10px] text-green-600 bg-green-50 px-1.5 py-0.5 rounded">Veg</span>}
                 </div>
@@ -107,7 +107,7 @@ export default function ProductsPage() {
                 <button onClick={() => handleToggleActive(p)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title={p.is_active ? 'Archive' : 'Restore'}>
                   {p.is_active ? <Archive size={15} /> : <Eye size={15} />}
                 </button>
-                <Link href={`/dashboard/merchant/products/${p.id}/edit`} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+                <Link href={`/dashboard/merchant/products/${p.id}/edit`} aria-label={`Edit ${p.name}`} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
                   <Edit3 size={15} />
                 </Link>
               </div>

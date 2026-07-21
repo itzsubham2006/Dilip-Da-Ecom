@@ -78,7 +78,7 @@ export default function OrdersPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Orders</h1>
-        <button onClick={fetchOrders} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={fetchOrders} aria-label="Refresh orders" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>

@@ -32,8 +32,8 @@ export default function Navbar() {
   return (
     <header className="nav-z">
       <div className="container-z mx-auto nav-inner px-3 sm:px-4">
-        <Link href="/" className="flex items-center gap-1.5 shrink-0 group" aria-label="Go to homepage">
-          <span className="text-xl sm:text-2xl font-black tracking-tight" style={{ color: '#E23744' }}>
+        <Link href="/" className="flex items-center gap-1.5 shrink-0 group" aria-label="dilipda">
+          <span className="text-xl sm:text-2xl font-black tracking-tight text-zred">
             dilip<span className="text-black dark:text-white">da</span>
           </span>
         </Link>
@@ -44,7 +44,7 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               className={`button-z button-z-ghost text-sm font-medium transition-colors ${
-                isActive(link.href) ? 'text-zred bg-red-50 dark:bg-red-950/30' : ''
+                isActive(link.href) ? 'text-white bg-zred' : ''
               }`}
               aria-current={isActive(link.href) ? 'page' : undefined}
             >
@@ -81,7 +81,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-1 sm:hidden ml-auto">
-          <Link href="/cart" className="icon-button-z relative">
+          <Link href="/cart" className="icon-button-z relative" aria-label="Shopping cart">
             <ShoppingBag size={20} />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-zred text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
@@ -105,7 +105,7 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               className={`flex items-center gap-2 py-2.5 px-3 text-sm font-medium rounded-lg ${
                 isActive(link.href)
-                  ? 'text-zred bg-red-50 dark:bg-red-950/30'
+                  ? 'text-white bg-zred'
                   : 'text-ztext hover:bg-zgray dark:hover:bg-[#2A2A2A]'
               }`}
               aria-current={isActive(link.href) ? 'page' : undefined}
@@ -120,13 +120,17 @@ export default function Navbar() {
                 <Link
                   href={dashboardHref}
                   onClick={() => setOpen(false)}
-                  className="block py-2.5 px-3 text-sm font-medium text-ztext rounded-lg hover:bg-zgray dark:hover:bg-[#2A2A2A]"
+                  className={`block py-2.5 px-3 text-sm font-medium rounded-lg ${
+                    isActive(dashboardHref)
+                      ? 'text-white bg-zred'
+                      : 'text-ztext hover:bg-zgray dark:hover:bg-[#2A2A2A]'
+                  }`}
                 >
                   Dashboard
                 </Link>
                 <button
                   onClick={() => { signOut(); setOpen(false); }}
-                  className="block w-full text-left py-2.5 px-3 text-sm font-medium text-zred rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
+                  className="block w-full text-left py-2.5 px-3 text-sm font-medium text-zred rounded-lg hover:bg-zred hover:text-white transition-colors"
                 >
                   Sign out
                 </button>

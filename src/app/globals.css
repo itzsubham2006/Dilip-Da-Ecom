@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-zred: #E23744;
+  --font-sans: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  --color-zred: #D12B39;
   --color-zred-light: #ff7e86;
   --color-zred-dark: #c01a28;
   --color-zgreen: #24963F;
@@ -10,7 +10,7 @@
   --color-zgray: #F8F8F8;
   --color-ztext: #1C1C1C;
   --color-ztext-light: #696969;
-  --color-ztext-lighter: #9C9C9C;
+  --color-ztext-lighter: #6B6B6B;
   --color-zborder: #E8E8E8;
   --shadow-z: 0 2px 8px rgba(0,0,0,0.08);
   --shadow-z-hover: 0 8px 24px rgba(0,0,0,0.12);
@@ -30,7 +30,7 @@ html { scroll-behavior: smooth; }
   --color-zgray: #1E1E1E;
   --color-ztext: #E8E8E8;
   --color-ztext-light: #A8A8A8;
-  --color-ztext-lighter: #686868;
+  --color-ztext-lighter: #7E7E7E;
   --color-zborder: #2A2A2A;
   --shadow-z: 0 2px 8px rgba(0,0,0,0.4);
   --shadow-z-hover: 0 8px 24px rgba(0,0,0,0.5);
@@ -43,7 +43,6 @@ html { scroll-behavior: smooth; }
 }
 
 .dark .nav-z,
-.dark .card-z,
 .dark .bg-white {
   background: #1E1E1E;
 }
@@ -71,15 +70,6 @@ html { scroll-behavior: smooth; }
   border-color: #2A2A2A;
 }
 
-.dark .tag-z {
-  background: #2A2A2A;
-  color: #A8A8A8;
-}
-
-.dark .tag-z:hover {
-  background: #333;
-}
-
 .dark .icon-button-z:hover {
   background: #2A2A2A;
 }
@@ -98,7 +88,7 @@ body {
   min-width: 320px;
   background: var(--color-zbg);
   color: var(--color-ztext);
-  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-lexend, "Lexend"), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -106,7 +96,7 @@ body {
 img { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; }
 
-::selection { background: #E23744; color: white; }
+::selection { background: var(--color-zred); color: white; }
 
 .page-pad { padding: 1.5rem 1rem; }
 @media (min-width: 640px) { .page-pad { padding: 2rem 1.5rem; } }
@@ -155,33 +145,6 @@ button, input, select, textarea { font: inherit; }
 }
 .button-z-ghost:hover:not(:disabled) { background: var(--color-zgray); }
 
-.card-z {
-  background: white;
-  border-radius: var(--radius-z-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-z);
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
-  cursor: pointer;
-}
-.card-z:hover {
-  box-shadow: var(--shadow-z-hover);
-  transform: translateY(-2px);
-}
-
-.rating-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-z-sm);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: white;
-}
-.rating-badge.high { background: var(--color-zgreen); }
-.rating-badge.medium { background: #9ACD32; }
-.rating-badge.low { background: var(--color-zred); }
-
 .input-z {
   height: 3rem;
   width: 100%;
@@ -197,99 +160,7 @@ button, input, select, textarea { font: inherit; }
 .input-z:focus { border-color: var(--color-zred); }
 .input-z::placeholder { color: var(--color-ztext-lighter); }
 
-.hero-search {
-  display: flex;
-  align-items: center;
-  background: white;
-  border-radius: var(--radius-z);
-  box-shadow: var(--shadow-z-hover);
-  overflow: hidden;
-}
-.hero-search input {
-  flex: 1;
-  height: 3.5rem;
-  border: none;
-  padding: 0 1.5rem;
-  font-size: 1rem;
-  outline: none;
-}
-.hero-search input::placeholder { color: var(--color-ztext-lighter); }
-.hero-search button {
-  height: 3.5rem;
-  padding: 0 1.5rem;
-  background: var(--color-zred);
-  color: white;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.hero-search button:hover { background: var(--color-zred-dark); }
 
-.category-chip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  transition: transform 0.2s;
-  min-width: 80px;
-}
-.category-chip:hover { transform: scale(1.05); }
-.category-chip .icon-wrap {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--color-zgray);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  overflow: hidden;
-}
-.category-chip .label {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--color-ztext);
-}
-
-.section-z {
-  padding: 2rem 0;
-}
-
-.section-z h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-ztext);
-}
-
-.tag-z {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-z-full);
-  background: var(--color-zgray);
-  color: var(--color-ztext-light);
-  font-size: 0.8rem;
-  font-weight: 500;
-  transition: all 0.2s;
-  cursor: pointer;
-}
-.tag-z:hover { background: #EBEBEB; }
-
-.delivery-time {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  background: rgba(255,255,255,0.95);
-  padding: 0.25rem 0.625rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--color-ztext);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
 
 .icon-button-z {
   display: grid;
@@ -304,18 +175,6 @@ button, input, select, textarea { font: inherit; }
   transition: background 0.2s;
 }
 .icon-button-z:hover { background: var(--color-zgray); }
-
-.off-overlay {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: var(--color-zred);
-  color: white;
-  padding: 0.25rem 0.625rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
 
 .nav-z {
   position: sticky;
@@ -354,20 +213,8 @@ button, input, select, textarea { font: inherit; }
   50% { transform: translateY(8px); }
 }
 
-.animate-in {
-  animation: fade-up 0.4s ease both;
-}
-
 .animate-fade-up {
   animation: fadeUp 0.8s ease forwards;
-}
-
-.animate-fade-up-1 {
-  animation: fadeUp 0.8s ease 0.15s forwards;
-}
-
-.animate-fade-up-2 {
-  animation: fadeUp 0.8s ease 0.3s forwards;
 }
 
 .animate-bounce-subtle {
@@ -376,8 +223,6 @@ button, input, select, textarea { font: inherit; }
 
 @media (max-width: 640px) {
   .button-z { height: 2.5rem; font-size: 0.8rem; padding: 0 1rem; }
-  .category-chip .icon-wrap { width: 48px; height: 48px; font-size: 1.25rem; }
-  .section-z h2 { font-size: 1.25rem; }
   .nav-inner { gap: 1rem; }
 }
 

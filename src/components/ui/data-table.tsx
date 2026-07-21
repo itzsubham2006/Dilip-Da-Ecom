@@ -171,6 +171,7 @@ export function DataTable({
             <button
               onClick={() => onPageChange(page - 1)}
               disabled={page <= 1}
+              aria-label="Previous page"
               className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft size={16} />
@@ -201,6 +202,7 @@ export function DataTable({
             <button
               onClick={() => onPageChange(page + 1)}
               disabled={page >= totalPages}
+              aria-label="Next page"
               className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronRight size={16} />

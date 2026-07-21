@@ -1,5 +1,7 @@
-import { SignupForm } from '@/features/auth/components/SignupForm';
+import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
+
+const SignupForm = dynamic(() => import('@/features/auth/components/SignupForm'));
 
 export const metadata: Metadata = { title: 'Sign Up' };
 

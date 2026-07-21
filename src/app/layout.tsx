@@ -1,17 +1,26 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import dynamic from 'next/dynamic';
+import { Lexend } from 'next/font/google';
 import { Providers } from '@/providers';
-import NavbarWrapper from '@/components/shared/NavbarWrapper';
 import Footer from '@/components/shared/Footer';
-import Toast from '@/components/shared/Toast';
 import './globals.css';
+
+const NavbarWrapper = dynamic(() => import('@/components/shared/NavbarWrapper'));
+const Toast = dynamic(() => import('@/components/shared/Toast'));
+
+const lexend = Lexend({
+  subsets: ['latin'],
+  variable: '--font-lexend',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Dilip Da',
-    default: 'Dilip Da — Homestyle Bengali Cuisine',
+    template: '%s | Dilipda',
+    default: 'Dilipda — Homestyle Bengali Meals near CIT Kokrajhar',
   },
-  description: 'Authentic Bengali food cooked with love. Order from Dilip Da. Pay with Ethics Pay BNPL.',
+  description: 'Dilipda is a homestyle Bengali food service run by Dilip da, serving fresh meals near CIT Kokrajhar. Order online for delivery.',
 };
 
 const themeScript = `
@@ -32,9 +41,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://videos.pexels.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://videos.pexels.com" />
+        <link rel="preconnect" href="https://checkout.razorpay.com" />
+        <link
+          rel="preload"
+          as="image"
+          href="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=1080&fit=crop"
+        />
         <Script id="theme-init" strategy="beforeInteractive">{themeScript}</Script>
       </head>
-      <body className="min-h-screen bg-white font-sans antialiased">
+      <body className={`${lexend.variable} min-h-screen bg-white font-sans antialiased`}>
         <Providers>
           <NavbarWrapper />
           <main className="min-h-[calc(100vh-4rem)]">{children}</main>

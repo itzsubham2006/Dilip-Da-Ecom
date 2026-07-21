@@ -131,7 +131,7 @@ export default function AdminPaymentsPage() {
           { label: 'Failed', value: 'failed' },
           { label: 'Refunded', value: 'refunded' },
         ]} />
-        <button onClick={() => fetchPayments()} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchPayments()} aria-label="Refresh payments" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>

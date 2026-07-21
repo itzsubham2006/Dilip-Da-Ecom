@@ -91,7 +91,7 @@ const loadNotifications = async () => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h3 className={`text-sm ${!n.is_read ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'}`}>{n.title}</h3>
+                  <h2 className={`text-sm ${!n.is_read ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'}`}>{n.title}</h2>
                   {!n.is_read && <span className="w-2 h-2 rounded-full bg-zred shrink-0" />}
                 </div>
                 {n.body && <p className="text-xs text-gray-500 mt-0.5">{n.body}</p>}

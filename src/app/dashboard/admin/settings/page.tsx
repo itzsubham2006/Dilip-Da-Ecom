@@ -73,7 +73,7 @@ export default function AdminSettingsPage() {
   return (
     <div>
       <PageHeader title="System Settings" description="Configure platform-wide settings">
-        <button onClick={fetchSettings} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={fetchSettings} aria-label="Refresh settings" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </PageHeader>
@@ -82,7 +82,7 @@ export default function AdminSettingsPage() {
         {Object.entries(grouped).map(([group, items]) => (
           <div key={group} className="bg-white rounded-xl border border-gray-200">
             <div className="px-5 py-3 border-b border-gray-100">
-              <h3 className="text-sm font-semibold text-gray-900">{group}</h3>
+              <h2 className="text-sm font-semibold text-gray-900">{group}</h2>
             </div>
             <div className="divide-y divide-gray-100">
               {items.map((setting) => (

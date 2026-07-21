@@ -17,7 +17,7 @@ export default function TrackOrderPage() {
     <div className="page-pad">
       <div className="container-z mx-auto max-w-xl">
         <h1 className="text-2xl font-bold text-ztext">Track order</h1>
-        <p className="text-ztext-light text-sm mt-1">DD-X7K2L9P • from Dilip Da</p>
+        <p className="text-ztext-light text-sm mt-1">DD-X7K2L9P • from Dilipda</p>
 
         <div className="bg-white rounded-xl shadow-z p-6 mt-6">
           <div className="flex items-center gap-3">

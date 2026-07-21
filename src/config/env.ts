@@ -32,7 +32,7 @@ export const env = {
   },
   app: {
     url: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
-    name: process.env.NEXT_PUBLIC_APP_NAME ?? 'Dilip Da',
+    name: process.env.NEXT_PUBLIC_APP_NAME ?? 'Dilipda',
   },
   razorpay: {
     keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,

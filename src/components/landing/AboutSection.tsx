@@ -27,10 +27,10 @@ function useScrollReveal(threshold = 0.15) {
 }
 
 const stats = [
-  { label: 'Years of Service', value: '15+' },
-  { label: 'Daily Customers', value: '500+' },
-  { label: 'Menu Items', value: '50+' },
-  { label: 'Rating', value: '4.7★' },
+  { label: 'Years of Service', value: '5+' },
+  { label: 'Daily Customers', value: '100+' },
+  { label: 'Menu Items', value: '10+' },
+  { label: 'Rating', value: '4.1★' },
 ];
 
 export default function AboutSection() {
@@ -46,39 +46,42 @@ export default function AboutSection() {
           }`}
         >
           <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ztext tracking-tight">
               About{' '}
-              <span style={{ color: '#E23744' }}>Dilip Stores</span>
+              <span style={{ color: '#E23744' }}>Dilipda</span>
             </h2>
-            <p className="text-[#696969] text-base sm:text-lg mt-4 sm:mt-6 leading-relaxed">
-              For over a decade, Dilip Stores has been the heart of Kokrajhar&apos;s culinary scene.
-              We bring you the finest Bengali cuisine, crafted with love using time-honored recipes
-              and the freshest ingredients. Every dish tells a story of tradition, flavor, and
-              hospitality.
+            <p className="text-ztext-light text-base sm:text-lg mt-4 sm:mt-6 leading-relaxed">
+              Dilipda is a homestyle Bengali food service run by Dilip da, located right near the
+              2nd gate of Central Institute of Technology, Kokrajhar (CIT). With over 5 years of
+              experience serving the CIT community, we cook fresh, authentic Bengali meals that
+              taste just like home. Our menu is growing every week &mdash; from classic fish curry
+              and steamed rice to quick snacks and evening chai &mdash; because we listen to what
+              our students and customers want. Visit us near CIT Kokrajhar&apos;s 2nd gate or order
+              online and taste the love in every bite.
             </p>
 
             <div className="mt-8 sm:mt-10 space-y-4">
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="text-zred mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-semibold text-[#1A1A1A] text-sm">Location</p>
-                  <p className="text-[#696969] text-sm">
-                    Near Kokrajhar Bus Stand, BTAD, Assam
+                  <p className="font-semibold text-ztext text-sm">Location</p>
+                  <p className="text-ztext-light text-sm">
+                    Near Central Institute of Technology, Kokrajhar (CIT), 2nd gate
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Clock size={18} className="text-zred mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-semibold text-[#1A1A1A] text-sm">Hours</p>
-                  <p className="text-[#696969] text-sm">10:00 AM – 10:00 PM (Mon–Sun)</p>
+                  <p className="font-semibold text-ztext text-sm">Hours</p>
+                  <p className="text-ztext-light text-sm">10:00 AM – 10:00 PM (Mon–Sun)</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Phone size={18} className="text-zred mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-semibold text-[#1A1A1A] text-sm">Contact</p>
-                  <p className="text-[#696969] text-sm">+91 98765 43210</p>
+                  <p className="font-semibold text-ztext text-sm">Contact</p>
+                    <p className="text-ztext-light text-sm">6000212823</p>
                 </div>
               </div>
             </div>
@@ -88,10 +91,10 @@ export default function AboutSection() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="bg-[#FAFAFA] rounded-2xl p-6 sm:p-8 text-center hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow"
+                className="bg-zgray rounded-2xl p-6 sm:p-8 text-center hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow"
               >
                 <p className="text-3xl sm:text-4xl font-bold text-zred">{stat.value}</p>
-                <p className="text-[#696969] text-sm sm:text-base mt-1.5">{stat.label}</p>
+                <p className="text-ztext-light text-sm sm:text-base mt-1.5">{stat.label}</p>
               </div>
             ))}
           </div>

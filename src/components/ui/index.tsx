@@ -22,7 +22,7 @@ export function StatCard({ label, value, icon: Icon, trend, color }: {
 export function DashboardCard({ title, children, className = '' }: { title?: string; children: React.ReactNode; className?: string }) {
   return (
     <div className={`bg-white rounded-xl border border-gray-200 p-5 ${className}`}>
-      {title && <h3 className="text-sm font-semibold text-gray-900 mb-4">{title}</h3>}
+      {title && <h2 className="text-sm font-semibold text-gray-900 mb-4">{title}</h2>}
       {children}
     </div>
   );

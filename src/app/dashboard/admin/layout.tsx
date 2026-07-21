@@ -80,7 +80,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <p className="text-[10px] text-gray-500 leading-tight">Panel</p>
             </div>
           </Link>
-          <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
+          <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar" className="lg:hidden p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
             <X size={18} className="text-gray-500" />
           </button>
         </div>
@@ -122,9 +122,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main content area */}
       <div className="lg:pl-64">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-lg border-b border-gray-200">
+        <header className="sticky top-0 z-30 bg-white sm:bg-white/80 sm:backdrop-blur-lg border-b border-gray-200">
           <div className="flex items-center justify-between px-4 lg:px-6 h-16">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="lg:hidden p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors">
               <Menu size={20} className="text-gray-600" />
             </button>
 
@@ -133,7 +133,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
 
             <div className="flex items-center gap-3">
-              <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <button aria-label="Notifications" className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <Bell size={18} className="text-gray-500" />
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-zred rounded-full" />
               </button>

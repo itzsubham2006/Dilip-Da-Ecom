@@ -48,7 +48,7 @@ function DishCard({ dish, index }: { dish: (typeof dishes)[0]; index: number }) 
   return (
     <div
       ref={ref}
-      className={`group relative rounded-2xl overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-1 ${
+      className={`group relative rounded-2xl overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-500 hover:-translate-y-1 ${
         isVisible
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-8'
@@ -65,7 +65,7 @@ function DishCard({ dish, index }: { dish: (typeof dishes)[0]; index: number }) 
         />
       </div>
       <div className="p-4 sm:p-5">
-        <h3 className="font-semibold text-[#1A1A1A] text-sm sm:text-base">{dish.name}</h3>
+        <h3 className="font-semibold text-ztext text-sm sm:text-base">{dish.name}</h3>
         <p className="text-zred font-bold text-sm sm:text-base mt-1">₹{dish.price}</p>
         <button onClick={handleAdd} className="mt-3 w-full text-xs font-bold text-white bg-zred rounded-lg py-2 hover:bg-zred-dark transition-colors flex items-center justify-center gap-1.5">
           <ShoppingBag size={13} /> Add to Cart
@@ -87,10 +87,10 @@ export default function FeaturedDishes() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ztext tracking-tight">
             Our Signature Dishes
           </h2>
-          <p className="text-[#696969] text-base sm:text-lg mt-3 sm:mt-4 max-w-xl mx-auto">
+          <p className="text-ztext-light text-base sm:text-lg mt-3 sm:mt-4 max-w-xl mx-auto">
             Handpicked favorites that define the soul of Bengali cuisine
           </p>
         </div>

@@ -166,7 +166,7 @@ export default function AdminBNPLPage() {
           { label: 'Frozen', value: 'frozen' },
           { label: 'Suspended', value: 'suspended' },
         ]} />
-        <button onClick={() => fetchAccounts()} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchAccounts()} aria-label="Refresh accounts" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
@@ -198,7 +198,7 @@ export default function AdminBNPLPage() {
                 <h3 className="text-lg font-bold text-gray-900">Credit Account</h3>
                 <p className="text-sm text-gray-500">{selectedAccount.user?.full_name} ({selectedAccount.user?.email})</p>
               </div>
-              <button onClick={() => setSelectedAccount(null)} className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
+              <button onClick={() => setSelectedAccount(null)} aria-label="Close details" className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">

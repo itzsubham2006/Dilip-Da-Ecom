@@ -76,7 +76,7 @@ export default function AnalyticsPage() {
             <option value={30}>Last 30 days</option>
             <option value={90}>Last 90 days</option>
           </select>
-          <button onClick={fetchData} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
+          <button onClick={fetchData} aria-label="Refresh analytics" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
         </div>
       </div>
 

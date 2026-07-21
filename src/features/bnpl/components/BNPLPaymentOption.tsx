@@ -1,9 +1,9 @@
 'use client';
 
 import { ShieldCheck, Loader2, AlertTriangle, CheckCircle, Ban, Clock } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 import { checkBNPLEligibility } from '../actions';
 import { formatCurrency } from '@/lib/utils';
+import { useServerAction } from '@/lib/useServerAction';
 
 interface BNPLPaymentOptionProps {
   selected: boolean;
@@ -12,13 +12,7 @@ interface BNPLPaymentOptionProps {
 }
 
 export default function BNPLPaymentOption({ selected, onSelect, orderTotal }: BNPLPaymentOptionProps) {
-  const { data, isLoading } = useQuery({
-    queryKey: ['bnpl-eligibility'],
-    queryFn: checkBNPLEligibility,
-    enabled: selected,
-  });
-
-  const eligibility = data?.data;
+  const { data: eligibility, isLoading } = useServerAction(checkBNPLEligibility, { enabled: selected });
   const hasInsufficientCredit = eligibility?.account && eligibility.account.available_credit < orderTotal;
   const isUnverified = eligibility?.account?.verification_status === 'pending';
   const isRejected = eligibility?.account?.verification_status === 'rejected';

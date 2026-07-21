@@ -120,7 +120,7 @@ export default function MerchantDashboardPage() {
             <span className={`w-2 h-2 rounded-full ${restaurant?.is_open ? 'bg-green-500' : 'bg-gray-400'}`} />
             {restaurant?.is_open ? 'Open' : 'Closed'}
           </button>
-          <button onClick={handleRefresh} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+          <button onClick={handleRefresh} aria-label="Refresh dashboard" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
             <RefreshCw size={18} />
           </button>
         </div>

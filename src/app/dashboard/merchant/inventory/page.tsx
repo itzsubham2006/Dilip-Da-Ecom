@@ -78,7 +78,7 @@ export default function InventoryPage() {
             </button>
           ))}
         </div>
-        <button onClick={loadInventory} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
+        <button onClick={loadInventory} aria-label="Refresh inventory" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
       </div>
 
       {loading && tracked.length === 0 ? (
@@ -90,15 +90,15 @@ export default function InventoryPage() {
           {filtered.map((p) => (
             <div key={p.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition-shadow">
               <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-gray-900 text-sm">{p.name}</h3>
+                <h2 className="font-medium text-gray-900 text-sm">{p.name}</h2>
                 <p className="text-xs text-gray-500 mt-0.5">₹{p.price} • SKU: {p.slug}</p>
               </div>
               {editing === p.id ? (
                 <div className="flex items-center gap-2 shrink-0">
                   <input type="number" min={0} value={editValue} onChange={(e) => setEditValue(Number(e.target.value))}
                     className="w-20 px-2.5 py-1.5 rounded-lg border border-gray-200 text-sm text-center focus:outline-none focus:ring-2 focus:ring-zred/20" />
-                  <button onClick={() => handleSaveStock(p.id)} disabled={saving} className="p-1.5 rounded-lg bg-zred text-white hover:bg-zred-dark transition-colors"><Save size={14} /></button>
-                  <button onClick={() => setEditing(null)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500"><X size={14} /></button>
+                  <button onClick={() => handleSaveStock(p.id)} disabled={saving} aria-label={`Save stock for ${p.name}`} className="p-1.5 rounded-lg bg-zred text-white hover:bg-zred-dark transition-colors"><Save size={14} /></button>
+                  <button onClick={() => setEditing(null)} aria-label="Cancel edit" className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500"><X size={14} /></button>
                 </div>
               ) : (
                 <div className="flex items-center gap-3 shrink-0">

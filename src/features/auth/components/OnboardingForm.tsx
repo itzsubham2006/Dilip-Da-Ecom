@@ -10,7 +10,7 @@ const roles = [
   { value: 'delivery', label: 'Delivery Partner', desc: 'Deliver food and earn money', emoji: '🛵' },
 ] as const;
 
-export function OnboardingForm() {
+export default function OnboardingForm() {
   const setUser = useAuthStore((s) => s.setUser);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [phone, setPhone] = useState('');
@@ -34,7 +34,7 @@ export function OnboardingForm() {
     <div className="w-full max-w-lg mx-auto">
       <div className="bg-white rounded-xl shadow-z p-8">
         <h1 className="text-2xl font-bold text-ztext mb-1">Almost there!</h1>
-        <p className="text-ztext-light text-sm mb-6">Choose how you&apos;ll use Dilip Da</p>
+        <p className="text-ztext-light text-sm mb-6">Choose how you&apos;ll use Dilipda</p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-3">
             {roles.map((r) => (

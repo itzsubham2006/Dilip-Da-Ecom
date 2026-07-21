@@ -10,7 +10,7 @@ export const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
   NEXT_PUBLIC_APP_URL: urlOrLocalhost.default('http://localhost:3000'),
-  NEXT_PUBLIC_APP_NAME: z.string().min(1).default('Dilip Da'),
+  NEXT_PUBLIC_APP_NAME: z.string().min(1).default('Dilipda'),
   NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string().optional(),
   RAZORPAY_KEY_SECRET: z.string().optional(),
 });

@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { getServerSession } from '@/features/auth/actions';
-import { OnboardingForm } from '@/features/auth/components/OnboardingForm';
 import type { Metadata } from 'next';
+
+const OnboardingForm = dynamic(() => import('@/features/auth/components/OnboardingForm'));
 
 export const metadata: Metadata = { title: 'Set Up Your Account' };
 
