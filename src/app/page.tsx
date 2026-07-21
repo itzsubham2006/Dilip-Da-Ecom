@@ -1,7 +1,7 @@
 import dynamicImport from 'next/dynamic';
 
 const Hero = dynamicImport(() => import('@/components/landing/Hero'));
-const FeaturedDishes = dynamicImport(() => import('@/components/landing/FeaturedDishes'));
+const OfferCards = dynamicImport(() => import('@/components/landing/OfferCards'));
 const AboutSection = dynamicImport(() => import('@/components/landing/AboutSection'));
 const LandingNavbar = dynamicImport(() => import('@/components/landing/Navbar'));
 
@@ -13,7 +13,7 @@ export default function Home() {
       <LandingNavbar />
       <Hero />
       <div id="content">
-        <FeaturedDishes />
+        <OfferCards />
         <AboutSection />
       </div>
     </>
