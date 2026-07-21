@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ShoppingBag, Menu, X } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store';
 import { useCartStore } from '@/features/cart/store';
+import ThemeToggle from '@/components/shared/ThemeToggle';
 
 const navLinks = [
  { label: 'Home', href: '/' },
@@ -103,8 +104,13 @@ export default function LandingNavbar() {
  {cartCount > 9 ? '9+' : cartCount}
  </span>
  )}
- </Link>
- </nav>
+  </Link>
+  <ThemeToggle className={`p-2.5 rounded-xl transition-colors ${
+    scrolled
+      ? 'text-ztext hover:bg-zsurface'
+      : 'text-white/90 hover:text-white hover:bg-white/10'
+  }`} />
+  </nav>
 
  <div className="flex items-center gap-2 sm:hidden">
  <Link
@@ -146,8 +152,9 @@ export default function LandingNavbar() {
  {link.label}
  </Link>
  ))}
- <div className="pt-2 mt-2 border-t border-zborder ">
- {isAuthenticated ? (
+  <div className="pt-2 mt-2 border-t border-zborder ">
+  <ThemeToggle className="block w-full text-left py-2.5 px-3 text-sm font-medium text-ztext rounded-lg hover:bg-zsurface" />
+  {isAuthenticated ? (
  <>
  <Link
  href="/dashboard"

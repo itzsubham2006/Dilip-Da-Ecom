@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { UserRound, ShoppingBag, Menu, X, Home } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store';
 import { useCartStore } from '@/features/cart/store';
+import ThemeToggle from './ThemeToggle';
 const navLinks = [
  { label: 'Home', href: '/' },
  { label: 'Menu', href: '/menu' },
@@ -50,9 +51,10 @@ export default function Navbar() {
  {link.label}
  </Link>
  ))}
- </nav>
+  </nav>
 
   <div className="hidden sm:flex items-center gap-1">
+  <ThemeToggle className="icon-button-z" />
   {isAuthenticated ? (
  <>
  <Link href={dashboardHref} className="icon-button-z" aria-label="Dashboard">
@@ -111,6 +113,7 @@ export default function Navbar() {
   </Link>
   ))}
   <div className="pt-2 mt-2 border-t border-zborder">
+  <ThemeToggle className="flex items-center gap-2 w-full py-2.5 px-3 text-sm font-medium rounded-lg text-ztext hover:bg-zgray" />
   {isAuthenticated ? (
   <>
   <Link

@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light-mode')})()` }} />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://videos.pexels.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />

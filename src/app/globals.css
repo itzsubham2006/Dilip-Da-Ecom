@@ -169,6 +169,23 @@ button, input, select, textarea { font: inherit; }
   .nav-inner { gap: 1rem; }
 }
 
+.light-mode {
+  --color-zbg: #FFFFFF;
+  --color-zgray: #F8F8F8;
+  --color-zcard: #FFFFFF;
+  --color-zelevated: #F5F5F5;
+  --color-zsurface: #E8E8E8;
+  --color-ztext: #1C1C1C;
+  --color-ztext-light: #696969;
+  --color-ztext-lighter: #6B6B6B;
+  --color-ztext-muted: #9CA3AF;
+  --color-zborder: #E8E8E8;
+  --color-zborder-hover: rgba(239,68,68,0.35);
+  --shadow-z: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-z-hover: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-z-modal: 0 16px 48px rgba(0,0,0,0.15);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 1ms !important;
