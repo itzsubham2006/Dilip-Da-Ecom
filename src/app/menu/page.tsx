@@ -13,7 +13,7 @@ const sections = [
   {
     category: 'Fish & Seafood',
     items: [
-      { id: 'fish-1', name: 'Macher Jhol', price: 220, desc: 'Traditional Bengali fish curry with turmeric & ginger', veg: false, popular: true, img: 'https://images.unsplash.com/photo-1574482620811-04b3a9b0e8a3?w=400&h=400&fit=crop' },
+      { id: 'fish-1', name: 'Macher Jhol', price: 220, desc: 'Traditional Bengali fish curry with turmeric & ginger', veg: false, popular: true, img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop' },
       { id: 'fish-2', name: 'Shorshe Ilish', price: 350, desc: 'Hilsa fish in mustard gravy — a Bengali classic', veg: false, popular: true, img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop' },
       { id: 'fish-3', name: 'Fish Fry', price: 180, desc: 'Crispy fried fish fillet with salad & sauce', veg: false, popular: false, img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=400&fit=crop' },
       { id: 'fish-4', name: 'Prawn Malai Curry', price: 320, desc: 'Rich coconut milk based prawn curry', veg: false, popular: false, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400&h=400&fit=crop' },

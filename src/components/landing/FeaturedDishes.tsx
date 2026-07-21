@@ -7,7 +7,7 @@ import { ShoppingBag } from 'lucide-react';
 
 const dishes = [
   { id: 'featured-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop', price: 280, veg: false },
-  { id: 'featured-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1574482620811-04b3a9b0e8a3?w=400&h=400&fit=crop', price: 220, veg: false },
+  { id: 'featured-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop', price: 220, veg: false },
   { id: 'featured-3', name: 'Shorshe Ilish', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop', price: 350, veg: false },
   { id: 'featured-4', name: 'Mutton Kosha', image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop', price: 320, veg: false },
   { id: 'featured-5', name: 'Misti Doi', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop', price: 80, veg: true },

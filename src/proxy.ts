@@ -14,7 +14,7 @@ const publicRoutes = new Set([
   '/order/track',
 ]);
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.startsWith('/static')) {
@@ -61,9 +61,9 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (!session) {
+  if (!user) {
     const loginUrl = new URL('/auth/login', request.url);
     const redirectParam = pathname;
     if (redirectParam.startsWith('/') && !redirectParam.startsWith('//') && !redirectParam.startsWith('/\\')) {
@@ -72,18 +72,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (session && (pathname === '/auth/login' || pathname === '/auth/signup')) {
+  if (user && (pathname === '/auth/login' || pathname === '/auth/signup')) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  if (session && pathname.startsWith('/dashboard') && pathname !== '/auth/onboarding') {
+  if (user && pathname.startsWith('/dashboard') && pathname !== '/auth/onboarding') {
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
-    const role = (profile?.role ?? session.user.user_metadata?.role) as string | undefined;
+    const role = (profile?.role ?? user.user_metadata?.role) as string | undefined;
     if (!role) {
       return NextResponse.redirect(new URL('/auth/onboarding', request.url));
     }
