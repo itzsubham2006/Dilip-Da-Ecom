@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useCartStore } from '@/features/cart/store';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const dishes = [
   { id: 'featured-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop', price: 280, veg: false },
@@ -14,90 +14,90 @@ const dishes = [
   { id: 'featured-6', name: 'Daal & Rice', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=400&fit=crop', price: 160, veg: true },
 ];
 
-function useScrollReveal(threshold = 0.15) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-}
-
-function DishCard({ dish, index }: { dish: (typeof dishes)[0]; index: number }) {
-  const { ref, isVisible } = useScrollReveal(0.1);
+export default function FeaturedDishes() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const addItem = useCartStore((s) => s.addItem);
 
-  function handleAdd() {
-    addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image });
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 10);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+  }, []);
+
+  function scroll(dir: 'left' | 'right') {
+    const el = scrollRef.current;
+    if (!el) return;
+    const amount = 320;
+    el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
+    setTimeout(updateScrollState, 350);
   }
 
   return (
-    <div
-      ref={ref}
-      className={`group relative rounded-2xl overflow-hidden bg-zcard shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-500 hover:-translate-y-1 ${
-        isVisible
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-8'
-      }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
-      <div className="aspect-square overflow-hidden relative">
-        <Image
-          src={dish.image}
-          alt={dish.name}
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-          sizes="(max-width: 768px) 50vw, 33vw"
-        />
-      </div>
-      <div className="p-4 sm:p-5">
-        <h3 className="font-semibold text-ztext text-sm sm:text-base">{dish.name}</h3>
-        <p className="text-zred font-bold text-sm sm:text-base mt-1">₹{dish.price}</p>
-        <button onClick={handleAdd} className="mt-3 w-full text-xs font-bold text-white bg-zred rounded-lg py-2 hover:bg-zred-dark transition-colors flex items-center justify-center gap-1.5">
-          <ShoppingBag size={13} /> Add to Cart
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export default function FeaturedDishes() {
-  const { ref, isVisible } = useScrollReveal(0.05);
-
-  return (
-    <section id="featured" className="py-16 sm:py-24 bg-zgray">
+    <section id="featured" className="py-12 sm:py-16 bg-zgray">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          ref={ref}
-          className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ztext tracking-tight">
-            Today's Menu
-          </h2>
-          <p className="text-ztext-light text-base sm:text-lg mt-3 sm:mt-4 max-w-xl mx-auto">
-            Handpicked favorites that define the soul of Bengali cuisine
-          </p>
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-ztext tracking-tight">
+              Today's Menu
+            </h2>
+            <p className="text-ztext-light text-sm mt-1 max-w-xl">
+              Handpicked favorites that define the soul of Bengali cuisine
+            </p>
+          </div>
+          <div className="hidden sm:flex items-center gap-2">
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              className="w-9 h-9 rounded-full bg-zcard border border-zborder flex items-center justify-center text-ztext hover:bg-zsurface transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              className="w-9 h-9 rounded-full bg-zcard border border-zborder flex items-center justify-center text-ztext hover:bg-zsurface transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {dishes.map((dish, i) => (
-            <DishCard key={dish.name} dish={dish} index={i} />
+        <div
+          ref={scrollRef}
+          onScroll={updateScrollState}
+          className="flex gap-4 overflow-x-auto scroll-smooth pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {dishes.map((dish) => (
+            <div
+              key={dish.id}
+              className="flex-none w-[260px] sm:w-[280px] rounded-2xl overflow-hidden bg-zcard border border-zborder group transition-shadow hover:shadow-z-hover"
+            >
+              <div className="relative h-40 sm:h-44 overflow-hidden">
+                <Image
+                  src={dish.image}
+                  alt={dish.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="280px"
+                />
+              </div>
+              <div className="p-3 sm:p-4">
+                <h3 className="font-semibold text-ztext text-sm truncate">{dish.name}</h3>
+                <p className="text-zred font-bold text-sm mt-1">₹{dish.price}</p>
+                <button
+                  onClick={() => addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image })}
+                  className="mt-2 w-full text-xs font-bold text-white bg-zred rounded-lg py-2 hover:bg-zred-dark transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <ShoppingBag size={12} /> Add
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </div>

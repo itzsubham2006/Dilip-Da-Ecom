@@ -161,7 +161,7 @@ export default function AdminOrdersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 overflow-y-auto" onClick={() => setSelectedOrder(null)}>
           <div className="bg-zcard rounded-2xl p-6 max-w-lg w-full shadow-z-modal my-8" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-ztext">Order Details</h3>
+              <h3 className="text-sm font-bold text-ztext">Order Details</h3>
               <button onClick={() => setSelectedOrder(null)} aria-label="Close details" className="p-1 hover:bg-zgray rounded-lg">&times;</button>
             </div>
             <div className="space-y-3 text-sm">
@@ -202,7 +202,7 @@ export default function AdminOrdersPage() {
       {confirmAction?.type === 'force' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setConfirmAction(null)}>
           <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-ztext">Force Update Status</h3>
+            <h3 className="text-sm font-bold text-ztext">Force Update Status</h3>
             <p className="text-sm text-ztext-lighter mt-1">This will be audited.</p>
             <select value={forceStatus} onChange={(e) => setForceStatus(e.target.value)} className="w-full mt-4 px-3 py-2.5 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20">
               <option value="">Select status...</option>

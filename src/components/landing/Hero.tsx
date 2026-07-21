@@ -19,7 +19,7 @@ export default function Hero() {
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-white tracking-tight leading-none">
           Dilip Da
         </h1>
-        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/80 mt-4 sm:mt-6 font-light tracking-wide animate-fade-up">
+        <p className="text-sm sm:text-xl md:text-2xl lg:text-3xl text-white/80 mt-4 sm:mt-6 font-light tracking-wide animate-fade-up">
           Homestyle Bengali meals near CIT Kokrajhar
         </p>
       </div>

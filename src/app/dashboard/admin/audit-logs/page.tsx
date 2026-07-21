@@ -132,7 +132,7 @@ export default function AdminAuditLogsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setSelectedLog(null)}>
           <div className="bg-zcard rounded-2xl p-6 max-w-lg w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-ztext">Audit Entry</h3>
+              <h3 className="text-sm font-bold text-ztext">Audit Entry</h3>
               <button onClick={() => setSelectedLog(null)} aria-label="Close details" className="p-1 hover:bg-zgray rounded-lg">&times;</button>
             </div>
             <div className="space-y-2 text-sm">

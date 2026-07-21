@@ -27,7 +27,7 @@ export default async function DeliveryDashboardPage() {
                 </div>
                 <div>
                   <p className="text-xs text-ztext-light">{s.label}</p>
-                  <p className="font-bold text-ztext text-lg">{s.value}</p>
+                  <p className="font-bold text-ztext text-sm">{s.value}</p>
                 </div>
               </div>
             </Link>
@@ -35,7 +35,7 @@ export default async function DeliveryDashboardPage() {
         </div>
 
         <div className="mt-8">
-          <h2 className="text-lg font-bold text-ztext mb-4">Available deliveries</h2>
+          <h2 className="text-sm font-bold text-ztext mb-4">Available deliveries</h2>
           <div className="bg-zcard rounded-xl shadow-z p-12 text-center">
             <Bike size={36} className="mx-auto mb-3" style={{ color: '#9C9C9C' }} />
             <p className="text-ztext-light">No deliveries available. Check back soon!</p>

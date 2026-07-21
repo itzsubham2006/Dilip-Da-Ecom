@@ -203,7 +203,7 @@ export default function AdminMerchantsPage() {
       {commissionModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setCommissionModal(null)}>
           <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-ztext">Update Commission</h3>
+            <h3 className="text-sm font-bold text-ztext">Update Commission</h3>
             <p className="text-sm text-ztext-lighter mt-1">Enter commission rate (0-100%)</p>
             <input
               type="number"

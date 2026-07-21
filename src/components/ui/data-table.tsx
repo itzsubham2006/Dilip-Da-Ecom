@@ -281,7 +281,7 @@ export function ConfirmDialog({ open, onClose, onConfirm, title, message, confir
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={onClose}>
       <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
-        <h3 className="text-lg font-bold text-ztext">{title}</h3>
+        <h3 className="text-sm font-bold text-ztext">{title}</h3>
         <p className="text-sm text-ztext-light mt-2">{message}</p>
         <div className="flex gap-3 mt-6">
           <button onClick={onClose} className="flex-1 px-4 py-2 text-sm font-medium text-ztext-light bg-zgray rounded-xl hover:bg-zsurface transition-colors">

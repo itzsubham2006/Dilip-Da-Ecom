@@ -50,7 +50,7 @@ export default function AboutSection() {
               About{' '}
               <span className="text-zred">Dilip Da</span>
             </h2>
-            <p className="text-ztext-light text-base sm:text-lg mt-4 sm:mt-6 leading-relaxed">
+            <p className="text-ztext-light text-sm sm:text-sm mt-4 sm:mt-6 leading-relaxed">
               Dilip Da is a homestyle Bengali food service run by Dilip da, located right near the
               2nd gate of Central Institute of Technology, Kokrajhar (CIT). With over 5 years of
               experience serving the CIT community, we cook fresh, authentic Bengali meals that
@@ -94,7 +94,7 @@ export default function AboutSection() {
                 className="bg-zgray rounded-2xl p-6 sm:p-8 text-center hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow"
               >
                 <p className="text-3xl sm:text-4xl font-bold text-zred">{stat.value}</p>
-                <p className="text-ztext-light text-sm sm:text-base mt-1.5">{stat.label}</p>
+                <p className="text-ztext-light text-sm sm:text-sm mt-1.5">{stat.label}</p>
               </div>
             ))}
           </div>

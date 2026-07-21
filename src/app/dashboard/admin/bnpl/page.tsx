@@ -195,7 +195,7 @@ export default function AdminBNPLPage() {
           <div className="bg-zcard rounded-2xl p-6 max-w-2xl w-full shadow-z-modal my-8" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-bold text-ztext">Credit Account</h3>
+                <h3 className="text-sm font-bold text-ztext">Credit Account</h3>
                 <p className="text-sm text-ztext-lighter">{selectedAccount.user?.full_name} ({selectedAccount.user?.email})</p>
               </div>
               <button onClick={() => setSelectedAccount(null)} aria-label="Close details" className="p-1 hover:bg-zgray rounded-lg">&times;</button>
@@ -204,19 +204,19 @@ export default function AdminBNPLPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
               <div className="bg-zgray rounded-xl p-3">
                 <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Limit</p>
-                <p className="text-lg font-bold text-ztext">₹{Number(selectedAccount.credit_limit).toLocaleString('en-IN')}</p>
+                <p className="text-sm font-bold text-ztext">₹{Number(selectedAccount.credit_limit).toLocaleString('en-IN')}</p>
               </div>
               <div className="bg-zgray rounded-xl p-3">
                 <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Available</p>
-                <p className="text-lg font-bold text-emerald-600">₹{Number(selectedAccount.available_credit).toLocaleString('en-IN')}</p>
+                <p className="text-sm font-bold text-emerald-600">₹{Number(selectedAccount.available_credit).toLocaleString('en-IN')}</p>
               </div>
               <div className="bg-zgray rounded-xl p-3">
                 <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Outstanding</p>
-                <p className="text-lg font-bold text-red-400">₹{Number(selectedAccount.outstanding).toLocaleString('en-IN')}</p>
+                <p className="text-sm font-bold text-red-400">₹{Number(selectedAccount.outstanding).toLocaleString('en-IN')}</p>
               </div>
               <div className="bg-zgray rounded-xl p-3">
                 <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Status</p>
-                <p className="text-lg font-bold text-ztext capitalize">{selectedAccount.status}</p>
+                <p className="text-sm font-bold text-ztext capitalize">{selectedAccount.status}</p>
               </div>
             </div>
 
@@ -267,7 +267,7 @@ export default function AdminBNPLPage() {
       {limitModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setLimitModal(null)}>
           <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-ztext capitalize">{limitModal.action} Credit Limit</h3>
+            <h3 className="text-sm font-bold text-ztext capitalize">{limitModal.action} Credit Limit</h3>
             <p className="text-sm text-ztext-lighter mt-1">Current limit: ₹{Number(limitModal.current).toLocaleString('en-IN')}</p>
             <input type="number" value={limitValue} onChange={(e) => setLimitValue(e.target.value)} placeholder="New credit limit" min="0"
               className="w-full mt-4 px-3 py-2.5 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />

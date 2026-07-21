@@ -55,7 +55,7 @@ export default function OnboardingForm() {
             <input id="phone" type="tel" className="input-z" placeholder="+91 98765 43210" value={phone} onChange={(e) => setPhone(e.target.value)} />
           </div>
           {error && <p className="text-sm text-zred">{error}</p>}
-          <button type="submit" className="button-z button-z-primary w-full h-12 text-base" disabled={loading || !selectedRole}>
+          <button type="submit" className="button-z button-z-primary w-full h-12 text-sm" disabled={loading || !selectedRole}>
             {loading ? 'Setting up...' : 'Get started'}
           </button>
         </form>

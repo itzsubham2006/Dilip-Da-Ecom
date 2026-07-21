@@ -33,7 +33,7 @@ export default function MerchantLayout({ children }: { children: React.ReactNode
         <div className="flex items-center justify-between h-16 px-6 border-b border-zborder">
           <Link href="/dashboard/merchant" className="flex items-center gap-2">
             <Store size={22} className="text-zred" />
-            <span className="font-bold text-lg text-ztext">Merchant</span>
+            <span className="font-bold text-sm text-ztext">Merchant</span>
           </Link>
           <button onClick={closeSidebar} aria-label="Close sidebar" className="lg:hidden p-1 rounded-lg hover:bg-zgray text-ztext-lighter">
             <X size={20} />

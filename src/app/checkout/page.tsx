@@ -183,7 +183,7 @@ export default function CheckoutPage() {
  <div className="flex justify-between text-ztext-light"><span>Subtotal</span><span className="font-medium text-ztext">₹{subtotal()}</span></div>
  <div className="flex justify-between text-ztext-light"><span>Delivery fee</span><span className="font-medium text-ztext">{deliveryFee() > 0 ? `₹${deliveryFee()}` : 'Free'}</span></div>
  <div className="flex justify-between text-ztext-light"><span>Tax</span><span className="font-medium text-ztext">₹{taxAmount()}</span></div>
- <div className="border-t border-zborder pt-3 flex justify-between font-bold text-ztext text-base"><span>Total</span><span>₹{total()}</span></div>
+ <div className="border-t border-zborder pt-3 flex justify-between font-bold text-ztext text-sm"><span>Total</span><span>₹{total()}</span></div>
  </div>
   {error && <p className="text-xs mt-2 flex items-center gap-1 text-zred"><span className="w-1.5 h-1.5 rounded-full bg-zred" />{error}</p>}
  <button onClick={handlePlaceOrder} disabled={placing || !address.trim()} className="button-z button-z-primary w-full mt-5 h-11 text-sm font-bold" style={{ opacity: (!address.trim() && !placing) ? 0.6 : 1 }}>

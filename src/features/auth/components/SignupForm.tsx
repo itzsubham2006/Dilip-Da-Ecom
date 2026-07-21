@@ -50,7 +50,7 @@ export default function SignupForm() {
             <input id="password" type="password" className="input-z" placeholder="At least 6 characters" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
           </div>
           {error && <p className="text-sm text-zred">{error}</p>}
-          <button type="submit" className="button-z button-z-primary w-full h-12 text-base" disabled={loading}>
+          <button type="submit" className="button-z button-z-primary w-full h-12 text-sm" disabled={loading}>
             {loading ? 'Creating account...' : 'Create account'}
           </button>
         </form>

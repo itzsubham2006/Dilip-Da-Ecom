@@ -44,7 +44,7 @@ export default function LoginForm() {
             <input id="password" type="password" className="input-z" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
           {error && <p className="text-sm text-zred">{error}</p>}
-          <button type="submit" className="button-z button-z-primary w-full h-12 text-base" disabled={loading}>
+          <button type="submit" className="button-z button-z-primary w-full h-12 text-sm" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>

@@ -17,7 +17,7 @@ export default function CartPage() {
           <h1 className="text-2xl font-bold text-ztext">Your bag</h1>
           <div className="mt-8 bg-zcard rounded-xl shadow-z p-12 text-center">
             <ShoppingBag size={48} className="mx-auto mb-4" style={{ color: '#9C9C9C' }} />
-            <p className="text-lg font-medium text-ztext-light">Your bag is empty</p>
+            <p className="text-sm font-medium text-ztext-light">Your bag is empty</p>
             <p className="mt-1 text-sm text-ztext-lighter">Browse our menu and add items to get started.</p>
             <Link href="/" className="button-z button-z-primary mt-6">View menu</Link>
           </div>
@@ -70,7 +70,7 @@ export default function CartPage() {
               <div className="flex justify-between text-ztext-light"><span>Item total</span><span className="font-medium text-ztext">₹{subtotal()}</span></div>
               <div className="flex justify-between text-ztext-light"><span>Delivery fee</span><span className="font-medium text-ztext">{deliveryFee() > 0 ? `₹${deliveryFee()}` : 'Free'}</span></div>
               <div className="flex justify-between text-ztext-light"><span>Tax</span><span className="font-medium text-ztext">₹{taxAmount()}</span></div>
-              <div className="border-t border-zborder pt-3 flex justify-between font-bold text-ztext text-base"><span>Total</span><span>₹{total()}</span></div>
+              <div className="border-t border-zborder pt-3 flex justify-between font-bold text-ztext text-sm"><span>Total</span><span>₹{total()}</span></div>
             </div>
             <Link href="/checkout" className="button-z button-z-primary w-full mt-5 h-11 text-sm font-bold">
               Proceed to checkout

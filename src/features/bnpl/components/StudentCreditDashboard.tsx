@@ -203,7 +203,7 @@ export default function StudentCreditDashboard() {
  <AlertTriangle className="w-4 h-4 text-zred shrink-0" />
  <div>
  <p className="text-sm font-semibold text-red-400 ">Overdue Amount</p>
- <p className="text-lg font-bold text-zred">{formatCurrency(overdueAmount)}</p>
+ <p className="text-sm font-bold text-zred">{formatCurrency(overdueAmount)}</p>
  </div>
  </div>
  </div>

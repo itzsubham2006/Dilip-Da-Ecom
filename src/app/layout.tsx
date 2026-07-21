@@ -1,18 +1,11 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { Lexend } from 'next/font/google';
 import { Providers } from '@/providers';
 import Footer from '@/components/shared/Footer';
 import './globals.css';
 
 const NavbarWrapper = dynamic(() => import('@/components/shared/NavbarWrapper'));
 const Toast = dynamic(() => import('@/components/shared/Toast'));
-
-const lexend = Lexend({
-  subsets: ['latin'],
-  variable: '--font-lexend',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: {
@@ -38,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=1080&fit=crop"
         />
       </head>
-      <body className={`${lexend.variable} min-h-screen bg-zbg font-sans antialiased`}>
+      <body className="min-h-screen bg-zbg font-sans antialiased">
         <Providers>
           <NavbarWrapper />
           <main className="min-h-[calc(100vh-4rem)]">{children}</main>

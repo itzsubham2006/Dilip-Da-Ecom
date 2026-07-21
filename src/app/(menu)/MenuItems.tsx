@@ -45,7 +45,7 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
 
       {sections.map((section) => (
         <div key={section.category} id={section.category} className="mb-8 scroll-mt-28">
-          <h2 className="text-lg font-bold text-ztext mb-3">{section.category}</h2>
+          <h2 className="text-sm font-bold text-ztext mb-3">{section.category}</h2>
           <div className="divide-y divide-zborder">
             {section.items.map((item) => {
               const qty = getQty(item.id);
@@ -88,7 +88,7 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
           <div className="container-z mx-auto flex items-center justify-between max-w-5xl">
             <div>
               <p className="text-xs text-ztext-light">{cartCount} item{cartCount > 1 ? 's' : ''}</p>
-              <p className="text-lg font-bold text-ztext">₹{total()}</p>
+              <p className="text-sm font-bold text-ztext">₹{total()}</p>
             </div>
             <Link href="/cart" className="button-z button-z-primary gap-1.5 px-6 h-10 text-sm">
               <ShoppingBag size={15} /> View bag

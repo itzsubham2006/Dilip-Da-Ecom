@@ -27,7 +27,7 @@ export default async function StudentDashboardPage() {
                 </div>
                 <div>
                   <p className="text-xs text-ztext-light">{s.label}</p>
-                  <p className="font-bold text-ztext text-lg">{s.value}</p>
+                  <p className="font-bold text-ztext text-sm">{s.value}</p>
                 </div>
               </div>
             </Link>
@@ -36,7 +36,7 @@ export default async function StudentDashboardPage() {
 
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-ztext">Recent orders</h2>
+            <h2 className="text-sm font-bold text-ztext">Recent orders</h2>
             <Link href="/" className="text-sm font-semibold text-zred">Order now &rarr;</Link>
           </div>
           <div className="bg-zcard rounded-xl shadow-z p-12 text-center">
