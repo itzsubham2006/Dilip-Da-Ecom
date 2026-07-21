@@ -32,20 +32,20 @@ export default function OfferCards() {
   return (
     <section className="py-12 sm:py-16 bg-zgray">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-6 sm:mb-10">
-          <h2 className="text-lg sm:text-2xl font-bold text-ztext tracking-tight">
+        <div className="text-center mb-8 sm:mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-ztext tracking-tight">
             Save More As You Order
           </h2>
-          <p className="text-ztext-light text-xs sm:text-sm mt-0.5 sm:mt-1">
+          <p className="text-ztext-light text-sm mt-1">
             Exclusive deals on your favourite Bengali meals
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
           {offers.map((dish) => (
             <div
               key={dish.id}
-              className="flex flex-col bg-zcard border border-zborder rounded-2xl overflow-hidden transition-shadow hover:shadow-z-hover"
+              className="flex flex-col bg-zcard border border-zborder rounded-2xl overflow-hidden transition-shadow hover:shadow-z-hover mx-4 sm:mx-0"
             >
               <div className="relative aspect-square">
                 <Image
@@ -58,7 +58,7 @@ export default function OfferCards() {
                 />
               </div>
 
-              <div className="flex flex-col flex-1 p-3 sm:p-5 text-center">
+              <div className="flex flex-col flex-1 p-4 sm:p-5 text-center">
                 <h3 className="font-bold text-ztext text-sm line-clamp-2 leading-snug min-h-[2.5em]">
                   {dish.name}
                 </h3>
@@ -67,13 +67,13 @@ export default function OfferCards() {
                   {dish.subtext}
                 </p>
 
-                <div className="mt-1.5 sm:mt-2">
+                <div className="mt-2">
                   <button className="text-xs font-semibold text-zred underline underline-offset-2 hover:text-zred-dark transition-colors">
                     View Details
                   </button>
                 </div>
 
-                <div className="mt-auto pt-3 sm:pt-4 flex flex-col gap-1.5 sm:gap-2">
+                <div className="mt-auto pt-4 flex flex-col gap-2">
                   <button
                     onClick={() => handleAddToCart(dish)}
                     className="w-full text-xs font-bold text-ztext border border-zborder bg-zcard rounded-full py-2 hover:opacity-85 transition-opacity flex items-center justify-center gap-1.5"
