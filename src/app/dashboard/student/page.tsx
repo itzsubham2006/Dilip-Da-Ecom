@@ -20,9 +20,9 @@ export default async function StudentDashboardPage() {
             { icon: Clock, label: 'Past orders', value: '12', href: '/order/track' },
             { icon: History, label: 'Saved addresses', value: '3', href: '#' },
           ].map((s) => (
-            <Link key={s.label} href={s.href} className="bg-white rounded-xl shadow-z p-5 transition-shadow hover:shadow-z-hover">
+            <Link key={s.label} href={s.href} className="bg-zcard rounded-xl shadow-z p-5 transition-shadow hover:shadow-z-hover">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-50 shrink-0" style={{ color: '#E23744' }}>
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-500/10 shrink-0 text-zred">
                   <s.icon size={22} />
                 </div>
                 <div>
@@ -37,9 +37,9 @@ export default async function StudentDashboardPage() {
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-ztext">Recent orders</h2>
-            <Link href="/" className="text-sm font-semibold" style={{ color: '#E23744' }}>Order now &rarr;</Link>
+            <Link href="/" className="text-sm font-semibold text-zred">Order now &rarr;</Link>
           </div>
-          <div className="bg-white rounded-xl shadow-z p-12 text-center">
+          <div className="bg-zcard rounded-xl shadow-z p-12 text-center">
             <ShoppingBag size={36} className="mx-auto mb-3" style={{ color: '#9C9C9C' }} />
             <p className="text-ztext-light">No orders yet. Browse our menu!</p>
             <Link href="/" className="button-z button-z-primary mt-4">View menu</Link>

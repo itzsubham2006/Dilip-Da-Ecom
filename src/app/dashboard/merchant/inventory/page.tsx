@@ -58,27 +58,27 @@ export default function InventoryPage() {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Inventory</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-ztext">Inventory</h1>
         <div className="flex items-center gap-3 text-sm">
-          <span className="text-gray-500">{tracked.length} tracked</span>
-          {lowStockCount > 0 && <span className="text-amber-600 font-medium">{lowStockCount} low stock</span>}
-          {outOfStockCount > 0 && <span className="text-red-600 font-medium">{outOfStockCount} out of stock</span>}
+          <span className="text-ztext-lighter">{tracked.length} tracked</span>
+          {lowStockCount > 0 && <span className="text-amber-400 font-medium">{lowStockCount} low stock</span>}
+          {outOfStockCount > 0 && <span className="text-red-400 font-medium">{outOfStockCount} out of stock</span>}
         </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1 max-w-xs">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search products..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ztext-muted" />
+          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search products..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-zborder text-sm focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
         </div>
         <div className="flex gap-2">
           {(['all', 'low', 'out'] as const).map((f) => (
-            <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${filter === f ? 'bg-zred text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}>
+            <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${filter === f ? 'bg-zred text-white' : 'bg-zcard text-ztext-light border border-zborder hover:bg-zgray'}`}>
               {f === 'all' ? 'All' : f === 'low' ? 'Low stock' : 'Out of stock'}
             </button>
           ))}
         </div>
-        <button onClick={loadInventory} aria-label="Refresh inventory" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
+        <button onClick={loadInventory} aria-label="Refresh inventory" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors"><RefreshCw size={18} /></button>
       </div>
 
       {loading && tracked.length === 0 ? (
@@ -88,28 +88,28 @@ export default function InventoryPage() {
       ) : (
         <div className="space-y-2">
           {filtered.map((p) => (
-            <div key={p.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition-shadow">
+            <div key={p.id} className="bg-zcard rounded-xl border border-zborder p-4 flex items-center gap-4 hover:shadow-z transition-shadow">
               <div className="flex-1 min-w-0">
-                <h2 className="font-medium text-gray-900 text-sm">{p.name}</h2>
-                <p className="text-xs text-gray-500 mt-0.5">₹{p.price} • SKU: {p.slug}</p>
+                <h2 className="font-medium text-ztext text-sm">{p.name}</h2>
+                <p className="text-xs text-ztext-lighter mt-0.5">₹{p.price} • SKU: {p.slug}</p>
               </div>
               {editing === p.id ? (
                 <div className="flex items-center gap-2 shrink-0">
                   <input type="number" min={0} value={editValue} onChange={(e) => setEditValue(Number(e.target.value))}
-                    className="w-20 px-2.5 py-1.5 rounded-lg border border-gray-200 text-sm text-center focus:outline-none focus:ring-2 focus:ring-zred/20" />
+                    className="w-20 px-2.5 py-1.5 rounded-lg border border-zborder text-sm text-center focus:outline-none focus:ring-2 focus:ring-zred/20" />
                   <button onClick={() => handleSaveStock(p.id)} disabled={saving} aria-label={`Save stock for ${p.name}`} className="p-1.5 rounded-lg bg-zred text-white hover:bg-zred-dark transition-colors"><Save size={14} /></button>
-                  <button onClick={() => setEditing(null)} aria-label="Cancel edit" className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500"><X size={14} /></button>
+                  <button onClick={() => setEditing(null)} aria-label="Cancel edit" className="p-1.5 rounded-lg hover:bg-zgray text-ztext-lighter"><X size={14} /></button>
                 </div>
               ) : (
                 <div className="flex items-center gap-3 shrink-0">
                   <div className="text-right">
-                    <p className={`text-sm font-bold ${p.stock_quantity <= 0 ? 'text-red-500' : p.stock_quantity <= 5 ? 'text-amber-600' : 'text-gray-900'}`}>
+                    <p className={`text-sm font-bold ${p.stock_quantity <= 0 ? 'text-red-400' : p.stock_quantity <= 5 ? 'text-amber-400' : 'text-ztext'}`}>
                       {p.stock_quantity}
                     </p>
-                    {p.stock_quantity <= 0 && <span className="text-[10px] text-red-500 font-medium">Out of stock</span>}
-                    {p.stock_quantity > 0 && p.stock_quantity <= 5 && <span className="text-[10px] text-amber-600 font-medium">Low stock</span>}
+                    {p.stock_quantity <= 0 && <span className="text-[10px] text-red-400 font-medium">Out of stock</span>}
+                    {p.stock_quantity > 0 && p.stock_quantity <= 5 && <span className="text-[10px] text-amber-400 font-medium">Low stock</span>}
                   </div>
-                  <button onClick={() => { setEditing(p.id); setEditValue(p.stock_quantity); }} className="px-3 py-1.5 text-xs font-medium text-zred border border-zred rounded-lg hover:bg-red-50 transition-colors">
+                  <button onClick={() => { setEditing(p.id); setEditValue(p.stock_quantity); }} className="px-3 py-1.5 text-xs font-medium text-zred border border-zred rounded-lg hover:bg-red-500/10 transition-colors">
                     Update
                   </button>
                 </div>

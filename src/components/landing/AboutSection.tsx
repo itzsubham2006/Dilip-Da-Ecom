@@ -37,7 +37,7 @@ export default function AboutSection() {
   const { ref, isVisible } = useScrollReveal(0.05);
 
   return (
-    <section id="about" className="py-16 sm:py-24 bg-white">
+    <section id="about" className="py-16 sm:py-24 bg-zbg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
@@ -48,10 +48,10 @@ export default function AboutSection() {
           <div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ztext tracking-tight">
               About{' '}
-              <span style={{ color: '#E23744' }}>Dilipda</span>
+              <span className="text-zred">Dilip Da</span>
             </h2>
             <p className="text-ztext-light text-base sm:text-lg mt-4 sm:mt-6 leading-relaxed">
-              Dilipda is a homestyle Bengali food service run by Dilip da, located right near the
+              Dilip Da is a homestyle Bengali food service run by Dilip da, located right near the
               2nd gate of Central Institute of Technology, Kokrajhar (CIT). With over 5 years of
               experience serving the CIT community, we cook fresh, authentic Bengali meals that
               taste just like home. Our menu is growing every week &mdash; from classic fish curry

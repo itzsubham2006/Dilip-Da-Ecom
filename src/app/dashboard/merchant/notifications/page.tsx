@@ -47,18 +47,18 @@ const loadNotifications = async () => {
   };
 
   const typeColors: Record<string, string> = {
-    order: '#E23744', payment: '#10b981', bnpl: '#6366f1', system: '#f59e0b', promo: '#8b5cf6',
+    order: '#EF4444', payment: '#10b981', bnpl: '#6366f1', system: '#f59e0b', promo: '#8b5cf6',
   };
 
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Notifications</h1>
-          {unreadCount > 0 && <p className="text-xs text-gray-500 mt-0.5">{unreadCount} unread</p>}
+          <h1 className="text-xl sm:text-2xl font-bold text-ztext">Notifications</h1>
+          {unreadCount > 0 && <p className="text-xs text-ztext-lighter mt-0.5">{unreadCount} unread</p>}
         </div>
         {unreadCount > 0 && (
-          <button onClick={handleMarkAllRead} className="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-xl hover:bg-gray-200 transition-colors">
+          <button onClick={handleMarkAllRead} className="inline-flex items-center gap-1.5 px-4 py-2 bg-zgray text-ztext-light text-sm font-medium rounded-xl hover:bg-zsurface transition-colors">
             <CheckCheck size={16} /> Mark all read
           </button>
         )}
@@ -68,7 +68,7 @@ const loadNotifications = async () => {
         {(['all', 'order', 'payment', 'bnpl', 'system'] as const).map((t) => (
           <button key={t} onClick={() => { setFilter(t); setPage(1); }}
             className={`shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-              filter === t ? 'bg-zred text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+              filter === t ? 'bg-zred text-white' : 'bg-zcard text-ztext-light border border-zborder hover:bg-zgray'
             }`}>
             {t.charAt(0).toUpperCase() + t.slice(1)}
           </button>
@@ -83,22 +83,22 @@ const loadNotifications = async () => {
         <div className="space-y-2">
           {notifications.map((n) => (
             <div key={n.id} onClick={() => !n.is_read && handleMarkRead(n.id)}
-              className={`bg-white rounded-xl border p-4 flex items-start gap-3 cursor-pointer transition-all hover:shadow-sm ${
-                !n.is_read ? 'border-zred/20 bg-red-50/30' : 'border-gray-200'
+              className={`bg-zcard rounded-xl border p-4 flex items-start gap-3 cursor-pointer transition-all hover:shadow-z ${
+                !n.is_read ? 'border-zred/20 bg-red-500/10/30' : 'border-zborder'
               }`}>
               <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${typeColors[n.type]}15` }}>
                 <Bell size={16} style={{ color: typeColors[n.type] }} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h2 className={`text-sm ${!n.is_read ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'}`}>{n.title}</h2>
+                  <h2 className={`text-sm ${!n.is_read ? 'font-semibold text-ztext' : 'font-medium text-ztext-light'}`}>{n.title}</h2>
                   {!n.is_read && <span className="w-2 h-2 rounded-full bg-zred shrink-0" />}
                 </div>
-                {n.body && <p className="text-xs text-gray-500 mt-0.5">{n.body}</p>}
-                <p className="text-[10px] text-gray-400 mt-1">{new Date(n.created_at).toLocaleString()}</p>
+                {n.body && <p className="text-xs text-ztext-lighter mt-0.5">{n.body}</p>}
+                <p className="text-[10px] text-ztext-muted mt-1">{new Date(n.created_at).toLocaleString()}</p>
               </div>
               {!n.is_read && (
-                <button onClick={(e) => { e.stopPropagation(); handleMarkRead(n.id); }} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors shrink-0">
+                <button onClick={(e) => { e.stopPropagation(); handleMarkRead(n.id); }} className="p-1.5 rounded-lg hover:bg-zgray text-ztext-muted hover:text-ztext-light transition-colors shrink-0">
                   <MailOpen size={14} />
                 </button>
               )}

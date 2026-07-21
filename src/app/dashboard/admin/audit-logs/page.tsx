@@ -55,27 +55,27 @@ export default function AdminAuditLogsPage() {
 
   const columns = [
     { key: 'timestamp', header: 'Timestamp', sortable: true, render: (l: AuditEntry) => (
-      <span className="text-xs text-gray-500 whitespace-nowrap">{new Date(l.created_at).toLocaleString()}</span>
+      <span className="text-xs text-ztext-lighter whitespace-nowrap">{new Date(l.created_at).toLocaleString()}</span>
     )},
     { key: 'action', header: 'Action', render: (l: AuditEntry) => (
-      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-700">
+      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium capitalize bg-zgray text-ztext-light">
         {l.action.replace(/_/g, ' ')}
       </span>
     )},
     { key: 'table', header: 'Entity', render: (l: AuditEntry) => (
-      <span className="text-xs font-mono text-gray-600">{l.table_name}</span>
+      <span className="text-xs font-mono text-ztext-light">{l.table_name}</span>
     )},
     { key: 'record', header: 'Record ID', render: (l: AuditEntry) => (
-      <span className="font-mono text-[10px] text-gray-500">{l.record_id?.slice(0, 12) ?? '-'}</span>
+      <span className="font-mono text-[10px] text-ztext-lighter">{l.record_id?.slice(0, 12) ?? '-'}</span>
     )},
     { key: 'changed_by', header: 'Changed By', render: (l: AuditEntry) => (
-      <span className="text-xs text-gray-600">{l.changed_by_name ?? l.changed_by?.slice(0, 12) ?? 'System'}</span>
+      <span className="text-xs text-ztext-light">{l.changed_by_name ?? l.changed_by?.slice(0, 12) ?? 'System'}</span>
     )},
     { key: 'ip', header: 'IP', render: (l: AuditEntry) => (
-      <span className="text-[10px] text-gray-400 font-mono">{l.ip_address ?? '-'}</span>
+      <span className="text-[10px] text-ztext-muted font-mono">{l.ip_address ?? '-'}</span>
     ), hideOnMobile: true},
     { key: 'actions', header: '', render: (l: AuditEntry) => (
-      <button onClick={() => setSelectedLog(l)} className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-colors" title="View details">
+      <button onClick={() => setSelectedLog(l)} className="p-1.5 hover:bg-zgray rounded-lg text-ztext-muted hover:text-ztext-light transition-colors" title="View details">
         <Eye size={14} />
       </button>
     )},
@@ -95,7 +95,7 @@ export default function AdminAuditLogsPage() {
   return (
     <div>
       <PageHeader title="Audit Logs" description={`${total} recorded event${total !== 1 ? 's' : ''}`}>
-        <button onClick={handleExport} className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+        <button onClick={handleExport} className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium bg-zcard border border-zborder rounded-xl hover:bg-zgray transition-colors">
           <Download size={14} /> Export CSV
         </button>
       </PageHeader>
@@ -105,15 +105,15 @@ export default function AdminAuditLogsPage() {
           <SearchInput value={search} onChange={(v) => { setSearch(v); setPage(1); }} placeholder="Search audit logs..." />
         </div>
         <select value={tableName} onChange={(v) => { setTableName(v.target.value); setPage(1); }}
-          className="px-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred bg-white appearance-none cursor-pointer">
+          className="px-3 py-2 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred bg-zcard appearance-none cursor-pointer">
           {tableOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
-        <button onClick={() => fetchLogs()} aria-label="Refresh logs" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchLogs()} aria-label="Refresh logs" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200">
+      <div className="bg-zcard rounded-xl border border-zborder">
         <DataTable
           columns={columns}
           data={logs as unknown as Record<string, unknown>[]}
@@ -130,32 +130,32 @@ export default function AdminAuditLogsPage() {
 
       {selectedLog && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setSelectedLog(null)}>
-          <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-zcard rounded-2xl p-6 max-w-lg w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-900">Audit Entry</h3>
-              <button onClick={() => setSelectedLog(null)} aria-label="Close details" className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
+              <h3 className="text-lg font-bold text-ztext">Audit Entry</h3>
+              <button onClick={() => setSelectedLog(null)} aria-label="Close details" className="p-1 hover:bg-zgray rounded-lg">&times;</button>
             </div>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-gray-500">Timestamp</span><span>{new Date(selectedLog.created_at).toLocaleString()}</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Action</span><span className="capitalize">{selectedLog.action.replace(/_/g, ' ')}</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Entity</span><span className="font-mono">{selectedLog.table_name}</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Record ID</span><span className="font-mono text-xs">{selectedLog.record_id}</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Changed By</span><span>{selectedLog.changed_by_name ?? selectedLog.changed_by ?? 'System'}</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">IP Address</span><span className="font-mono">{selectedLog.ip_address ?? 'N/A'}</span></div>
-              {selectedLog.user_agent && <div className="flex justify-between"><span className="text-gray-500">User Agent</span><span className="text-xs text-right max-w-[200px] truncate">{selectedLog.user_agent}</span></div>}
+              <div className="flex justify-between"><span className="text-ztext-lighter">Timestamp</span><span>{new Date(selectedLog.created_at).toLocaleString()}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Action</span><span className="capitalize">{selectedLog.action.replace(/_/g, ' ')}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Entity</span><span className="font-mono">{selectedLog.table_name}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Record ID</span><span className="font-mono text-xs">{selectedLog.record_id}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Changed By</span><span>{selectedLog.changed_by_name ?? selectedLog.changed_by ?? 'System'}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">IP Address</span><span className="font-mono">{selectedLog.ip_address ?? 'N/A'}</span></div>
+              {selectedLog.user_agent && <div className="flex justify-between"><span className="text-ztext-lighter">User Agent</span><span className="text-xs text-right max-w-[200px] truncate">{selectedLog.user_agent}</span></div>}
             </div>
             {(selectedLog.old_data || selectedLog.new_data) && (
               <div className="mt-4 space-y-3">
                 {selectedLog.old_data && (
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 mb-1">Previous Value</p>
-                    <pre className="text-[10px] bg-gray-50 rounded-lg p-3 overflow-x-auto max-h-32">{JSON.stringify(selectedLog.old_data, null, 2)}</pre>
+                    <p className="text-xs font-semibold text-ztext-lighter mb-1">Previous Value</p>
+                    <pre className="text-[10px] bg-zgray rounded-lg p-3 overflow-x-auto max-h-32">{JSON.stringify(selectedLog.old_data, null, 2)}</pre>
                   </div>
                 )}
                 {selectedLog.new_data && (
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 mb-1">New Value</p>
-                    <pre className="text-[10px] bg-gray-50 rounded-lg p-3 overflow-x-auto max-h-32">{JSON.stringify(selectedLog.new_data, null, 2)}</pre>
+                    <p className="text-xs font-semibold text-ztext-lighter mb-1">New Value</p>
+                    <pre className="text-[10px] bg-zgray rounded-lg p-3 overflow-x-auto max-h-32">{JSON.stringify(selectedLog.new_data, null, 2)}</pre>
                   </div>
                 )}
               </div>

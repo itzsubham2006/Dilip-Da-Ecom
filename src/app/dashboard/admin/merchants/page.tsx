@@ -81,45 +81,45 @@ export default function AdminMerchantsPage() {
   const columns = [
     { key: 'name', header: 'Merchant', sortable: true, render: (m: AdminMerchant) => (
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-200 to-orange-300 flex items-center justify-center text-xs font-bold text-orange-700">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-200 to-orange-300 flex items-center justify-center text-xs font-bold text-orange-400">
           {m.full_name.charAt(0).toUpperCase()}
         </div>
         <div>
-          <p className="font-medium text-gray-900">{m.full_name}</p>
-          <p className="text-xs text-gray-500">{m.email}</p>
+          <p className="font-medium text-ztext">{m.full_name}</p>
+          <p className="text-xs text-ztext-lighter">{m.email}</p>
         </div>
       </div>
     )},
     { key: 'restaurant', header: 'Restaurant', render: (m: AdminMerchant) => (
       m.restaurant ? (
         <div>
-          <p className="text-sm font-medium text-gray-700">{m.restaurant.name}</p>
-          <p className="text-xs text-gray-500">{m.restaurant.city}</p>
+          <p className="text-sm font-medium text-ztext-light">{m.restaurant.name}</p>
+          <p className="text-xs text-ztext-lighter">{m.restaurant.city}</p>
         </div>
-      ) : <span className="text-xs text-gray-400">No restaurant</span>
+      ) : <span className="text-xs text-ztext-muted">No restaurant</span>
     )},
     { key: 'status', header: 'Status', render: (m: AdminMerchant) => {
       const s = m.restaurant?.status ?? 'inactive';
-      const color = s === 'active' ? 'bg-emerald-50 text-emerald-700' : s === 'pending' ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-700';
+      const color = s === 'active' ? 'bg-emerald-500/10 text-emerald-400' : s === 'pending' ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400';
       return <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${color}`}>{s}</span>;
     }},
     { key: 'commission', header: 'Commission', render: (m: AdminMerchant) => (
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-600">{m.restaurant?.commission_rate ?? 0}%</span>
+        <span className="text-sm text-ztext-light">{m.restaurant?.commission_rate ?? 0}%</span>
         <button onClick={() => { setCommissionModal({ id: m.id, current: m.restaurant?.commission_rate ?? 0 }); setCommissionValue(String(m.restaurant?.commission_rate ?? 0)); }}
-          className="p-1 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-colors">
+          className="p-1 hover:bg-zgray rounded-lg text-ztext-muted hover:text-ztext-light transition-colors">
           <Percent size={12} />
         </button>
       </div>
     ), hideOnMobile: true },
     { key: 'open', header: 'Open', render: (m: AdminMerchant) => (
-      <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${m.restaurant?.is_open ? 'text-emerald-700' : 'text-gray-400'}`}>
+      <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${m.restaurant?.is_open ? 'text-emerald-400' : 'text-ztext-muted'}`}>
         <span className={`w-1.5 h-1.5 rounded-full ${m.restaurant?.is_open ? 'bg-emerald-500' : 'bg-gray-300'}`} />
         {m.restaurant?.is_open ? 'Open' : 'Closed'}
       </span>
     ), hideOnMobile: true },
     { key: 'created', header: 'Joined', sortable: true, render: (m: AdminMerchant) => (
-      <span className="text-xs text-gray-500">{new Date(m.created_at).toLocaleDateString()}</span>
+      <span className="text-xs text-ztext-lighter">{new Date(m.created_at).toLocaleDateString()}</span>
     ), hideOnMobile: true },
     { key: 'actions', header: 'Actions', render: (m: AdminMerchant) => {
       const rest = m.restaurant;
@@ -128,21 +128,21 @@ export default function AdminMerchantsPage() {
         {rest?.status === 'pending' && (
           <>
             <button onClick={() => rest && setConfirmAction({ type: 'approve', id: m.id, restaurantId: rest.id })}
-              className="p-1.5 hover:bg-emerald-50 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors" title="Approve">
+              className="p-1.5 hover:bg-emerald-500/10 rounded-lg text-ztext-muted hover:text-emerald-600 transition-colors" title="Approve">
               <CheckCircle size={14} />
             </button>
             <button onClick={() => rest && setConfirmAction({ type: 'reject', id: m.id, restaurantId: rest.id })}
-              className="p-1.5 hover:bg-red-50 rounded-lg text-gray-400 hover:text-red-600 transition-colors" title="Reject">
+              className="p-1.5 hover:bg-red-500/10 rounded-lg text-ztext-muted hover:text-red-400 transition-colors" title="Reject">
               <XCircle size={14} />
             </button>
           </>
         )}
         {m.is_active ? (
-          <button onClick={() => setConfirmAction({ type: 'suspend', id: m.id })} className="p-1.5 hover:bg-red-50 rounded-lg text-gray-400 hover:text-red-600 transition-colors" title="Suspend">
+          <button onClick={() => setConfirmAction({ type: 'suspend', id: m.id })} className="p-1.5 hover:bg-red-500/10 rounded-lg text-ztext-muted hover:text-red-400 transition-colors" title="Suspend">
             <ShieldOff size={14} />
           </button>
         ) : (
-          <button onClick={() => setConfirmAction({ type: 'restore', id: m.id })} className="p-1.5 hover:bg-emerald-50 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors" title="Restore">
+          <button onClick={() => setConfirmAction({ type: 'restore', id: m.id })} className="p-1.5 hover:bg-emerald-500/10 rounded-lg text-ztext-muted hover:text-emerald-600 transition-colors" title="Restore">
             <Shield size={14} />
           </button>
         )}
@@ -156,9 +156,9 @@ export default function AdminMerchantsPage() {
       <PageHeader title="Merchants" description={`${total} registered merchant${total !== 1 ? 's' : ''}`}>
         {selectedIds.length > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">{selectedIds.length} selected</span>
-            <button onClick={() => setConfirmAction({ type: 'bulk_suspend', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors">Suspend</button>
-            <button onClick={() => setConfirmAction({ type: 'bulk_restore', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition-colors">Restore</button>
+            <span className="text-xs text-ztext-lighter">{selectedIds.length} selected</span>
+            <button onClick={() => setConfirmAction({ type: 'bulk_suspend', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors">Suspend</button>
+            <button onClick={() => setConfirmAction({ type: 'bulk_restore', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-emerald-500/10 text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Restore</button>
           </div>
         )}
       </PageHeader>
@@ -173,12 +173,12 @@ export default function AdminMerchantsPage() {
           { label: 'Active', value: 'active' },
           { label: 'Suspended', value: 'suspended' },
         ]} />
-        <button onClick={() => fetchMerchants()} aria-label="Refresh merchants" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchMerchants()} aria-label="Refresh merchants" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200">
+      <div className="bg-zcard rounded-xl border border-zborder">
         <DataTable
           columns={columns}
           data={merchants as unknown as Record<string, unknown>[]}
@@ -202,20 +202,20 @@ export default function AdminMerchantsPage() {
       {/* Commission modal */}
       {commissionModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setCommissionModal(null)}>
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-gray-900">Update Commission</h3>
-            <p className="text-sm text-gray-500 mt-1">Enter commission rate (0-100%)</p>
+          <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-ztext">Update Commission</h3>
+            <p className="text-sm text-ztext-lighter mt-1">Enter commission rate (0-100%)</p>
             <input
               type="number"
               value={commissionValue}
               onChange={(e) => setCommissionValue(e.target.value)}
               min="0" max="100" step="0.5"
-              className="w-full mt-4 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred"
+              className="w-full mt-4 px-3 py-2.5 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred"
               autoFocus
             />
-            <p className="text-xs text-gray-400 mt-2">Current: {commissionModal.current}%</p>
+            <p className="text-xs text-ztext-muted mt-2">Current: {commissionModal.current}%</p>
             <div className="flex gap-3 mt-6">
-              <button onClick={() => setCommissionModal(null)} className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
+              <button onClick={() => setCommissionModal(null)} className="flex-1 px-4 py-2 text-sm font-medium text-ztext-light bg-zgray rounded-xl hover:bg-zsurface transition-colors">Cancel</button>
               <button onClick={handleCommission} className="flex-1 px-4 py-2 text-sm font-medium text-white bg-zred rounded-xl hover:bg-zred-dark transition-colors">Update</button>
             </div>
           </div>

@@ -91,45 +91,45 @@ export default function SettingsPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Settings</h1>
-          {restaurant && <p className="text-sm text-gray-500 mt-0.5">{restaurant.name}</p>}
+          <h1 className="text-xl sm:text-2xl font-bold text-ztext">Settings</h1>
+          {restaurant && <p className="text-sm text-ztext-lighter mt-0.5">{restaurant.name}</p>}
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={fetchSettings} aria-label="Refresh settings" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
+          <button onClick={fetchSettings} aria-label="Refresh settings" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors"><RefreshCw size={18} /></button>
         </div>
       </div>
 
       <div className="max-w-2xl space-y-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-sm font-semibold text-gray-900 mb-4">Restaurant Settings</h2>
+        <div className="bg-zcard rounded-xl border border-zborder p-6">
+          <h2 className="text-sm font-semibold text-ztext mb-4">Restaurant Settings</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-medium text-gray-500">Prep time (minutes)</label>
+              <label className="text-xs font-medium text-ztext-lighter">Prep time (minutes)</label>
               <input type="number" min={0} value={form.prep_time_minutes} onChange={(e) => update('prep_time_minutes', Number(e.target.value))} className="input-z mt-1" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Max orders per slot</label>
+              <label className="text-xs font-medium text-ztext-lighter">Max orders per slot</label>
               <input type="number" min={1} value={form.max_orders_slot} onChange={(e) => update('max_orders_slot', Number(e.target.value))} className="input-z mt-1" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">GST Number</label>
+              <label className="text-xs font-medium text-ztext-lighter">GST Number</label>
               <input value={form.gst_number} onChange={(e) => update('gst_number', e.target.value)} className="input-z mt-1" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">FSSAI License</label>
+              <label className="text-xs font-medium text-ztext-lighter">FSSAI License</label>
               <input value={form.fssai_license} onChange={(e) => update('fssai_license', e.target.value)} className="input-z mt-1" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">UPI ID</label>
+              <label className="text-xs font-medium text-ztext-lighter">UPI ID</label>
               <input value={form.upi_id} onChange={(e) => update('upi_id', e.target.value)} className="input-z mt-1" placeholder="dilipda@upi" />
             </div>
           </div>
           <div className="flex items-center gap-4 mt-4">
-            <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+            <label className="flex items-center gap-2 text-sm text-ztext-light cursor-pointer">
               <input type="checkbox" checked={form.allow_preorder} onChange={(e) => update('allow_preorder', e.target.checked)} className="rounded border-gray-300 text-zred focus:ring-zred/30" />
               Allow pre-orders
             </label>
-            <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+            <label className="flex items-center gap-2 text-sm text-ztext-light cursor-pointer">
               <input type="checkbox" checked={form.allow_scheduled} onChange={(e) => update('allow_scheduled', e.target.checked)} className="rounded border-gray-300 text-zred focus:ring-zred/30" />
               Allow scheduled orders
             </label>
@@ -138,7 +138,7 @@ export default function SettingsPage() {
             <button onClick={handleSave} disabled={saving} className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-zred text-white text-sm font-medium rounded-xl hover:bg-zred-dark transition-colors disabled:opacity-50">
               <Save size={16} /> {saving ? 'Saving...' : 'Save settings'}
             </button>
-            {saved && <span className="text-xs text-green-600 font-medium">Saved!</span>}
+            {saved && <span className="text-xs text-green-400 font-medium">Saved!</span>}
           </div>
         </div>
       </div>

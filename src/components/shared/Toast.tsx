@@ -36,7 +36,7 @@ export default function Toast() {
   if (!notice) return null;
 
   return (
-    <div className="fixed bottom-5 left-1/2 z-[80] w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 rounded-lg bg-white shadow-z-modal border border-zborder p-4 sm:left-auto sm:right-5 sm:translate-x-0">
+    <div className="fixed bottom-5 left-1/2 z-[80] w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 rounded-lg bg-zcard shadow-z-modal border border-zborder p-4 sm:left-auto sm:right-5 sm:translate-x-0">
       <div className="flex items-center gap-3">
         <CheckCircle2 className="shrink-0" size={20} style={{ color: '#24963F' }} />
         <p className="flex-1 text-sm font-semibold text-ztext">{notice.message}</p>

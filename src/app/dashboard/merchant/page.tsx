@@ -91,13 +91,13 @@ export default function MerchantDashboardPage() {
   }
 
   const stats = [
-    { label: "Today's Orders", value: String(data.today_orders), icon: ShoppingBag, color: '#E23744' },
+    { label: "Today's Orders", value: String(data.today_orders), icon: ShoppingBag, color: '#EF4444' },
     { label: 'Pending', value: String(data.pending_orders), icon: Clock, color: '#f59e0b' },
     { label: 'Preparing', value: String(data.preparing_orders), icon: Package, color: '#6366f1' },
     { label: 'Ready', value: String(data.ready_orders), icon: CheckCircle, color: '#10b981' },
     { label: 'Completed', value: String(data.completed_orders), icon: CheckCircle, color: '#059669' },
     { label: 'Cancelled', value: String(data.cancelled_orders), icon: XCircle, color: '#ef4444' },
-    { label: "Today's Revenue", value: `₹${data.today_revenue}`, icon: DollarSign, color: '#E23744' },
+    { label: "Today's Revenue", value: `₹${data.today_revenue}`, icon: DollarSign, color: '#EF4444' },
     { label: 'Weekly Revenue', value: `₹${data.weekly_revenue}`, icon: TrendingUp, color: '#10b981' },
     { label: 'Monthly Revenue', value: `₹${data.monthly_revenue}`, icon: TrendingUp, color: '#6366f1' },
     { label: 'Avg Order Value', value: `₹${data.average_order_value}`, icon: DollarSign, color: '#8b5cf6' },
@@ -109,18 +109,18 @@ export default function MerchantDashboardPage() {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard</h1>
-          {restaurant && <p className="text-sm text-gray-500 mt-0.5">{restaurant.name}</p>}
+          <h1 className="text-xl sm:text-2xl font-bold text-ztext">Dashboard</h1>
+          {restaurant && <p className="text-sm text-ztext-lighter mt-0.5">{restaurant.name}</p>}
         </div>
         <div className="flex items-center gap-3">
           <button onClick={handleToggle} disabled={toggling}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-              restaurant?.is_open ? 'bg-green-50 text-green-700 hover:bg-green-100' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              restaurant?.is_open ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20' : 'bg-zgray text-ztext-lighter hover:bg-zsurface'
             }`}>
-            <span className={`w-2 h-2 rounded-full ${restaurant?.is_open ? 'bg-green-500' : 'bg-gray-400'}`} />
+            <span className={`w-2 h-2 rounded-full ${restaurant?.is_open ? 'bg-green-500' : 'bg-ztext-muted'}`} />
             {restaurant?.is_open ? 'Open' : 'Closed'}
           </button>
-          <button onClick={handleRefresh} aria-label="Refresh dashboard" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+          <button onClick={handleRefresh} aria-label="Refresh dashboard" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
             <RefreshCw size={18} />
           </button>
         </div>
@@ -133,15 +133,15 @@ export default function MerchantDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <DashboardCard title="Popular Products">
           {data.popular_products.length === 0 ? (
-            <p className="text-xs text-gray-500 py-4 text-center">No data yet</p>
+            <p className="text-xs text-ztext-lighter py-4 text-center">No data yet</p>
           ) : (
             <div className="space-y-3">
               {data.popular_products.slice(0, 5).map((p) => (
                 <div key={p.id} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700 font-medium">{p.name}</span>
-                  <div className="flex items-center gap-3 text-xs text-gray-500">
+                  <span className="text-ztext-light font-medium">{p.name}</span>
+                  <div className="flex items-center gap-3 text-xs text-ztext-lighter">
                     <span>{p.count} orders</span>
-                    <span className="font-medium text-gray-900">₹{p.revenue}</span>
+                    <span className="font-medium text-ztext">₹{p.revenue}</span>
                   </div>
                 </div>
               ))}
@@ -151,15 +151,15 @@ export default function MerchantDashboardPage() {
 
         <DashboardCard title="Recent Activity">
           {data.recent_activity.length === 0 ? (
-            <p className="text-xs text-gray-500 py-4 text-center">No recent activity</p>
+            <p className="text-xs text-ztext-lighter py-4 text-center">No recent activity</p>
           ) : (
             <div className="space-y-3">
               {data.recent_activity.slice(0, 8).map((a) => (
                 <div key={a.id} className="flex items-start gap-3 text-sm">
-                  <div className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: a.type === 'order' ? '#E23744' : a.type === 'payment' ? '#10b981' : '#6366f1' }} />
+                  <div className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: a.type === 'order' ? 'var(--color-zred)' : a.type === 'payment' ? '#10b981' : '#6366f1' }} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-gray-700 truncate">{a.message}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">{new Date(a.created_at).toLocaleString()}</p>
+                    <p className="text-ztext-light truncate">{a.message}</p>
+                    <p className="text-xs text-ztext-muted mt-0.5">{new Date(a.created_at).toLocaleString()}</p>
                   </div>
                 </div>
               ))}
@@ -172,10 +172,10 @@ export default function MerchantDashboardPage() {
         <Link href="/dashboard/merchant/orders" className="inline-flex items-center gap-1.5 px-4 py-2 bg-zred text-white text-sm font-medium rounded-xl hover:bg-zred-dark transition-colors">
           <ShoppingBag size={16} /> View orders <ArrowRight size={14} />
         </Link>
-        <Link href="/dashboard/merchant/products" className="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-gray-700 border border-gray-200 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
+        <Link href="/dashboard/merchant/products" className="inline-flex items-center gap-1.5 px-4 py-2 bg-zcard text-ztext-light border border-zborder text-sm font-medium rounded-xl hover:bg-zgray transition-colors">
           <UtensilsCrossed size={16} /> Manage products
         </Link>
-        <Link href="/dashboard/merchant/analytics" className="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-gray-700 border border-gray-200 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
+        <Link href="/dashboard/merchant/analytics" className="inline-flex items-center gap-1.5 px-4 py-2 bg-zcard text-ztext-light border border-zborder text-sm font-medium rounded-xl hover:bg-zgray transition-colors">
           <BarChart3 size={16} /> Analytics
         </Link>
       </div>

@@ -2,19 +2,24 @@
 
 @theme {
   --font-sans: "Lexend", ui-sans-serif, system-ui, sans-serif;
-  --color-zred: #D12B39;
-  --color-zred-light: #ff7e86;
-  --color-zred-dark: #c01a28;
-  --color-zgreen: #24963F;
-  --color-zbg: #FFFFFF;
-  --color-zgray: #F8F8F8;
-  --color-ztext: #1C1C1C;
-  --color-ztext-light: #696969;
-  --color-ztext-lighter: #6B6B6B;
-  --color-zborder: #E8E8E8;
-  --shadow-z: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-z-hover: 0 8px 24px rgba(0,0,0,0.12);
-  --shadow-z-modal: 0 16px 48px rgba(0,0,0,0.15);
+  --color-zred: #EF4444;
+  --color-zred-light: #F87171;
+  --color-zred-dark: #DC2626;
+  --color-zgreen: #22C55E;
+  --color-zbg: #0B0B0C;
+  --color-zgray: #121212;
+  --color-zcard: #18181B;
+  --color-zelevated: #171717;
+  --color-zsurface: #1E1E1E;
+  --color-ztext: #FAFAFA;
+  --color-ztext-light: #A3A3A3;
+  --color-ztext-lighter: #737373;
+  --color-ztext-muted: #525252;
+  --color-zborder: rgba(255,255,255,0.08);
+  --color-zborder-hover: rgba(239,68,68,0.35);
+  --shadow-z: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-z-hover: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-z-modal: 0 16px 48px rgba(0,0,0,0.5);
   --radius-z: 8px;
   --radius-z-sm: 6px;
   --radius-z-lg: 14px;
@@ -24,64 +29,6 @@
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
-
-.dark {
-  --color-zbg: #121212;
-  --color-zgray: #1E1E1E;
-  --color-ztext: #E8E8E8;
-  --color-ztext-light: #A8A8A8;
-  --color-ztext-lighter: #7E7E7E;
-  --color-zborder: #2A2A2A;
-  --shadow-z: 0 2px 8px rgba(0,0,0,0.4);
-  --shadow-z-hover: 0 8px 24px rgba(0,0,0,0.5);
-  --shadow-z-modal: 0 16px 48px rgba(0,0,0,0.6);
-}
-
-.dark body {
-  background: #121212;
-  color: #E8E8E8;
-}
-
-.dark .nav-z,
-.dark .bg-white {
-  background: #1E1E1E;
-}
-
-.dark .button-z-outline {
-  background: #1E1E1E;
-  border-color: #2A2A2A;
-}
-
-.dark .button-z-ghost:hover:not(:disabled) {
-  background: #2A2A2A;
-}
-
-.dark .input-z {
-  background: #1E1E1E;
-  border-color: #2A2A2A;
-}
-
-.dark .input-z:focus {
-  border-color: var(--color-zred);
-}
-
-.dark .footer-z {
-  background: #1E1E1E;
-  border-color: #2A2A2A;
-}
-
-.dark .icon-button-z:hover {
-  background: #2A2A2A;
-}
-
-.dark .text-black {
-  color: #E8E8E8;
-}
-
-.dark [style*="color: black"],
-.dark [style*="color:black"] {
-  color: #E8E8E8 !important;
-}
 
 body {
   margin: 0;
@@ -133,7 +80,7 @@ button, input, select, textarea { font: inherit; }
 .button-z-primary:hover:not(:disabled) { background: var(--color-zred-dark); }
 
 .button-z-outline {
-  background: white;
+  background: var(--color-zcard);
   color: var(--color-ztext);
   border: 1px solid var(--color-zborder);
 }
@@ -141,7 +88,7 @@ button, input, select, textarea { font: inherit; }
 
 .button-z-ghost {
   background: transparent;
-  color: var(--color-ztext);
+  color: var(--color-ztext-light);
 }
 .button-z-ghost:hover:not(:disabled) { background: var(--color-zgray); }
 
@@ -151,16 +98,14 @@ button, input, select, textarea { font: inherit; }
   padding: 0 1rem;
   border-radius: var(--radius-z);
   border: 1px solid var(--color-zborder);
-  background: white;
+  background: var(--color-zcard);
   font-size: 0.875rem;
   color: var(--color-ztext);
   outline: none;
   transition: border-color 0.2s;
 }
 .input-z:focus { border-color: var(--color-zred); }
-.input-z::placeholder { color: var(--color-ztext-lighter); }
-
-
+.input-z::placeholder { color: var(--color-ztext-muted); }
 
 .icon-button-z {
   display: grid;
@@ -170,7 +115,7 @@ button, input, select, textarea { font: inherit; }
   border-radius: var(--radius-z);
   border: none;
   background: transparent;
-  color: var(--color-ztext);
+  color: var(--color-ztext-light);
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -180,7 +125,7 @@ button, input, select, textarea { font: inherit; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: white;
+  background: var(--color-zgray);
   border-bottom: 1px solid var(--color-zborder);
 }
 
@@ -192,10 +137,8 @@ button, input, select, textarea { font: inherit; }
 }
 
 .footer-z {
-  background: var(--color-zgray);
   padding: 3rem 2rem;
   margin-top: 4rem;
-  border-top: 1px solid var(--color-zborder);
 }
 
 @keyframes fade-up {

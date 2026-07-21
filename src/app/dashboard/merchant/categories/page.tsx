@@ -72,30 +72,30 @@ export default function CategoriesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Categories</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-ztext">Categories</h1>
         <button onClick={() => { resetForm(); setShowForm(true); }} className="inline-flex items-center gap-1.5 px-4 py-2 bg-zred text-white text-sm font-medium rounded-xl hover:bg-zred-dark transition-colors">
           <Plus size={16} /> Add category
         </button>
       </div>
 
       {showForm && (
-        <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6 max-w-md">
-          <h2 className="text-sm font-semibold text-gray-900 mb-4">{editing ? 'Edit category' : 'New category'}</h2>
+        <div className="bg-zcard rounded-xl border border-zborder p-5 mb-6 max-w-md">
+          <h2 className="text-sm font-semibold text-ztext mb-4">{editing ? 'Edit category' : 'New category'}</h2>
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-medium text-gray-500">Name</label>
+              <label className="text-xs font-medium text-ztext-lighter">Name</label>
               <input value={name} onChange={(e) => setName(e.target.value)} className="input-z mt-1" placeholder="e.g. Starters" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Description (optional)</label>
+              <label className="text-xs font-medium text-ztext-lighter">Description (optional)</label>
               <input value={description} onChange={(e) => setDescription(e.target.value)} className="input-z mt-1" />
             </div>
-            {error && <p className="text-xs text-red-500">{error}</p>}
+            {error && <p className="text-xs text-red-400">{error}</p>}
             <div className="flex gap-2">
               <button onClick={handleSave} disabled={saving} className="inline-flex items-center gap-1 px-4 py-2 bg-zred text-white text-sm font-medium rounded-xl hover:bg-zred-dark transition-colors disabled:opacity-50">
                 <Save size={14} /> {saving ? 'Saving...' : 'Save'}
               </button>
-              <button onClick={resetForm} className="inline-flex items-center gap-1 px-4 py-2 bg-white text-gray-600 border border-gray-200 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
+              <button onClick={resetForm} className="inline-flex items-center gap-1 px-4 py-2 bg-zcard text-ztext-light border border-zborder text-sm font-medium rounded-xl hover:bg-zgray transition-colors">
                 <X size={14} /> Cancel
               </button>
             </div>
@@ -108,25 +108,25 @@ export default function CategoriesPage() {
       ) : (
         <div className="space-y-2">
           {categories.map((cat) => (
-            <div key={cat.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition-shadow">
+            <div key={cat.id} className="bg-zcard rounded-xl border border-zborder p-4 flex items-center gap-4 hover:shadow-z transition-shadow">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h2 className="font-medium text-gray-900 text-sm">{cat.name}</h2>
-                  {!cat.is_active && <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Hidden</span>}
+                  <h2 className="font-medium text-ztext text-sm">{cat.name}</h2>
+                  {!cat.is_active && <span className="text-[10px] text-ztext-muted bg-zgray px-1.5 py-0.5 rounded">Hidden</span>}
                 </div>
-                <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                <div className="flex items-center gap-3 mt-1 text-xs text-ztext-lighter">
                   <span>{cat.product_count} products</span>
                   {cat.description && <span className="truncate">{cat.description}</span>}
                 </div>
               </div>
               <div className="flex items-center gap-1 shrink-0">
-                <button onClick={() => handleToggleActive(cat)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+                <button onClick={() => handleToggleActive(cat)} className="p-2 rounded-lg hover:bg-zgray text-ztext-muted hover:text-ztext-light transition-colors">
                   {cat.is_active ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
-                <button onClick={() => { setEditing(cat); setName(cat.name); setDescription(cat.description ?? ''); setShowForm(true); }} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+                <button onClick={() => { setEditing(cat); setName(cat.name); setDescription(cat.description ?? ''); setShowForm(true); }} className="p-2 rounded-lg hover:bg-zgray text-ztext-muted hover:text-ztext-light transition-colors">
                   <Edit3 size={14} />
                 </button>
-                <button onClick={() => handleDelete(cat)} className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors">
+                <button onClick={() => handleDelete(cat)} className="p-2 rounded-lg hover:bg-red-500/10 text-ztext-muted hover:text-red-400 transition-colors">
                   <Trash2 size={14} />
                 </button>
               </div>

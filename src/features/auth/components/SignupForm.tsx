@@ -25,15 +25,15 @@ export default function SignupForm() {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-white rounded-xl shadow-z p-8">
+      <div className="bg-zcard rounded-xl shadow-z p-8">
         <h1 className="text-2xl font-bold text-ztext mb-1">Create account</h1>
-        <p className="text-ztext-light text-sm mb-6">Join Dilipda and start ordering</p>
+        <p className="text-ztext-light text-sm mb-6">Join Dilip Da and start ordering</p>
 
         <OAuthButtons />
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-zborder" /></div>
-          <div className="relative flex justify-center text-xs"><span className="bg-white px-2 text-ztext-lighter">or sign up with email</span></div>
+          <div className="relative flex justify-center text-xs"><span className="bg-zcard px-2 text-ztext-lighter">or sign up with email</span></div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -49,7 +49,7 @@ export default function SignupForm() {
             <label htmlFor="password" className="block text-sm font-medium text-ztext mb-1.5">Password</label>
             <input id="password" type="password" className="input-z" placeholder="At least 6 characters" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
           </div>
-          {error && <p className="text-sm" style={{ color: '#E23744' }}>{error}</p>}
+          {error && <p className="text-sm text-zred">{error}</p>}
           <button type="submit" className="button-z button-z-primary w-full h-12 text-base" disabled={loading}>
             {loading ? 'Creating account...' : 'Create account'}
           </button>
@@ -57,7 +57,7 @@ export default function SignupForm() {
 
         <p className="text-center text-sm text-ztext-light mt-6">
           Already have an account?{' '}
-          <Link href="/auth/login" className="font-semibold" style={{ color: '#E23744' }}>Sign in</Link>
+          <Link href="/auth/login" className="font-semibold text-zred">Sign in</Link>
         </p>
       </div>
     </div>

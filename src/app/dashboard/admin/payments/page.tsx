@@ -56,42 +56,42 @@ export default function AdminPaymentsPage() {
 
   const columns = [
     { key: 'id', header: 'Payment ID', render: (p: PaymentAdmin) => (
-      <span className="font-mono text-xs text-gray-600">{p.id.slice(0, 8)}...</span>
+      <span className="font-mono text-xs text-ztext-light">{p.id.slice(0, 8)}...</span>
     )},
     { key: 'order', header: 'Order', render: (p: PaymentAdmin) => (
-      <span className="font-mono text-xs font-medium text-gray-900">{p.order?.tracking_code ?? 'N/A'}</span>
+      <span className="font-mono text-xs font-medium text-ztext">{p.order?.tracking_code ?? 'N/A'}</span>
     )},
     { key: 'amount', header: 'Amount', sortable: true, render: (p: PaymentAdmin) => (
-      <span className="font-medium text-gray-900">₹{Number(p.amount).toLocaleString('en-IN')}</span>
+      <span className="font-medium text-ztext">₹{Number(p.amount).toLocaleString('en-IN')}</span>
     )},
     { key: 'method', header: 'Method', render: (p: PaymentAdmin) => (
       <div className="flex flex-col gap-0.5">
-        <span className="text-xs text-gray-700 capitalize">{p.payment_method}</span>
-        <span className="text-[10px] text-gray-400">{p.gateway}</span>
+        <span className="text-xs text-ztext-light capitalize">{p.payment_method}</span>
+        <span className="text-[10px] text-ztext-muted">{p.gateway}</span>
       </div>
     ), hideOnMobile: true},
     { key: 'gateway', header: 'Gateway ID', render: (p: PaymentAdmin) => (
-      <span className="font-mono text-[10px] text-gray-500">{p.gateway_payment_id?.slice(0, 16) ?? '-'}</span>
+      <span className="font-mono text-[10px] text-ztext-lighter">{p.gateway_payment_id?.slice(0, 16) ?? '-'}</span>
     ), hideOnMobile: true},
     { key: 'status', header: 'Status', render: (p: PaymentAdmin) => {
       const colors: Record<string, string> = {
-        pending: 'bg-amber-50 text-amber-700', confirmed: 'bg-emerald-50 text-emerald-700',
-        failed: 'bg-red-50 text-red-700', refunded: 'bg-blue-50 text-blue-700',
-        partially_refunded: 'bg-indigo-50 text-indigo-700',
+        pending: 'bg-amber-500/10 text-amber-400', confirmed: 'bg-emerald-500/10 text-emerald-400',
+        failed: 'bg-red-500/10 text-red-400', refunded: 'bg-blue-500/10 text-blue-400',
+        partially_refunded: 'bg-indigo-500/10 text-indigo-400',
       };
-      return <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${colors[p.status] ?? 'bg-gray-50 text-gray-700'}`}>{p.status.replace(/_/g, ' ')}</span>;
+      return <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${colors[p.status] ?? 'bg-zgray text-ztext-light'}`}>{p.status.replace(/_/g, ' ')}</span>;
     }},
     { key: 'refunded', header: 'Refunded', render: (p: PaymentAdmin) => (
-      <span className="text-xs text-gray-500">₹{Number(p.refund_amount ?? 0).toLocaleString('en-IN')}</span>
+      <span className="text-xs text-ztext-lighter">₹{Number(p.refund_amount ?? 0).toLocaleString('en-IN')}</span>
     ), hideOnMobile: true},
     { key: 'date', header: 'Date', sortable: true, render: (p: PaymentAdmin) => (
-      <span className="text-xs text-gray-500">{new Date(p.created_at).toLocaleString()}</span>
+      <span className="text-xs text-ztext-lighter">{new Date(p.created_at).toLocaleString()}</span>
     ), hideOnMobile: true},
     { key: 'actions', header: 'Actions', render: (p: PaymentAdmin) => (
       <div className="flex items-center gap-1">
         {p.status === 'confirmed' && (
           <button onClick={() => { setRefundModal({ id: p.id, amount: p.amount, currentRefunded: p.refund_amount ?? 0 }); setRefundAmount(''); }}
-            className="p-1.5 hover:bg-blue-50 rounded-lg text-gray-400 hover:text-blue-600 transition-colors" title="Refund">
+            className="p-1.5 hover:bg-blue-500/10 rounded-lg text-ztext-muted hover:text-blue-600 transition-colors" title="Refund">
             <Download size={14} />
           </button>
         )}
@@ -115,7 +115,7 @@ export default function AdminPaymentsPage() {
   return (
     <div>
       <PageHeader title="Payments" description={`${total} transaction${total !== 1 ? 's' : ''}`}>
-        <button onClick={handleExport} className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+        <button onClick={handleExport} className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium bg-zcard border border-zborder rounded-xl hover:bg-zgray transition-colors">
           <Download size={14} /> Export CSV
         </button>
       </PageHeader>
@@ -131,12 +131,12 @@ export default function AdminPaymentsPage() {
           { label: 'Failed', value: 'failed' },
           { label: 'Refunded', value: 'refunded' },
         ]} />
-        <button onClick={() => fetchPayments()} aria-label="Refresh payments" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchPayments()} aria-label="Refresh payments" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200">
+      <div className="bg-zcard rounded-xl border border-zborder">
         <DataTable
           columns={columns}
           data={payments as unknown as Record<string, unknown>[]}
@@ -156,15 +156,15 @@ export default function AdminPaymentsPage() {
 
       {refundModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setRefundModal(null)}>
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-gray-900">Process Refund</h3>
-            <p className="text-sm text-gray-500 mt-1">Max refundable: ₹{Number(refundModal.amount - refundModal.currentRefunded).toLocaleString('en-IN')}</p>
+          <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-ztext">Process Refund</h3>
+            <p className="text-sm text-ztext-lighter mt-1">Max refundable: ₹{Number(refundModal.amount - refundModal.currentRefunded).toLocaleString('en-IN')}</p>
             <input type="number" value={refundAmount} onChange={(e) => setRefundAmount(e.target.value)} placeholder="Refund amount" min="0" step="0.01"
-              className="w-full mt-4 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
+              className="w-full mt-4 px-3 py-2.5 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
             <input value={refundReason} onChange={(e) => setRefundReason(e.target.value)} placeholder="Reason for refund"
-              className="w-full mt-3 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
+              className="w-full mt-3 px-3 py-2.5 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
             <div className="flex gap-3 mt-6">
-              <button onClick={() => setRefundModal(null)} className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
+              <button onClick={() => setRefundModal(null)} className="flex-1 px-4 py-2 text-sm font-medium text-ztext-light bg-zgray rounded-xl hover:bg-zsurface transition-colors">Cancel</button>
               <button onClick={handleRefund} disabled={!refundAmount || !refundReason} className="flex-1 px-4 py-2 text-sm font-medium text-white bg-zred rounded-xl hover:bg-zred-dark transition-colors disabled:opacity-50">Refund</button>
             </div>
           </div>

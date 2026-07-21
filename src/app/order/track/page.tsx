@@ -17,11 +17,11 @@ export default function TrackOrderPage() {
     <div className="page-pad">
       <div className="container-z mx-auto max-w-xl">
         <h1 className="text-2xl font-bold text-ztext">Track order</h1>
-        <p className="text-ztext-light text-sm mt-1">DD-X7K2L9P • from Dilipda</p>
+        <p className="text-ztext-light text-sm mt-1">DD-X7K2L9P • from Dilip Da</p>
 
-        <div className="bg-white rounded-xl shadow-z p-6 mt-6">
+        <div className="bg-zcard rounded-xl shadow-z p-6 mt-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center shrink-0" style={{ color: '#E23744' }}>
+            <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0 text-zred">
               <Bike size={20} />
             </div>
             <div>
@@ -31,7 +31,7 @@ export default function TrackOrderPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-z p-6 mt-4">
+        <div className="bg-zcard rounded-xl shadow-z p-6 mt-4">
           {steps.map((s, i) => (
             <div key={s.label} className="flex gap-4 pb-6 last:pb-0 relative">
               {i < steps.length - 1 && <div className={`absolute left-[11px] top-7 bottom-0 w-0.5 ${s.done ? 'bg-zgreen' : 'bg-zborder'}`} />}
@@ -46,8 +46,8 @@ export default function TrackOrderPage() {
           ))}
         </div>
 
-        <div className="bg-white rounded-xl shadow-z p-6 mt-4 flex items-center gap-3">
-          <MapPin size={18} style={{ color: '#E23744' }} />
+        <div className="bg-zcard rounded-xl shadow-z p-6 mt-4 flex items-center gap-3">
+          <MapPin size={18} className="text-zred" />
           <div>
             <p className="font-semibold text-ztext text-sm">Delivering to</p>
             <p className="text-xs text-ztext-light">Sector V, Salt Lake, Kolkata</p>

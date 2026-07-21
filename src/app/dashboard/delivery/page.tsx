@@ -20,9 +20,9 @@ export default async function DeliveryDashboardPage() {
             { icon: MapPin, label: 'Completed today', value: '0', href: '#' },
             { icon: DollarSign, label: 'Earnings today', value: '₹0', href: '#' },
           ].map((s) => (
-            <Link key={s.label} href={s.href} className="bg-white rounded-xl shadow-z p-5 transition-shadow hover:shadow-z-hover">
+            <Link key={s.label} href={s.href} className="bg-zcard rounded-xl shadow-z p-5 transition-shadow hover:shadow-z-hover">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-50 shrink-0" style={{ color: '#E23744' }}>
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-500/10 shrink-0 text-zred">
                   <s.icon size={22} />
                 </div>
                 <div>
@@ -36,7 +36,7 @@ export default async function DeliveryDashboardPage() {
 
         <div className="mt-8">
           <h2 className="text-lg font-bold text-ztext mb-4">Available deliveries</h2>
-          <div className="bg-white rounded-xl shadow-z p-12 text-center">
+          <div className="bg-zcard rounded-xl shadow-z p-12 text-center">
             <Bike size={36} className="mx-auto mb-3" style={{ color: '#9C9C9C' }} />
             <p className="text-ztext-light">No deliveries available. Check back soon!</p>
           </div>

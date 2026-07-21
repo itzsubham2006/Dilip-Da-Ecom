@@ -74,7 +74,7 @@ export function DataTable({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-ztext-muted" />
       </div>
     );
   }
@@ -82,7 +82,7 @@ export function DataTable({
   if (data.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-sm text-gray-500">{emptyMessage}</p>
+        <p className="text-sm text-ztext-lighter">{emptyMessage}</p>
       </div>
     );
   }
@@ -92,7 +92,7 @@ export function DataTable({
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-gray-200">
+            <tr className="border-b border-zborder">
               {selectable && (
                 <th className="px-4 py-3 text-left w-10">
                   <input
@@ -106,12 +106,12 @@ export function DataTable({
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className={`px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider ${col.hideOnMobile ? 'hidden md:table-cell' : ''} ${col.width ? col.width : ''} ${col.className ?? ''}`}
+                  className={`px-4 py-3 text-left text-xs font-semibold text-ztext-lighter uppercase tracking-wider ${col.hideOnMobile ? 'hidden md:table-cell' : ''} ${col.width ? col.width : ''} ${col.className ?? ''}`}
                 >
                   {col.sortable ? (
                     <button
                       onClick={() => handleSort(col.key)}
-                      className="inline-flex items-center gap-1 hover:text-gray-700 transition-colors"
+                      className="inline-flex items-center gap-1 hover:text-ztext-light transition-colors"
                     >
                       {col.header}
                       {sortBy === col.key ? (
@@ -135,7 +135,7 @@ export function DataTable({
                 <tr
                   key={id}
                   onClick={() => onRowClick?.(item)}
-                  className={`transition-colors ${onRowClick ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-50' : 'hover:bg-gray-50'}`}
+                  className={`transition-colors ${onRowClick ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-500/10' : 'hover:bg-zgray'}`}
                 >
                   {selectable && (
                     <td className="px-4 py-3">
@@ -151,7 +151,7 @@ export function DataTable({
                   {columns.map((col) => (
                     <td
                       key={col.key}
-                      className={`px-4 py-3 text-sm text-gray-700 ${col.hideOnMobile ? 'hidden md:table-cell' : ''} ${col.className ?? ''}`}
+                      className={`px-4 py-3 text-sm text-ztext-light ${col.hideOnMobile ? 'hidden md:table-cell' : ''} ${col.className ?? ''}`}
                     >
                       {col.render(item)}
                     </td>
@@ -163,8 +163,8 @@ export function DataTable({
         </table>
       </div>
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-          <p className="text-xs text-gray-500">
+        <div className="flex items-center justify-between px-4 py-3 border-t border-zborder">
+          <p className="text-xs text-ztext-lighter">
             Showing {(page - 1) * pageSize + 1}-{Math.min(page * pageSize, total)} of {total}
           </p>
           <div className="flex items-center gap-1">
@@ -172,7 +172,7 @@ export function DataTable({
               onClick={() => onPageChange(page - 1)}
               disabled={page <= 1}
               aria-label="Previous page"
-              className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg hover:bg-zgray disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft size={16} />
             </button>
@@ -192,7 +192,7 @@ export function DataTable({
                   key={pageNum}
                   onClick={() => onPageChange(pageNum)}
                   className={`w-7 h-7 rounded-lg text-xs font-medium transition-colors ${
-                    page === pageNum ? 'bg-zred text-white' : 'text-gray-600 hover:bg-gray-100'
+                    page === pageNum ? 'bg-zred text-white' : 'text-ztext-light hover:bg-zgray'
                   }`}
                 >
                   {pageNum}
@@ -203,7 +203,7 @@ export function DataTable({
               onClick={() => onPageChange(page + 1)}
               disabled={page >= totalPages}
               aria-label="Next page"
-              className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg hover:bg-zgray disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronRight size={16} />
             </button>
@@ -219,7 +219,7 @@ export function SearchInput({ value, onChange, placeholder = 'Search...' }: {
 }) {
   return (
     <div className="relative">
-      <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ztext-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
       <input
@@ -227,7 +227,7 @@ export function SearchInput({ value, onChange, placeholder = 'Search...' }: {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred bg-white placeholder-gray-400 transition-all"
+        className="w-full pl-9 pr-3 py-2 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred bg-zcard placeholder-gray-400 transition-all"
       />
     </div>
   );
@@ -241,7 +241,7 @@ export function StatusFilter({ value, onChange, options }: {
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="px-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred bg-white appearance-none cursor-pointer transition-all"
+      className="px-3 py-2 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred bg-zcard appearance-none cursor-pointer transition-all"
     >
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -265,8 +265,8 @@ export function PageHeader({ title, description, children }: {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h1>
-        {description && <p className="text-sm text-gray-500 mt-0.5">{description}</p>}
+        <h1 className="text-xl sm:text-2xl font-bold text-ztext">{title}</h1>
+        {description && <p className="text-sm text-ztext-lighter mt-0.5">{description}</p>}
       </div>
       {children && <div className="flex items-center gap-3">{children}</div>}
     </div>
@@ -280,11 +280,11 @@ export function ConfirmDialog({ open, onClose, onConfirm, title, message, confir
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={onClose}>
-      <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
-        <h3 className="text-lg font-bold text-gray-900">{title}</h3>
-        <p className="text-sm text-gray-600 mt-2">{message}</p>
+      <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
+        <h3 className="text-lg font-bold text-ztext">{title}</h3>
+        <p className="text-sm text-ztext-light mt-2">{message}</p>
         <div className="flex gap-3 mt-6">
-          <button onClick={onClose} className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">
+          <button onClick={onClose} className="flex-1 px-4 py-2 text-sm font-medium text-ztext-light bg-zgray rounded-xl hover:bg-zsurface transition-colors">
             Cancel
           </button>
           <button
@@ -346,15 +346,15 @@ export function StatCard({ label, value, icon: Icon, color, trend }: {
   label: string; value: string; icon: React.ElementType; color?: string; trend?: string;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 transition-shadow hover:shadow-md">
+    <div className="bg-zcard rounded-xl border border-zborder p-4 transition-shadow hover:shadow-md">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">{label}</span>
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: color ? `${color}15` : '#fee2e2' }}>
-          <Icon size={15} style={{ color: color ?? '#E23744' }} />
+        <span className="text-[11px] font-semibold text-ztext-lighter uppercase tracking-wider">{label}</span>
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: color ? `${color}15` : 'rgba(239,68,68,0.1)' }}>
+          <Icon size={15} style={{ color: color ?? '#EF4444' }} />
         </div>
       </div>
-      <p className="text-xl font-bold text-gray-900">{value}</p>
-      {trend && <p className="text-[11px] text-gray-500 mt-0.5">{trend}</p>}
+      <p className="text-xl font-bold text-ztext">{value}</p>
+      {trend && <p className="text-[11px] text-ztext-lighter mt-0.5">{trend}</p>}
     </div>
   );
 }
@@ -364,11 +364,11 @@ export function EmptyState({ icon: Icon, title, description, action }: {
 }) {
   return (
     <div className="text-center py-12">
-      <div className="w-14 h-14 rounded-xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
-        <Icon size={28} className="text-gray-400" />
+      <div className="w-14 h-14 rounded-xl bg-zgray flex items-center justify-center mx-auto mb-4">
+        <Icon size={28} className="text-ztext-muted" />
       </div>
-      <p className="text-sm font-semibold text-gray-900">{title}</p>
-      <p className="text-xs text-gray-500 mt-1 max-w-xs mx-auto">{description}</p>
+      <p className="text-sm font-semibold text-ztext">{title}</p>
+      <p className="text-xs text-ztext-lighter mt-1 max-w-xs mx-auto">{description}</p>
       {action && <div className="mt-4">{action}</div>}
     </div>
   );
@@ -380,7 +380,7 @@ export function LoadingSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: 
       {Array.from({ length: rows }).map((_, i) => (
         <div key={i} className="flex gap-4">
           {Array.from({ length: cols }).map((_, j) => (
-            <div key={j} className="h-10 bg-gray-100 rounded-lg animate-pulse flex-1" />
+            <div key={j} className="h-10 bg-zgray rounded-lg animate-pulse flex-1" />
           ))}
         </div>
       ))}
@@ -392,8 +392,8 @@ export function DashboardCard({ title, children, className = '' }: {
   title?: string; children: React.ReactNode; className?: string;
 }) {
   return (
-    <div className={`bg-white rounded-xl border border-gray-200 p-5 ${className}`}>
-      {title && <h3 className="text-sm font-semibold text-gray-900 mb-4">{title}</h3>}
+    <div className={`bg-zcard rounded-xl border border-zborder p-5 ${className}`}>
+      {title && <h3 className="text-sm font-semibold text-ztext mb-4">{title}</h3>}
       {children}
     </div>
   );

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import dynamic from 'next/dynamic';
 import { Lexend } from 'next/font/google';
 import { Providers } from '@/providers';
@@ -17,25 +16,15 @@ const lexend = Lexend({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Dilipda',
-    default: 'Dilipda — Homestyle Bengali Meals near CIT Kokrajhar',
+    template: '%s | Dilip Da',
+    default: 'Dilip Da — Homestyle Bengali Meals near CIT Kokrajhar',
   },
-  description: 'Dilipda is a homestyle Bengali food service run by Dilip da, serving fresh meals near CIT Kokrajhar. Order online for delivery.',
+  description: 'Dilip Da is a homestyle Bengali food service run by Dilip da, serving fresh meals near CIT Kokrajhar. Order online for delivery.',
 };
-
-const themeScript = `
-  (function() {
-    var theme = localStorage.getItem('dilip-da-theme');
-    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (theme === 'dark' || (!theme && prefersDark)) {
-      document.documentElement.classList.add('dark');
-    }
-  })();
-`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://videos.pexels.com" />
@@ -47,9 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           as="image"
           href="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=1080&fit=crop"
         />
-        <Script id="theme-init" strategy="beforeInteractive">{themeScript}</Script>
       </head>
-      <body className={`${lexend.variable} min-h-screen bg-white font-sans antialiased`}>
+      <body className={`${lexend.variable} min-h-screen bg-zbg font-sans antialiased`}>
         <Providers>
           <NavbarWrapper />
           <main className="min-h-[calc(100vh-4rem)]">{children}</main>

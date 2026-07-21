@@ -77,8 +77,8 @@ export default function OrdersPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Orders</h1>
-        <button onClick={fetchOrders} aria-label="Refresh orders" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <h1 className="text-xl sm:text-2xl font-bold text-ztext">Orders</h1>
+        <button onClick={fetchOrders} aria-label="Refresh orders" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
@@ -87,7 +87,7 @@ export default function OrdersPage() {
         {statusTabs.map((tab) => (
           <button key={tab.value} onClick={() => { setCurrentTab(tab.value); setPage(1); }}
             className={`shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap ${
-              currentTab === tab.value ? 'bg-zred text-white shadow-sm' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+              currentTab === tab.value ? 'bg-zred text-white shadow-z' : 'bg-zcard text-ztext-light hover:bg-zgray border border-zborder'
             }`}>
             {tab.label} {tabCount(tab.value) > 0 && <span className="ml-1.5 text-xs opacity-70">({tabCount(tab.value)})</span>}
           </button>
@@ -95,8 +95,8 @@ export default function OrdersPage() {
       </div>
 
       <div className="relative max-w-xs mb-4">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by tracking code..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ztext-muted" />
+        <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by tracking code..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-zborder text-sm focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
       </div>
 
       {isLoading && orders.length === 0 ? (
@@ -106,20 +106,20 @@ export default function OrdersPage() {
       ) : (
         <div className="space-y-3">
           {orders.map((order) => (
-            <div key={order.id} className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-sm transition-shadow">
+            <div key={order.id} className="bg-zcard rounded-xl border border-zborder p-4 hover:shadow-z transition-shadow">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold text-gray-900">{order.tracking_code}</span>
+                    <span className="font-mono text-sm font-bold text-ztext">{order.tracking_code}</span>
                     <StatusBadge status={order.status} />
                   </div>
-                  <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-500">
+                  <div className="flex items-center gap-3 mt-1.5 text-xs text-ztext-lighter">
                     <span>₹{order.total}</span>
                     <span>{order.order_items?.length ?? 0} items</span>
                     <span>{order.payment_method?.toUpperCase() ?? 'N/A'}</span>
                     {order.customer_name && <span className="truncate">{order.customer_name}</span>}
                   </div>
-                  <p className="text-xs text-gray-400 mt-1.5">{new Date(order.created_at).toLocaleString()}</p>
+                  <p className="text-xs text-ztext-muted mt-1.5">{new Date(order.created_at).toLocaleString()}</p>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
                   {getAvailableActions(order).map((action) => (
@@ -133,7 +133,7 @@ export default function OrdersPage() {
                 </div>
               </div>
               {order.delivery_notes && (
-                <p className="mt-2 text-xs text-gray-400 bg-gray-50 rounded-lg px-3 py-1.5">
+                <p className="mt-2 text-xs text-ztext-muted bg-zgray rounded-lg px-3 py-1.5">
                   Note: {order.delivery_notes}
                 </p>
               )}
@@ -144,9 +144,9 @@ export default function OrdersPage() {
 
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 mt-6">
-          <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1} className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40">Previous</button>
-          <span className="text-xs text-gray-500">Page {page} of {totalPages}</span>
-          <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages} className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40">Next</button>
+          <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1} className="px-3 py-1.5 text-sm rounded-lg border border-zborder hover:bg-zgray disabled:opacity-40">Previous</button>
+          <span className="text-xs text-ztext-lighter">Page {page} of {totalPages}</span>
+          <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages} className="px-3 py-1.5 text-sm rounded-lg border border-zborder hover:bg-zgray disabled:opacity-40">Next</button>
         </div>
       )}
     </div>

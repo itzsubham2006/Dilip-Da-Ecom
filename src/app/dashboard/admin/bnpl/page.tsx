@@ -92,59 +92,59 @@ export default function AdminBNPLPage() {
   const columns = [
     { key: 'user', header: 'User', render: (a: CreditAccountAdmin) => (
       <div>
-        <p className="text-sm font-medium text-gray-700">{a.user?.full_name ?? 'Unknown'}</p>
-        <p className="text-xs text-gray-500">{a.user?.email ?? ''}</p>
+        <p className="text-sm font-medium text-ztext-light">{a.user?.full_name ?? 'Unknown'}</p>
+        <p className="text-xs text-ztext-lighter">{a.user?.email ?? ''}</p>
       </div>
     )},
     { key: 'limit', header: 'Limit', render: (a: CreditAccountAdmin) => (
-      <span className="font-medium text-gray-900">₹{Number(a.credit_limit).toLocaleString('en-IN')}</span>
+      <span className="font-medium text-ztext">₹{Number(a.credit_limit).toLocaleString('en-IN')}</span>
     )},
     { key: 'available', header: 'Available', render: (a: CreditAccountAdmin) => (
       <span className="font-medium text-emerald-600">₹{Number(a.available_credit).toLocaleString('en-IN')}</span>
     )},
     { key: 'outstanding', header: 'Outstanding', render: (a: CreditAccountAdmin) => (
-      <span className={`font-medium ${a.outstanding > 0 ? 'text-red-600' : 'text-gray-600'}`}>₹{Number(a.outstanding).toLocaleString('en-IN')}</span>
+      <span className={`font-medium ${a.outstanding > 0 ? 'text-red-400' : 'text-ztext-light'}`}>₹{Number(a.outstanding).toLocaleString('en-IN')}</span>
     )},
     { key: 'utilization', header: 'Utilization', render: (a: CreditAccountAdmin) => {
       const pct = a.credit_limit > 0 ? Math.round((a.outstanding / a.credit_limit) * 100) : 0;
       return (
         <div className="flex items-center gap-2">
-          <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+          <div className="w-16 h-1.5 bg-zgray rounded-full overflow-hidden">
             <div className={`h-full rounded-full ${pct > 80 ? 'bg-red-500' : pct > 50 ? 'bg-amber-500' : 'bg-emerald-500'}`} style={{ width: `${pct}%` }} />
           </div>
-          <span className="text-xs text-gray-500">{pct}%</span>
+          <span className="text-xs text-ztext-lighter">{pct}%</span>
         </div>
       );
     }, hideOnMobile: true},
     { key: 'status', header: 'Status', render: (a: CreditAccountAdmin) => {
       const colors: Record<string, string> = {
-        active: 'bg-emerald-50 text-emerald-700', frozen: 'bg-blue-50 text-blue-700',
-        suspended: 'bg-red-50 text-red-700', closed: 'bg-gray-50 text-gray-700',
+        active: 'bg-emerald-500/10 text-emerald-400', frozen: 'bg-blue-500/10 text-blue-400',
+        suspended: 'bg-red-500/10 text-red-400', closed: 'bg-zgray text-ztext-light',
       };
-      return <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${colors[a.status] ?? 'bg-gray-50 text-gray-700'}`}>{a.status}</span>;
+      return <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${colors[a.status] ?? 'bg-zgray text-ztext-light'}`}>{a.status}</span>;
     }},
     { key: 'verification', header: 'Verification', render: (a: CreditAccountAdmin) => (
       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-        a.verification_status === 'verified' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+        a.verification_status === 'verified' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
       }`}>{a.verification_status}</span>
     ), hideOnMobile: true},
     { key: 'actions', header: 'Actions', render: (a: CreditAccountAdmin) => (
       <div className="flex items-center gap-1">
-        <button onClick={() => viewAccount(a.id)} className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-colors" title="View details">
+        <button onClick={() => viewAccount(a.id)} className="p-1.5 hover:bg-zgray rounded-lg text-ztext-muted hover:text-ztext-light transition-colors" title="View details">
           <Eye size={14} />
         </button>
-        <button onClick={() => setLimitModal({ id: a.id, action: 'increase', current: a.credit_limit })} className="p-1.5 hover:bg-emerald-50 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors" title="Increase limit">
+        <button onClick={() => setLimitModal({ id: a.id, action: 'increase', current: a.credit_limit })} className="p-1.5 hover:bg-emerald-500/10 rounded-lg text-ztext-muted hover:text-emerald-600 transition-colors" title="Increase limit">
           <ArrowUpCircle size={14} />
         </button>
-        <button onClick={() => setLimitModal({ id: a.id, action: 'reduce', current: a.credit_limit })} className="p-1.5 hover:bg-red-50 rounded-lg text-gray-400 hover:text-red-600 transition-colors" title="Reduce limit">
+        <button onClick={() => setLimitModal({ id: a.id, action: 'reduce', current: a.credit_limit })} className="p-1.5 hover:bg-red-500/10 rounded-lg text-ztext-muted hover:text-red-400 transition-colors" title="Reduce limit">
           <ArrowDownCircle size={14} />
         </button>
         {a.status === 'active' ? (
-          <button onClick={() => { setConfirmAction({ type: 'freeze', id: a.id }); }} className="p-1.5 hover:bg-blue-50 rounded-lg text-gray-400 hover:text-blue-600 transition-colors" title="Freeze">
+          <button onClick={() => { setConfirmAction({ type: 'freeze', id: a.id }); }} className="p-1.5 hover:bg-blue-500/10 rounded-lg text-ztext-muted hover:text-blue-600 transition-colors" title="Freeze">
             <Snowflake size={14} />
           </button>
         ) : a.status === 'frozen' ? (
-          <button onClick={() => { setConfirmAction({ type: 'unfreeze', id: a.id }); }} className="p-1.5 hover:bg-emerald-50 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors" title="Unfreeze">
+          <button onClick={() => { setConfirmAction({ type: 'unfreeze', id: a.id }); }} className="p-1.5 hover:bg-emerald-500/10 rounded-lg text-ztext-muted hover:text-emerald-600 transition-colors" title="Unfreeze">
             <Thermometer size={14} />
           </button>
         ) : null}
@@ -166,12 +166,12 @@ export default function AdminBNPLPage() {
           { label: 'Frozen', value: 'frozen' },
           { label: 'Suspended', value: 'suspended' },
         ]} />
-        <button onClick={() => fetchAccounts()} aria-label="Refresh accounts" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchAccounts()} aria-label="Refresh accounts" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200">
+      <div className="bg-zcard rounded-xl border border-zborder">
         <DataTable
           columns={columns}
           data={accounts as unknown as Record<string, unknown>[]}
@@ -192,62 +192,62 @@ export default function AdminBNPLPage() {
       {/* Account detail modal */}
       {selectedAccount && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 overflow-y-auto" onClick={() => setSelectedAccount(null)}>
-          <div className="bg-white rounded-2xl p-6 max-w-2xl w-full shadow-xl my-8" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-zcard rounded-2xl p-6 max-w-2xl w-full shadow-z-modal my-8" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Credit Account</h3>
-                <p className="text-sm text-gray-500">{selectedAccount.user?.full_name} ({selectedAccount.user?.email})</p>
+                <h3 className="text-lg font-bold text-ztext">Credit Account</h3>
+                <p className="text-sm text-ztext-lighter">{selectedAccount.user?.full_name} ({selectedAccount.user?.email})</p>
               </div>
-              <button onClick={() => setSelectedAccount(null)} aria-label="Close details" className="p-1 hover:bg-gray-100 rounded-lg">&times;</button>
+              <button onClick={() => setSelectedAccount(null)} aria-label="Close details" className="p-1 hover:bg-zgray rounded-lg">&times;</button>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-              <div className="bg-gray-50 rounded-xl p-3">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Limit</p>
-                <p className="text-lg font-bold text-gray-900">₹{Number(selectedAccount.credit_limit).toLocaleString('en-IN')}</p>
+              <div className="bg-zgray rounded-xl p-3">
+                <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Limit</p>
+                <p className="text-lg font-bold text-ztext">₹{Number(selectedAccount.credit_limit).toLocaleString('en-IN')}</p>
               </div>
-              <div className="bg-gray-50 rounded-xl p-3">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Available</p>
+              <div className="bg-zgray rounded-xl p-3">
+                <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Available</p>
                 <p className="text-lg font-bold text-emerald-600">₹{Number(selectedAccount.available_credit).toLocaleString('en-IN')}</p>
               </div>
-              <div className="bg-gray-50 rounded-xl p-3">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Outstanding</p>
-                <p className="text-lg font-bold text-red-600">₹{Number(selectedAccount.outstanding).toLocaleString('en-IN')}</p>
+              <div className="bg-zgray rounded-xl p-3">
+                <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Outstanding</p>
+                <p className="text-lg font-bold text-red-400">₹{Number(selectedAccount.outstanding).toLocaleString('en-IN')}</p>
               </div>
-              <div className="bg-gray-50 rounded-xl p-3">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Status</p>
-                <p className="text-lg font-bold text-gray-900 capitalize">{selectedAccount.status}</p>
+              <div className="bg-zgray rounded-xl p-3">
+                <p className="text-[10px] text-ztext-lighter uppercase tracking-wider">Status</p>
+                <p className="text-lg font-bold text-ztext capitalize">{selectedAccount.status}</p>
               </div>
             </div>
 
             <div className="space-y-2 text-sm mb-6">
-              <div className="flex justify-between"><span className="text-gray-500">Interest Rate</span><span>{selectedAccount.interest_rate}%</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Late Fee Rate</span><span>{selectedAccount.late_fee_rate}%</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Due Days</span><span>{selectedAccount.due_days} days</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Verification</span><span>{selectedAccount.verification_status}</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Activated</span><span>{selectedAccount.activated_at ? new Date(selectedAccount.activated_at).toLocaleDateString() : 'N/A'}</span></div>
-              <div className="flex justify-between"><span className="text-gray-500">Last Repayment</span><span>{selectedAccount.last_repayment_at ? new Date(selectedAccount.last_repayment_at).toLocaleDateString() : 'Never'}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Interest Rate</span><span>{selectedAccount.interest_rate}%</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Late Fee Rate</span><span>{selectedAccount.late_fee_rate}%</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Due Days</span><span>{selectedAccount.due_days} days</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Verification</span><span>{selectedAccount.verification_status}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Activated</span><span>{selectedAccount.activated_at ? new Date(selectedAccount.activated_at).toLocaleDateString() : 'N/A'}</span></div>
+              <div className="flex justify-between"><span className="text-ztext-lighter">Last Repayment</span><span>{selectedAccount.last_repayment_at ? new Date(selectedAccount.last_repayment_at).toLocaleDateString() : 'Never'}</span></div>
             </div>
 
             <div className="flex gap-2 mb-6">
               {selectedAccount.status === 'active' ? (
-                <button onClick={() => handleFreeze(selectedAccount.id)} className="px-3 py-1.5 text-xs font-medium bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">Freeze</button>
+                <button onClick={() => handleFreeze(selectedAccount.id)} className="px-3 py-1.5 text-xs font-medium bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-100 transition-colors">Freeze</button>
               ) : selectedAccount.status === 'frozen' ? (
-                <button onClick={() => handleUnfreeze(selectedAccount.id)} className="px-3 py-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition-colors">Unfreeze</button>
+                <button onClick={() => handleUnfreeze(selectedAccount.id)} className="px-3 py-1.5 text-xs font-medium bg-emerald-500/10 text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">Unfreeze</button>
               ) : null}
             </div>
 
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Recent Transactions</h4>
+            <h4 className="text-sm font-semibold text-ztext mb-3">Recent Transactions</h4>
             <div className="max-h-60 overflow-y-auto space-y-1">
               {transactions.length === 0 ? (
-                <p className="text-xs text-gray-500 text-center py-4">No transactions</p>
+                <p className="text-xs text-ztext-lighter text-center py-4">No transactions</p>
               ) : transactions.map((tx: Record<string, unknown>) => (
-                <div key={tx.id as string} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                <div key={tx.id as string} className="flex items-center justify-between py-2 border-b border-zborder last:border-0">
                   <div>
-                    <p className="text-sm text-gray-700 capitalize">{(tx.type as string).replace(/_/g, ' ')}</p>
-                    <p className="text-xs text-gray-400">{new Date(tx.created_at as string).toLocaleString()}</p>
+                    <p className="text-sm text-ztext-light capitalize">{(tx.type as string).replace(/_/g, ' ')}</p>
+                    <p className="text-xs text-ztext-muted">{new Date(tx.created_at as string).toLocaleString()}</p>
                   </div>
-                  <span className={`font-medium text-sm ${(tx.amount as number) > 0 && tx.type === 'repayment' ? 'text-emerald-600' : (tx.amount as number) > 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                  <span className={`font-medium text-sm ${(tx.amount as number) > 0 && tx.type === 'repayment' ? 'text-emerald-600' : (tx.amount as number) > 0 ? 'text-red-400' : 'text-ztext-light'}`}>
                     {(tx.type as string) === 'repayment' ? '-' : '+'}₹{Number(tx.amount).toLocaleString('en-IN')}
                   </span>
                 </div>
@@ -255,8 +255,8 @@ export default function AdminBNPLPage() {
             </div>
             {txTotal > 20 && (
               <div className="flex justify-center gap-2 mt-3">
-                <button onClick={() => loadTransactions(selectedAccount.id, txPage - 1)} disabled={txPage <= 1} className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-30">Prev</button>
-                <button onClick={() => loadTransactions(selectedAccount.id, txPage + 1)} disabled={txPage * 20 >= txTotal} className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-30">Next</button>
+                <button onClick={() => loadTransactions(selectedAccount.id, txPage - 1)} disabled={txPage <= 1} className="text-xs text-ztext-lighter hover:text-ztext-light disabled:opacity-30">Prev</button>
+                <button onClick={() => loadTransactions(selectedAccount.id, txPage + 1)} disabled={txPage * 20 >= txTotal} className="text-xs text-ztext-lighter hover:text-ztext-light disabled:opacity-30">Next</button>
               </div>
             )}
           </div>
@@ -266,15 +266,15 @@ export default function AdminBNPLPage() {
       {/* Limit change modal */}
       {limitModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setLimitModal(null)}>
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-gray-900 capitalize">{limitModal.action} Credit Limit</h3>
-            <p className="text-sm text-gray-500 mt-1">Current limit: ₹{Number(limitModal.current).toLocaleString('en-IN')}</p>
+          <div className="bg-zcard rounded-2xl p-6 max-w-sm w-full shadow-z-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-ztext capitalize">{limitModal.action} Credit Limit</h3>
+            <p className="text-sm text-ztext-lighter mt-1">Current limit: ₹{Number(limitModal.current).toLocaleString('en-IN')}</p>
             <input type="number" value={limitValue} onChange={(e) => setLimitValue(e.target.value)} placeholder="New credit limit" min="0"
-              className="w-full mt-4 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
+              className="w-full mt-4 px-3 py-2.5 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
             <input value={reasonValue} onChange={(e) => setReasonValue(e.target.value)} placeholder="Reason for change"
-              className="w-full mt-3 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
+              className="w-full mt-3 px-3 py-2.5 text-sm border border-zborder rounded-xl focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred" />
             <div className="flex gap-3 mt-6">
-              <button onClick={() => setLimitModal(null)} className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
+              <button onClick={() => setLimitModal(null)} className="flex-1 px-4 py-2 text-sm font-medium text-ztext-light bg-zgray rounded-xl hover:bg-zsurface transition-colors">Cancel</button>
               <button onClick={handleLimitChange} disabled={!limitValue} className="flex-1 px-4 py-2 text-sm font-medium text-white bg-zred rounded-xl hover:bg-zred-dark transition-colors disabled:opacity-50">Update</button>
             </div>
           </div>

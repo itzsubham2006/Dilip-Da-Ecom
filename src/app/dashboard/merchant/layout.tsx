@@ -28,14 +28,14 @@ export default function MerchantLayout({ children }: { children: React.ReactNode
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-auto ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+    <div className="min-h-screen bg-zgray">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-zcard border-r border-zborder transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-auto ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex items-center justify-between h-16 px-6 border-b border-zborder">
           <Link href="/dashboard/merchant" className="flex items-center gap-2">
             <Store size={22} className="text-zred" />
-            <span className="font-bold text-lg text-gray-900">Merchant</span>
+            <span className="font-bold text-lg text-ztext">Merchant</span>
           </Link>
-          <button onClick={closeSidebar} aria-label="Close sidebar" className="lg:hidden p-1 rounded-lg hover:bg-gray-100 text-gray-500">
+          <button onClick={closeSidebar} aria-label="Close sidebar" className="lg:hidden p-1 rounded-lg hover:bg-zgray text-ztext-lighter">
             <X size={20} />
           </button>
         </div>
@@ -45,18 +45,18 @@ export default function MerchantLayout({ children }: { children: React.ReactNode
             return (
               <Link key={item.href} href={item.href} onClick={closeSidebar}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                  active ? 'bg-zred text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100'
+                  active ? 'bg-zred text-white shadow-z' : 'text-ztext-light hover:bg-zgray'
                 }`}>
                 <item.icon size={18} />
                 {item.label}
               </Link>
             );
           })}
-          <div className="pt-4 mt-4 border-t border-gray-200">
-            <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <div className="pt-4 mt-4 border-t border-zborder">
+            <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ztext-light hover:bg-zgray transition-colors">
               <Store size={18} /> View store
             </Link>
-            <button onClick={signOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+            <button onClick={signOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ztext-light hover:bg-zgray transition-colors">
               <LogOut size={18} /> Sign out
             </button>
           </div>
@@ -68,12 +68,12 @@ export default function MerchantLayout({ children }: { children: React.ReactNode
       )}
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-30 bg-white sm:bg-white/80 sm:backdrop-blur-md border-b border-gray-200 h-16 flex items-center px-4 sm:px-6">
-          <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="lg:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-600 mr-3">
+        <header className="sticky top-0 z-30 bg-zcard sm:bg-zgray/80 sm:backdrop-blur-md border-b border-zborder h-16 flex items-center px-4 sm:px-6">
+          <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="lg:hidden p-2 rounded-lg hover:bg-zgray text-ztext-light mr-3">
             <Menu size={20} />
           </button>
           <div className="flex-1" />
-          <Link href="/dashboard/merchant/notifications" aria-label="Notifications" className="relative p-2 rounded-lg hover:bg-gray-100 text-gray-600">
+          <Link href="/dashboard/merchant/notifications" aria-label="Notifications" className="relative p-2 rounded-lg hover:bg-zgray text-ztext-light">
             <Bell size={20} />
           </Link>
         </header>

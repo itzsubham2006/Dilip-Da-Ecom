@@ -48,7 +48,7 @@ function DishCard({ dish, index }: { dish: (typeof dishes)[0]; index: number }) 
   return (
     <div
       ref={ref}
-      className={`group relative rounded-2xl overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-500 hover:-translate-y-1 ${
+      className={`group relative rounded-2xl overflow-hidden bg-zcard shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-500 hover:-translate-y-1 ${
         isVisible
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-8'
@@ -79,7 +79,7 @@ export default function FeaturedDishes() {
   const { ref, isVisible } = useScrollReveal(0.05);
 
   return (
-    <section id="featured" className="py-16 sm:py-24 bg-[#FAFAFA]">
+    <section id="featured" className="py-16 sm:py-24 bg-zgray">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
@@ -88,7 +88,7 @@ export default function FeaturedDishes() {
           }`}
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ztext tracking-tight">
-            Our Signature Dishes
+            Today's Menu
           </h2>
           <p className="text-ztext-light text-base sm:text-lg mt-3 sm:mt-4 max-w-xl mx-auto">
             Handpicked favorites that define the soul of Bengali cuisine

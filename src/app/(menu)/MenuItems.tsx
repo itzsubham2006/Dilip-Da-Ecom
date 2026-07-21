@@ -35,7 +35,7 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
 
   return (
     <div>
-      <div className="flex gap-4 border-b border-zborder mb-6 overflow-x-auto sticky top-16 bg-white z-10 pb-3 pt-1">
+      <div className="flex gap-4 border-b border-zborder mb-6 overflow-x-auto sticky top-16 bg-zcard z-10 pb-3 pt-1">
         {sections.map((s) => (
           <a key={s.category} href={`#${s.category}`} className="shrink-0 text-sm font-medium text-ztext-light hover:text-zred border-b-2 border-transparent hover:border-zred transition-colors whitespace-nowrap">
             {s.category}
@@ -84,7 +84,7 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
       ))}
 
       {cartCount > 0 && (
-        <div className="sticky bottom-0 bg-white border-t border-zborder shadow-z-modal -mx-4 px-4 py-3 mt-6">
+        <div className="sticky bottom-0 bg-zcard border-t border-zborder shadow-z-modal -mx-4 px-4 py-3 mt-6">
           <div className="container-z mx-auto flex items-center justify-between max-w-5xl">
             <div>
               <p className="text-xs text-ztext-light">{cartCount} item{cartCount > 1 ? 's' : ''}</p>

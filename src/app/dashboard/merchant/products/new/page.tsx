@@ -73,67 +73,67 @@ export default function NewProductPage() {
 
   return (
     <div>
-      <Link href="/dashboard/merchant/products" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-4">
+      <Link href="/dashboard/merchant/products" className="inline-flex items-center gap-1 text-sm text-ztext-lighter hover:text-ztext-light mb-4">
         <ArrowLeft size={14} /> Back to products
       </Link>
-      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Add product</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-ztext mb-6">Add product</h1>
 
-      <form onSubmit={handleSubmit} className="max-w-2xl bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="max-w-2xl bg-zcard rounded-xl border border-zborder p-6 space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
-            <label className="text-xs font-medium text-gray-500">Name *</label>
+            <label className="text-xs font-medium text-ztext-lighter">Name *</label>
             <input value={form.name} onChange={(e) => update('name', e.target.value)} className="input-z mt-1" placeholder="e.g. Chicken Biryani" />
           </div>
           <div className="sm:col-span-2">
-            <label className="text-xs font-medium text-gray-500">Description</label>
+            <label className="text-xs font-medium text-ztext-lighter">Description</label>
             <textarea value={form.description} onChange={(e) => update('description', e.target.value)} className="input-z mt-1 h-20 resize-none" placeholder="Brief description..." />
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Price (₹) *</label>
+            <label className="text-xs font-medium text-ztext-lighter">Price (₹) *</label>
             <input type="number" min={0} step={1} value={form.price} onChange={(e) => update('price', Number(e.target.value))} className="input-z mt-1" />
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Compare at price (₹)</label>
+            <label className="text-xs font-medium text-ztext-lighter">Compare at price (₹)</label>
             <input type="number" min={0} value={form.compare_at_price} onChange={(e) => update('compare_at_price', Number(e.target.value))} className="input-z mt-1" />
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Cost per unit (₹)</label>
+            <label className="text-xs font-medium text-ztext-lighter">Cost per unit (₹)</label>
             <input type="number" min={0} step={1} value={form.cost_per_unit} onChange={(e) => update('cost_per_unit', Number(e.target.value))} className="input-z mt-1" />
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Unit</label>
+            <label className="text-xs font-medium text-ztext-lighter">Unit</label>
             <select value={form.unit} onChange={(e) => update('unit', e.target.value)} className="input-z mt-1">
               {units.map((u) => <option key={u.value} value={u.value}>{u.label}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Category</label>
+            <label className="text-xs font-medium text-ztext-lighter">Category</label>
             <select value={form.category_id} onChange={(e) => update('category_id', e.target.value)} className="input-z mt-1">
               <option value="">No category</option>
               {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Spice level (0-5)</label>
+            <label className="text-xs font-medium text-ztext-lighter">Spice level (0-5)</label>
             <input type="range" min={0} max={5} value={form.spice_level} onChange={(e) => update('spice_level', Number(e.target.value))} className="w-full mt-2" />
-            <span className="text-xs text-gray-400">{form.spice_level}/5</span>
+            <span className="text-xs text-ztext-muted">{form.spice_level}/5</span>
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Prep time (min)</label>
+            <label className="text-xs font-medium text-ztext-lighter">Prep time (min)</label>
             <input type="number" min={0} value={form.preparation_time} onChange={(e) => update('preparation_time', Number(e.target.value))} className="input-z mt-1" />
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-ztext-light cursor-pointer">
             <input type="checkbox" checked={form.is_vegetarian} onChange={(e) => update('is_vegetarian', e.target.checked)} className="rounded border-gray-300 text-zred focus:ring-zred/30" />
             Vegetarian
           </label>
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-ztext-light cursor-pointer">
             <input type="checkbox" checked={form.is_vegan} onChange={(e) => update('is_vegan', e.target.checked)} className="rounded border-gray-300 text-zred focus:ring-zred/30" />
             Vegan
           </label>
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-ztext-light cursor-pointer">
             <input type="checkbox" checked={form.is_gluten_free} onChange={(e) => update('is_gluten_free', e.target.checked)} className="rounded border-gray-300 text-zred focus:ring-zred/30" />
             Gluten free
           </label>
@@ -141,35 +141,35 @@ export default function NewProductPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="text-xs font-medium text-gray-500">Image URL</label>
+            <label className="text-xs font-medium text-ztext-lighter">Image URL</label>
             <input value={form.image} onChange={(e) => update('image', e.target.value)} className="input-z mt-1" placeholder="https://..." />
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500">Tags (comma separated)</label>
+            <label className="text-xs font-medium text-ztext-lighter">Tags (comma separated)</label>
             <input value={form.tags} onChange={(e) => update('tags', e.target.value)} className="input-z mt-1" placeholder="bestseller, spicy" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="text-xs font-medium text-gray-500">Stock quantity</label>
+            <label className="text-xs font-medium text-ztext-lighter">Stock quantity</label>
             <input type="number" min={0} value={form.stock_quantity} onChange={(e) => update('stock_quantity', Number(e.target.value))} className="input-z mt-1" />
           </div>
           <div className="flex items-end pb-2">
-            <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+            <label className="flex items-center gap-2 text-sm text-ztext-light cursor-pointer">
               <input type="checkbox" checked={form.track_inventory} onChange={(e) => update('track_inventory', e.target.checked)} className="rounded border-gray-300 text-zred focus:ring-zred/30" />
               Track inventory
             </label>
           </div>
         </div>
 
-        {error && <p className="text-xs text-red-500">{error}</p>}
+        {error && <p className="text-xs text-red-400">{error}</p>}
 
         <div className="flex gap-3 pt-2">
           <button type="submit" disabled={saving} className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-zred text-white text-sm font-medium rounded-xl hover:bg-zred-dark transition-colors disabled:opacity-50">
             <Save size={16} /> {saving ? 'Saving...' : 'Save product'}
           </button>
-          <Link href="/dashboard/merchant/products" className="inline-flex items-center px-5 py-2.5 bg-white text-gray-700 border border-gray-200 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">Cancel</Link>
+          <Link href="/dashboard/merchant/products" className="inline-flex items-center px-5 py-2.5 bg-zcard text-ztext-light border border-zborder text-sm font-medium rounded-xl hover:bg-zgray transition-colors">Cancel</Link>
         </div>
       </form>
     </div>

@@ -15,7 +15,7 @@ export default function CartPage() {
       <div className="page-pad">
         <div className="container-z mx-auto max-w-3xl">
           <h1 className="text-2xl font-bold text-ztext">Your bag</h1>
-          <div className="mt-8 bg-white rounded-xl shadow-z p-12 text-center">
+          <div className="mt-8 bg-zcard rounded-xl shadow-z p-12 text-center">
             <ShoppingBag size={48} className="mx-auto mb-4" style={{ color: '#9C9C9C' }} />
             <p className="text-lg font-medium text-ztext-light">Your bag is empty</p>
             <p className="mt-1 text-sm text-ztext-lighter">Browse our menu and add items to get started.</p>
@@ -32,7 +32,7 @@ export default function CartPage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-ztext">Your bag</h1>
-            <p className="text-ztext-light text-sm mt-1">Dilipda • {count} item{count > 1 ? 's' : ''}</p>
+            <p className="text-ztext-light text-sm mt-1">Dilip Da • {count} item{count > 1 ? 's' : ''}</p>
           </div>
           <button onClick={clearCart} className="text-sm text-ztext-lighter hover:text-zred transition-colors">Clear</button>
         </div>
@@ -40,7 +40,7 @@ export default function CartPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-3">
             {items.map((item) => (
-              <div key={item.id} className="bg-white rounded-xl shadow-z p-4 flex gap-4 items-center">
+              <div key={item.id} className="bg-zcard rounded-xl shadow-z p-4 flex gap-4 items-center">
                 <div className="w-16 h-16 rounded-lg overflow-hidden bg-zgray shrink-0 relative">
                   <Image src={item.image} alt={item.name} fill className="object-cover" sizes="64px" />
                 </div>
@@ -64,7 +64,7 @@ export default function CartPage() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-xl shadow-z p-6 h-fit sticky top-24">
+          <div className="bg-zcard rounded-xl shadow-z p-6 h-fit sticky top-24">
             <h2 className="font-bold text-ztext mb-4">Bill details</h2>
             <div className="space-y-2.5 text-sm">
               <div className="flex justify-between text-ztext-light"><span>Item total</span><span className="font-medium text-ztext">₹{subtotal()}</span></div>

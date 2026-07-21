@@ -82,34 +82,34 @@ export default function AdminStudentsPage() {
   const columns = [
     { key: 'name', header: 'Name', sortable: true, render: (s: AdminStudent) => (
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-xs font-bold text-gray-600">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-xs font-bold text-ztext-light">
           {s.full_name.charAt(0).toUpperCase()}
         </div>
         <div>
-          <p className="font-medium text-gray-900">{s.full_name}</p>
-          <p className="text-xs text-gray-500">{s.email}</p>
+          <p className="font-medium text-ztext">{s.full_name}</p>
+          <p className="text-xs text-ztext-lighter">{s.email}</p>
         </div>
       </div>
     )},
     { key: 'phone', header: 'Phone', render: (s: AdminStudent) => (
-      <span className="text-gray-600">{s.phone ?? '-'}</span>
+      <span className="text-ztext-light">{s.phone ?? '-'}</span>
     ), hideOnMobile: true },
     { key: 'status', header: 'Status', render: (s: AdminStudent) => (
       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-        s.is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+        s.is_active ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
       }`}>
         <span className={`w-1.5 h-1.5 rounded-full ${s.is_active ? 'bg-emerald-500' : 'bg-red-500'}`} />
         {s.is_active ? 'Active' : 'Suspended'}
       </span>
     )},
     { key: 'credit', header: 'Credit', render: (s: AdminStudent) => (
-      <span className="text-xs text-gray-600">
+      <span className="text-xs text-ztext-light">
         {s.credit_account ? `₹${Number(s.credit_account.credit_limit).toLocaleString('en-IN')}` : 'No account'}
       </span>
     ), hideOnMobile: true },
     { key: 'verification', header: 'Verification', render: (s: AdminStudent) => {
       const v = s.credit_account?.verification_status;
-      const color = v === 'verified' ? 'text-emerald-700 bg-emerald-50' : v === 'pending' ? 'text-amber-700 bg-amber-50' : 'text-red-700 bg-red-50';
+      const color = v === 'verified' ? 'text-emerald-400 bg-emerald-500/10' : v === 'pending' ? 'text-amber-400 bg-amber-500/10' : 'text-red-400 bg-red-500/10';
       return (
         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
           {v ?? 'N/A'}
@@ -117,26 +117,26 @@ export default function AdminStudentsPage() {
       );
     }, hideOnMobile: true },
     { key: 'created', header: 'Joined', sortable: true, render: (s: AdminStudent) => (
-      <span className="text-xs text-gray-500">{new Date(s.created_at).toLocaleDateString()}</span>
+      <span className="text-xs text-ztext-lighter">{new Date(s.created_at).toLocaleDateString()}</span>
     ), hideOnMobile: true },
     { key: 'actions', header: 'Actions', render: (s: AdminStudent) => (
       <div className="flex items-center gap-1">
         {s.is_active ? (
-          <button onClick={() => setConfirmAction({ type: 'suspend', id: s.id })} className="p-1.5 hover:bg-red-50 rounded-lg text-gray-400 hover:text-red-600 transition-colors" title="Suspend">
+          <button onClick={() => setConfirmAction({ type: 'suspend', id: s.id })} className="p-1.5 hover:bg-red-500/10 rounded-lg text-ztext-muted hover:text-red-400 transition-colors" title="Suspend">
             <ShieldOff size={14} />
           </button>
         ) : (
-          <button onClick={() => setConfirmAction({ type: 'unsuspend', id: s.id })} className="p-1.5 hover:bg-emerald-50 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors" title="Restore">
+          <button onClick={() => setConfirmAction({ type: 'unsuspend', id: s.id })} className="p-1.5 hover:bg-emerald-500/10 rounded-lg text-ztext-muted hover:text-emerald-600 transition-colors" title="Restore">
             <Shield size={14} />
           </button>
         )}
         {s.credit_account && s.credit_account.verification_status !== 'verified' && (
-          <button onClick={() => handleVerify(s.id)} className="p-1.5 hover:bg-blue-50 rounded-lg text-gray-400 hover:text-blue-600 transition-colors" title="Verify">
+          <button onClick={() => handleVerify(s.id)} className="p-1.5 hover:bg-blue-500/10 rounded-lg text-ztext-muted hover:text-blue-600 transition-colors" title="Verify">
             <CheckCircle size={14} />
           </button>
         )}
         {s.credit_account && s.credit_account.verification_status === 'verified' && (
-          <button onClick={() => setConfirmAction({ type: 'reset_verification', id: s.id })} className="p-1.5 hover:bg-amber-50 rounded-lg text-gray-400 hover:text-amber-600 transition-colors" title="Reset verification">
+          <button onClick={() => setConfirmAction({ type: 'reset_verification', id: s.id })} className="p-1.5 hover:bg-amber-500/10 rounded-lg text-ztext-muted hover:text-amber-400 transition-colors" title="Reset verification">
             <Clock size={14} />
           </button>
         )}
@@ -149,11 +149,11 @@ export default function AdminStudentsPage() {
       <PageHeader title="Students" description={`${total} registered student${total !== 1 ? 's' : ''}`}>
         {selectedIds.length > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">{selectedIds.length} selected</span>
-            <button onClick={() => setConfirmAction({ type: 'bulk_suspend', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors">
+            <span className="text-xs text-ztext-lighter">{selectedIds.length} selected</span>
+            <button onClick={() => setConfirmAction({ type: 'bulk_suspend', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors">
               Suspend all
             </button>
-            <button onClick={() => setConfirmAction({ type: 'bulk_unsuspend', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition-colors">
+            <button onClick={() => setConfirmAction({ type: 'bulk_unsuspend', ids: selectedIds })} className="px-3 py-1.5 text-xs font-medium bg-emerald-500/10 text-emerald-400 rounded-lg hover:bg-emerald-100 transition-colors">
               Restore all
             </button>
           </div>
@@ -169,12 +169,12 @@ export default function AdminStudentsPage() {
           { label: 'Active', value: 'active' },
           { label: 'Suspended', value: 'suspended' },
         ]} />
-        <button onClick={() => fetchStudents()} aria-label="Refresh students" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={() => fetchStudents()} aria-label="Refresh students" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
           <RefreshCw size={18} />
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200">
+      <div className="bg-zcard rounded-xl border border-zborder">
         <DataTable
           columns={columns}
           data={students as unknown as Record<string, unknown>[]}

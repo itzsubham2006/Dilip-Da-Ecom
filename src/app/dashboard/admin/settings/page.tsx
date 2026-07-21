@@ -41,7 +41,7 @@ export default function AdminSettingsPage() {
   if (loading) {
     return (
       <div>
-        <div className="h-8 w-48 bg-gray-100 rounded-lg animate-pulse mb-6" />
+        <div className="h-8 w-48 bg-zgray rounded-lg animate-pulse mb-6" />
         <LoadingSkeleton rows={6} cols={2} />
       </div>
     );
@@ -73,26 +73,26 @@ export default function AdminSettingsPage() {
   return (
     <div>
       <PageHeader title="System Settings" description="Configure platform-wide settings">
-        <button onClick={fetchSettings} aria-label="Refresh settings" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors">
+        <button onClick={fetchSettings} aria-label="Refresh settings" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors">
           <RefreshCw size={18} />
         </button>
       </PageHeader>
 
       <div className="space-y-6">
         {Object.entries(grouped).map(([group, items]) => (
-          <div key={group} className="bg-white rounded-xl border border-gray-200">
-            <div className="px-5 py-3 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">{group}</h2>
+          <div key={group} className="bg-zcard rounded-xl border border-zborder">
+            <div className="px-5 py-3 border-b border-zborder">
+              <h2 className="text-sm font-semibold text-ztext">{group}</h2>
             </div>
             <div className="divide-y divide-gray-100">
               {items.map((setting) => (
                 <div key={setting.id} className="px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-ztext">
                       {setting.key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
                     </p>
                     {setting.description && (
-                      <p className="text-xs text-gray-500 mt-0.5">{setting.description}</p>
+                      <p className="text-xs text-ztext-lighter mt-0.5">{setting.description}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-3">
@@ -104,11 +104,11 @@ export default function AdminSettingsPage() {
                             setEditingValues((prev) => ({ ...prev, [setting.key]: newVal }));
                             handleSave(setting.id, setting.key);
                           }}
-                          className={`relative w-10 h-6 rounded-full transition-colors ${editingValues[setting.key] === 'true' ? 'bg-zred' : 'bg-gray-200'}`}
+                          className={`relative w-10 h-6 rounded-full transition-colors ${editingValues[setting.key] === 'true' ? 'bg-zred' : 'bg-zsurface'}`}
                         >
                           <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${editingValues[setting.key] === 'true' ? 'translate-x-[18px]' : 'translate-x-0.5'}`} />
                         </button>
-                        <span className="text-xs text-gray-500 w-8">{editingValues[setting.key] === 'true' ? 'On' : 'Off'}</span>
+                        <span className="text-xs text-ztext-lighter w-8">{editingValues[setting.key] === 'true' ? 'On' : 'Off'}</span>
                       </div>
                     ) : setting.type === 'number' ? (
                       <div className="flex items-center gap-2">
@@ -116,12 +116,12 @@ export default function AdminSettingsPage() {
                           type="number"
                           value={editingValues[setting.key] ?? ''}
                           onChange={(e) => setEditingValues((prev) => ({ ...prev, [setting.key]: e.target.value }))}
-                          className="w-24 px-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred text-right"
+                          className="w-24 px-3 py-1.5 text-sm border border-zborder rounded-lg focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred text-right"
                         />
                         <button
                           onClick={() => handleSave(setting.id, setting.key)}
                           disabled={saving === setting.id}
-                          className="p-1.5 hover:bg-zred/10 rounded-lg text-gray-400 hover:text-zred transition-colors"
+                          className="p-1.5 hover:bg-zred/10 rounded-lg text-ztext-muted hover:text-zred transition-colors"
                         >
                           {saving === setting.id ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
                         </button>
@@ -132,12 +132,12 @@ export default function AdminSettingsPage() {
                           type="text"
                           value={editingValues[setting.key] ?? ''}
                           onChange={(e) => setEditingValues((prev) => ({ ...prev, [setting.key]: e.target.value }))}
-                          className="w-48 px-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred"
+                          className="w-48 px-3 py-1.5 text-sm border border-zborder rounded-lg focus:outline-none focus:ring-2 focus:ring-zred/20 focus:border-zred"
                         />
                         <button
                           onClick={() => handleSave(setting.id, setting.key)}
                           disabled={saving === setting.id}
-                          className="p-1.5 hover:bg-zred/10 rounded-lg text-gray-400 hover:text-zred transition-colors"
+                          className="p-1.5 hover:bg-zred/10 rounded-lg text-ztext-muted hover:text-zred transition-colors"
                         >
                           {saving === setting.id ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
                         </button>

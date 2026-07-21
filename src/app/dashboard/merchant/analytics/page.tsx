@@ -69,19 +69,19 @@ export default function AnalyticsPage() {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Analytics</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-ztext">Analytics</h1>
         <div className="flex items-center gap-2">
-          <select value={period} onChange={(e) => setPeriod(Number(e.target.value))} className="px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-zred/20">
+          <select value={period} onChange={(e) => setPeriod(Number(e.target.value))} className="px-3 py-2 rounded-xl border border-zborder text-sm focus:outline-none focus:ring-2 focus:ring-zred/20">
             <option value={7}>Last 7 days</option>
             <option value={30}>Last 30 days</option>
             <option value={90}>Last 90 days</option>
           </select>
-          <button onClick={fetchData} aria-label="Refresh analytics" className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-500 transition-colors"><RefreshCw size={18} /></button>
+          <button onClick={fetchData} aria-label="Refresh analytics" className="p-2.5 rounded-xl hover:bg-zgray text-ztext-lighter transition-colors"><RefreshCw size={18} /></button>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <StatCard label="Total Revenue" value={`₹${totalRevenue}`} icon={DollarSign} color="#E23744" />
+        <StatCard label="Total Revenue" value={`₹${totalRevenue}`} icon={DollarSign} color="#EF4444" />
         <StatCard label="Total Orders" value={String(totalOrders)} icon={ShoppingBag} color="#6366f1" />
         <StatCard label="Avg Order Value" value={`₹${avgOrderValue}`} icon={TrendingUp} color="#10b981" />
         <StatCard label="Today's Orders" value={String(dashData?.today_orders ?? 0)} icon={Clock} color="#f59e0b" />
@@ -92,7 +92,7 @@ export default function AnalyticsPage() {
           {loading && !revenue ? (
             <Skeleton className="h-48" />
           ) : !revenue || revenue.daily.length === 0 ? (
-            <p className="text-xs text-gray-500 py-8 text-center">No revenue data for this period.</p>
+            <p className="text-xs text-ztext-lighter py-8 text-center">No revenue data for this period.</p>
           ) : (
             <div className="space-y-1">
               <div className="flex items-end gap-1 h-40">
@@ -101,11 +101,11 @@ export default function AnalyticsPage() {
                   const h = (d.revenue / max) * 100;
                   return (
                     <div key={d.date} className="flex-1 flex flex-col items-center gap-1 group relative">
-                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zcard text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
                         ₹{d.revenue} ({d.orders} orders)
                       </div>
-                      <div className="w-full rounded-t-md transition-all hover:opacity-80" style={{ height: `${h}%`, minHeight: 4, backgroundColor: '#E23744' }} />
-                      <span className="text-[9px] text-gray-400 -rotate-45 origin-left whitespace-nowrap">{new Date(d.date).getDate()}/{new Date(d.date).getMonth() + 1}</span>
+                      <div className="w-full rounded-t-md transition-all hover:opacity-80" style={{ height: `${h}%`, minHeight: 4, backgroundColor: 'var(--color-zred)' }} />
+                      <span className="text-[9px] text-ztext-muted -rotate-45 origin-left whitespace-nowrap">{new Date(d.date).getDate()}/{new Date(d.date).getMonth() + 1}</span>
                     </div>
                   );
                 })}
@@ -116,19 +116,19 @@ export default function AnalyticsPage() {
 
         <DashboardCard title="Popular Products">
           {loading && !dashData ? <Skeleton className="h-32" /> : !dashData || dashData.popular_products.length === 0 ? (
-            <p className="text-xs text-gray-500 py-4 text-center">No data yet</p>
+            <p className="text-xs text-ztext-lighter py-4 text-center">No data yet</p>
           ) : (
             <div className="space-y-3">
               {dashData.popular_products.slice(0, 8).map((p, i) => (
                 <div key={p.id} className="flex items-center gap-3">
-                  <span className="w-5 text-xs font-bold text-gray-400">#{i + 1}</span>
+                  <span className="w-5 text-xs font-bold text-ztext-muted">#{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{p.name}</p>
-                    <div className="w-full bg-gray-100 rounded-full h-1.5 mt-1">
+                    <p className="text-sm font-medium text-ztext truncate">{p.name}</p>
+                    <div className="w-full bg-zgray rounded-full h-1.5 mt-1">
                       <div className="bg-zred h-1.5 rounded-full" style={{ width: `${Math.min(100, (p.count / Math.max(...dashData.popular_products.map((x) => x.count), 1)) * 100)}%` }} />
                     </div>
                   </div>
-                  <span className="text-xs font-medium text-gray-500">{p.count} orders</span>
+                  <span className="text-xs font-medium text-ztext-lighter">{p.count} orders</span>
                 </div>
               ))}
             </div>
@@ -138,20 +138,20 @@ export default function AnalyticsPage() {
         <DashboardCard title="Summary">
           <div className="space-y-4">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Average order value</span>
-              <span className="font-semibold text-gray-900">₹{avgOrderValue}</span>
+              <span className="text-ztext-lighter">Average order value</span>
+              <span className="font-semibold text-ztext">₹{avgOrderValue}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Daily average revenue</span>
-              <span className="font-semibold text-gray-900">₹{revenue?.daily.length ? Math.round(totalRevenue / revenue.daily.length) : 0}</span>
+              <span className="text-ztext-lighter">Daily average revenue</span>
+              <span className="font-semibold text-ztext">₹{revenue?.daily.length ? Math.round(totalRevenue / revenue.daily.length) : 0}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Peak hour</span>
-              <span className="font-semibold text-gray-900">{peakHour}</span>
+              <span className="text-ztext-lighter">Peak hour</span>
+              <span className="font-semibold text-ztext">{peakHour}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Repeat customers</span>
-              <span className="font-semibold text-gray-900">--</span>
+              <span className="text-ztext-lighter">Repeat customers</span>
+              <span className="font-semibold text-ztext">--</span>
             </div>
           </div>
         </DashboardCard>

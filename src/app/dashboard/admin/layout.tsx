@@ -60,28 +60,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-zgray">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:z-auto ${
+      <aside className={`fixed top-0 left-0 z-50 h-full w-64 bg-zcard border-r border-zborder transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:z-auto ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="flex items-center justify-between px-5 h-16 border-b border-gray-100">
+        <div className="flex items-center justify-between px-5 h-16 border-b border-zborder">
           <Link href="/dashboard/admin" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-zred flex items-center justify-center">
               <Shield size={16} className="text-white" />
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-900 leading-tight">Admin</p>
-              <p className="text-[10px] text-gray-500 leading-tight">Panel</p>
+              <p className="text-sm font-bold text-ztext leading-tight">Admin</p>
+              <p className="text-[10px] text-ztext-lighter leading-tight">Panel</p>
             </div>
           </Link>
-          <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar" className="lg:hidden p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
-            <X size={18} className="text-gray-500" />
+          <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar" className="lg:hidden p-1.5 hover:bg-zgray rounded-lg transition-colors">
+            <X size={18} className="text-ztext-lighter" />
           </button>
         </div>
 
@@ -93,8 +93,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 isActive(item.href)
-                  ? 'bg-zred/10 text-zred shadow-sm'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-zred/10 text-zred shadow-z'
+                  : 'text-ztext-light hover:bg-zgray hover:text-ztext'
               }`}
             >
               <item.icon size={18} />
@@ -107,10 +107,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
           ))}
 
-          <div className="pt-4 mt-4 border-t border-gray-100">
+          <div className="pt-4 mt-4 border-t border-zborder">
             <button
               onClick={handleSignOut}
-              className="flex w-full items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-red-600 transition-all"
+              className="flex w-full items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ztext-light hover:bg-zgray hover:text-red-400 transition-all"
             >
               <LogOut size={18} />
               <span>Sign out</span>
@@ -122,28 +122,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main content area */}
       <div className="lg:pl-64">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-white sm:bg-white/80 sm:backdrop-blur-lg border-b border-gray-200">
+        <header className="sticky top-0 z-30 bg-zcard sm:bg-zgray/80 sm:backdrop-blur-lg border-b border-zborder">
           <div className="flex items-center justify-between px-4 lg:px-6 h-16">
-            <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="lg:hidden p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors">
-              <Menu size={20} className="text-gray-600" />
+            <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="lg:hidden p-2 -ml-2 hover:bg-zgray rounded-lg transition-colors">
+              <Menu size={20} className="text-ztext-light" />
             </button>
 
             <div className="hidden lg:flex items-center gap-2">
-              <span className="text-xs text-gray-400">Super Admin</span>
+              <span className="text-xs text-ztext-muted">Super Admin</span>
             </div>
 
             <div className="flex items-center gap-3">
-              <button aria-label="Notifications" className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <Bell size={18} className="text-gray-500" />
+              <button aria-label="Notifications" className="relative p-2 hover:bg-zgray rounded-lg transition-colors">
+                <Bell size={18} className="text-ztext-lighter" />
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-zred rounded-full" />
               </button>
-              <div className="flex items-center gap-2.5 pl-3 border-l border-gray-200">
+              <div className="flex items-center gap-2.5 pl-3 border-l border-zborder">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-zred to-red-400 flex items-center justify-center text-white text-xs font-bold">
                   {adminName.charAt(0).toUpperCase()}
                 </div>
                 <div className="hidden sm:block">
-                  <p className="text-sm font-medium text-gray-900 leading-tight">{adminName}</p>
-                  <p className="text-[11px] text-gray-500 leading-tight capitalize">{adminRole.replace('_', ' ')}</p>
+                  <p className="text-sm font-medium text-ztext leading-tight">{adminName}</p>
+                  <p className="text-[11px] text-ztext-lighter leading-tight capitalize">{adminRole.replace('_', ' ')}</p>
                 </div>
               </div>
             </div>
