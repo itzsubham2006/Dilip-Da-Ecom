@@ -8,7 +8,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { useCartStore } from '@/features/cart/store';
 
 // We'll keep this empty as requested to remove dummy orders
-const sampleOrders: any[] = [];
+const sampleOrders: { id: string, date: string, items: string[], total: number, status: string }[] = [];
 
 const statusColors: Record<string, string> = {
   Placed: 'bg-yellow-500/15 text-yellow-500',
@@ -46,7 +46,7 @@ export default function OrdersPage() {
       <div className="container-z mx-auto max-w-3xl">
         
         {/* Top Toggle Navigation */}
-        <div className="flex items-center gap-2 mb-8 bg-zcard p-1 rounded-2xl border border-zborder max-w-xs mx-auto sm:mx-0">
+        <div className="flex items-center gap-2 mb-8 bg-zcard p-1 rounded-2xl border border-zborder max-w-xs mx-auto">
           <button 
             onClick={() => setActiveTab('cart')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all ${
@@ -121,7 +121,7 @@ export default function OrdersPage() {
               <div className="bg-zcard rounded-xl border border-zborder p-8 text-center mt-4">
                 <ShoppingBag size={40} className="mx-auto mb-4 text-ztext-muted/30" />
                 <h1 className="text-xl font-bold text-ztext mb-2">Your cart is empty</h1>
-                <p className="text-sm text-ztext-light mb-6">Looks like you haven't added anything to your cart yet.</p>
+                <p className="text-sm text-ztext-light mb-6">Looks like you haven&apos;t added anything to your cart yet.</p>
                 <Link href="/menu" className="button-z button-z-primary px-8">
                   Browse Menu
                 </Link>
@@ -140,7 +140,7 @@ export default function OrdersPage() {
               <div className="bg-zcard rounded-xl border border-zborder p-8 text-center mt-4">
                 <ClipboardList size={40} className="mx-auto mb-4 text-ztext-muted/30" />
                 <p className="text-xl font-bold text-ztext mb-2">No past orders</p>
-                <p className="text-sm text-ztext-light mt-1 mb-6">You haven't placed any orders yet.</p>
+                <p className="text-sm text-ztext-light mt-1 mb-6">You haven&apos;t placed any orders yet.</p>
                 <button onClick={() => setActiveTab('cart')} className="button-z button-z-primary px-8">
                   View Cart
                 </button>
