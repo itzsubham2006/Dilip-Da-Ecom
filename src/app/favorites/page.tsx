@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, Minus, Plus, ShoppingBag } from 'lucide-react';
-import { useFavoritesStore } from '@/features/favorites/store';
+import { Heart, Minus, Plus } from 'lucide-react';
+import { useFavoritesStore, FavoriteItem } from '@/features/favorites/store';
 import { useCartStore } from '@/features/cart/store';
 import FavoriteButton from '@/components/shared/FavoriteButton';
 
@@ -15,8 +15,8 @@ export default function FavoritesPage() {
     return cartItems.find((i) => i.id === id)?.quantity ?? 0;
   }
 
-  function handleAdd(item: any) {
-    addItem({ id: item.id, name: item.name, price: item.price, veg: item.veg, image: item.img || item.image });
+  function handleAdd(item: FavoriteItem) {
+    addItem({ id: item.id, name: item.name, price: item.price, veg: item.veg ?? false, image: item.img || item.image! });
   }
 
   if (items.length === 0) {
@@ -27,7 +27,7 @@ export default function FavoritesPage() {
         </div>
         <h1 className="text-2xl font-black text-ztext mb-3">No favorites yet</h1>
         <p className="text-ztext-light max-w-sm mb-8">
-          You haven't saved any dishes. Explore our menu and tap the heart icon on your favorite items to save them here!
+          You haven&apos;t saved any dishes. Explore our menu and tap the heart icon on your favorite items to save them here!
         </p>
         <Link href="/menu" className="button-z button-z-primary px-8">
           Explore Menu

@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { UserRound, ShoppingBag, Home, UtensilsCrossed, ClipboardList, Heart, Menu, X, ChevronLeft } from 'lucide-react';
+import { UserRound, Home, UtensilsCrossed, ClipboardList, Heart, ChevronLeft } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store';
-import { useCartStore } from '@/features/cart/store';
 import { useRouter } from 'next/navigation';
 
 const navLinks = [
@@ -18,8 +16,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
-  const cartCount = useCartStore((s) => s.totalItems());
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function isActive(href: string): boolean {
     if (href === '/') return pathname === '/';

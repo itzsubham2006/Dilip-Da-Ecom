@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Home, ShoppingBag, Users, TrendingUp, Settings, LogOut, Bell, UtensilsCrossed } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store';
@@ -79,8 +80,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               <Bell size={20} />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-zred rounded-full border border-zcard"></span>
             </button>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 shadow-sm border border-zborder overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" alt="Admin avatar" className="w-full h-full object-cover" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 shadow-sm border border-zborder overflow-hidden relative">
+              <Image src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" alt="Admin avatar" fill sizes="32px" className="object-cover" />
             </div>
           </div>
         </header>
