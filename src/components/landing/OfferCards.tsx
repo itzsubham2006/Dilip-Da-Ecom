@@ -1,96 +1,90 @@
 'use client';
 
 import Image from 'next/image';
-import { ShoppingBag, Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Plus, Minus, Flame } from 'lucide-react';
 import { useCartStore } from '@/features/cart/store';
 import { showToast } from '@/components/shared/Toast';
 
-const offers = [
-  { id: 'offer-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop', price: 280, subtext: 'Min. Order ₹499', veg: false },
-  { id: 'offer-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop', price: 220, subtext: 'Min. Order ₹349', veg: false },
-  { id: 'offer-3', name: 'Shorshe Ilish', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop', price: 350, subtext: 'Free delivery', veg: false },
-  { id: 'offer-4', name: 'Mutton Kosha', image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop', price: 320, subtext: 'Min. Order ₹599', veg: false },
-  { id: 'offer-5', name: 'Misti Doi', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop', price: 80, subtext: 'Combo offer ₹149', veg: true },
-  { id: 'offer-6', name: 'Daal & Rice', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=400&fit=crop', price: 160, subtext: 'Min. Order ₹249', veg: true },
+const popularPicks = [
+  { id: 'offer-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&h=200&fit=crop', price: 280, veg: false },
+  { id: 'offer-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&h=200&fit=crop', price: 220, veg: false },
+  { id: 'offer-3', name: 'Shorshe Ilish', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=200&h=200&fit=crop', price: 350, veg: false },
+  { id: 'offer-4', name: 'Mutton Kosha', image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=200&h=200&fit=crop', price: 320, veg: false },
+  { id: 'offer-5', name: 'Misti Doi', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=200&h=200&fit=crop', price: 80, veg: true },
+  { id: 'offer-6', name: 'Daal & Rice', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200&h=200&fit=crop', price: 160, veg: true },
 ];
 
 export default function OfferCards() {
-  const router = useRouter();
-  const addItem = useCartStore((s) => s.addItem);
+  const { addItem, items, updateQuantity } = useCartStore();
 
-  function handleAddToCart(dish: (typeof offers)[0]) {
-    addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image });
-    showToast(`${dish.name} added to cart`);
+  function getQty(id: string) {
+    return items.find((i) => i.id === id)?.quantity ?? 0;
   }
 
-  function handleOrderNow(dish: (typeof offers)[0]) {
-    addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image });
-    router.push('/cart');
+  function handleAdd(pick: (typeof popularPicks)[0]) {
+    addItem({ id: pick.id, name: pick.name, price: pick.price, veg: pick.veg, image: pick.image });
   }
 
   return (
-    <section className="py-12 sm:py-16 bg-zgray">
+    <section className="py-5 sm:py-8 bg-zbg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8 sm:mb-10">
-          <h2 className="text-xl sm:text-2xl font-bold text-ztext tracking-tight">
-            Save More As You Order
-          </h2>
-          <p className="text-ztext-light text-sm mt-1">
-            Exclusive deals on your favourite Bengali meals
-          </p>
-        </div>
+        <h2 className="text-base sm:text-lg font-bold text-ztext mb-4 flex items-center gap-1.5">
+          <Flame size={18} className="text-zred" /> Popular Picks
+        </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
-          {offers.map((dish) => (
-            <div
-              key={dish.id}
-              className="flex flex-col bg-zcard border border-zborder rounded-2xl overflow-hidden transition-shadow hover:shadow-z-hover mx-4 sm:mx-0"
-            >
-              <div className="relative aspect-square">
-                <Image
-                  src={dish.image}
-                  alt={dish.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  loading="lazy"
-                  unoptimized
-                />
-              </div>
-
-              <div className="flex flex-col flex-1 p-4 sm:p-5 text-center">
-                <h3 className="font-bold text-ztext text-sm line-clamp-2 leading-snug min-h-[2.5em]">
-                  {dish.name}
-                </h3>
-
-                <p className="text-ztext-light text-xs mt-1.5 line-clamp-1">
-                  {dish.subtext}
-                </p>
-
-                <div className="mt-2">
-                  <button className="text-xs font-semibold text-zred underline underline-offset-2 hover:text-zred-dark transition-colors">
-                    View Details
-                  </button>
+        <div
+          className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+          style={{ scrollSnapType: 'x mandatory' }}
+        >
+          {popularPicks.map((pick) => {
+            const qty = getQty(pick.id);
+            return (
+              <div
+                key={pick.id}
+                className="flex-none w-[120px] sm:w-[140px] text-center"
+                style={{ scrollSnapAlign: 'start' }}
+              >
+                {/* Round image */}
+                <div className="relative w-[90px] h-[90px] sm:w-[105px] sm:h-[105px] mx-auto rounded-full overflow-hidden border-2 border-zborder bg-zgray">
+                  <Image
+                    src={pick.image}
+                    alt={pick.name}
+                    fill
+                    className="object-cover"
+                    sizes="105px"
+                    loading="lazy"
+                    unoptimized
+                  />
                 </div>
 
-                <div className="mt-auto pt-4 flex flex-col gap-2">
-                  <button
-                    onClick={() => handleAddToCart(dish)}
-                    className="w-full text-xs font-bold text-ztext border border-zborder bg-zcard rounded-full py-2 hover:opacity-85 transition-opacity flex items-center justify-center gap-1.5"
-                  >
-                    <Plus size={12} /> Add to Cart
-                  </button>
-                  <button
-                    onClick={() => handleOrderNow(dish)}
-                    className="w-full text-xs font-bold text-white bg-black rounded-full py-2.5 hover:opacity-85 transition-opacity flex items-center justify-center gap-1.5"
-                  >
-                    <ShoppingBag size={12} /> Order Now
-                  </button>
+                {/* Name + price */}
+                <p className="font-semibold text-ztext text-xs mt-2 truncate">{pick.name}</p>
+                <p className="text-xs text-ztext-light mt-0.5">₹{pick.price}</p>
+
+                {/* Add / quantity control */}
+                <div className="mt-1.5 flex justify-center">
+                  {qty === 0 ? (
+                    <button
+                      onClick={() => handleAdd(pick)}
+                      className="w-[72px] h-7 flex items-center justify-center gap-1 text-[11px] font-bold text-zred border border-zred rounded-full hover:bg-zred hover:text-white transition-colors"
+                    >
+                      <Plus size={10} /> ADD
+                    </button>
+                  ) : (
+                    <div className="w-[72px] h-7 flex items-center justify-between bg-zred text-white rounded-full px-1.5">
+                      <button onClick={() => updateQuantity(pick.id, qty - 1)} className="p-1 hover:bg-white/20 rounded-full transition-colors flex items-center justify-center" aria-label={`Decrease ${pick.name}`}>
+                        <Minus size={10} />
+                      </button>
+                      <span className="text-xs font-bold w-4 text-center">{qty}</span>
+                      <button onClick={() => updateQuantity(pick.id, qty + 1)} className="p-1 hover:bg-white/20 rounded-full transition-colors flex items-center justify-center" aria-label={`Increase ${pick.name}`}>
+                        <Plus size={10} />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

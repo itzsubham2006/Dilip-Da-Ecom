@@ -36,7 +36,7 @@ export default function OrderConfirmedPage() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 mt-8">
-          <Link href="/order/track" className="button-z button-z-primary flex-1 h-12">Track order</Link>
+          <Link href="/orders" className="button-z button-z-primary flex-1 h-12">My orders</Link>
           <Link href="/" className="button-z button-z-outline flex-1 h-12">Order again</Link>
         </div>
       </div>

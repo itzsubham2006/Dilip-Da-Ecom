@@ -15,10 +15,16 @@ export default function LoginForm() {
     e.preventDefault();
     setError('');
     setLoading(true);
+
     const { user, error: err } = await authService.signIn(email, password);
     setLoading(false);
     if (err) { setError(err); return; }
-    window.location.href = user?.role ? '/' : '/auth/onboarding';
+
+    if (user?.role === 'admin') {
+      window.location.href = '/admin';
+    } else {
+      window.location.href = user?.role ? '/' : '/auth/onboarding';
+    }
   }
 
   return (

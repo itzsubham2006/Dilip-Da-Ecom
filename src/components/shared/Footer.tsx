@@ -1,41 +1,31 @@
-import Link from 'next/link';
+'use client';
+
+import { MapPin, Phone } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
-  return (
-    <footer className="footer-z bg-[#202124] border-t border-white/10">
-      <div className="container-z mx-auto px-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
-          <div>
-            <h2 className="font-bold text-white mb-4 text-xs uppercase tracking-wider">About</h2>
-            <div className="space-y-2 text-xs text-white/60">
-              <p className="cursor-pointer hover:text-white transition-colors">About Us</p>
-              <p className="cursor-pointer hover:text-white transition-colors">Team</p>
-              <p className="cursor-pointer hover:text-white transition-colors">Careers</p>
-              <p className="cursor-pointer hover:text-white transition-colors">Blog</p>
-            </div>
-          </div>
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) return null;
 
-          <div>
-            <h2 className="font-bold text-white mb-4 text-xs uppercase tracking-wider">Learn More</h2>
-            <div className="space-y-2 text-xs text-white/60">
-              <Link href="/privacy" className="block hover:text-white transition-colors">Privacy</Link>
-              <Link href="/security" className="block hover:text-white transition-colors">Security</Link>
-              <Link href="/terms" className="block hover:text-white transition-colors">Terms</Link>
-              <Link href="/sitemap" className="block hover:text-white transition-colors">Sitemap</Link>
-            </div>
+  return (
+    <footer className="bg-zgray border-t border-zborder py-6 pb-20 sm:pb-6">
+      <div className="container-z mx-auto px-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <div className="flex items-center gap-2">
+            <span className="font-black text-ztext text-sm">
+              Dilip<span className="text-zred"> Da</span>
+            </span>
+            <span className="text-xs text-ztext-lighter">&mdash; Order food. Pay fair.</span>
           </div>
-          <div>
-            <h2 className="font-bold text-white mb-4 text-xs uppercase tracking-wider">Social</h2>
-            <div className="space-y-2 text-xs text-white/60">
-              <p className="cursor-pointer hover:text-white transition-colors">Instagram</p>
-              <p className="cursor-pointer hover:text-white transition-colors">Twitter / X</p>
-              <p className="cursor-pointer hover:text-white transition-colors">LinkedIn</p>
-              <p className="cursor-pointer hover:text-white transition-colors">YouTube</p>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-ztext-lighter">
+            <span className="flex items-center gap-1">
+              <MapPin size={11} /> Near CIT Kokrajhar
+            </span>
+            <span className="flex items-center gap-1">
+              <Phone size={11} /> 6000212823
+            </span>
+            <span>&copy; {new Date().getFullYear()}</span>
           </div>
-        </div>
-        <div className="mt-10 pt-6 border-t border-white/10 text-center text-xs text-white/40">
-          <span className="font-bold text-zred">Dilip Da</span> &mdash; Order food. Pay fair.
         </div>
       </div>
     </footer>

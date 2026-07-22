@@ -71,14 +71,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="flex items-center justify-between px-5 h-16 border-b border-zborder">
-          <Link href="/dashboard/admin" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-zred flex items-center justify-center">
-              <Shield size={16} className="text-white" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-ztext leading-tight">Admin</p>
-              <p className="text-[10px] text-ztext-lighter leading-tight">Panel</p>
-            </div>
+          <Link href="/dashboard/admin" className="flex items-center gap-1.5 shrink-0" aria-label="Dilip Da">
+            <span className="text-xl font-black tracking-tight">
+              <span className="text-ztext">Dilip</span> <span className="text-zred">Da</span>
+            </span>
           </Link>
           <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar" className="lg:hidden p-1.5 hover:bg-zgray rounded-lg transition-colors">
             <X size={18} className="text-ztext-lighter" />

@@ -1,24 +1,28 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import Link from 'next/link';
+import { useRef, useState, useCallback } from 'react';
 import { useCartStore } from '@/features/cart/store';
-import { ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ShoppingBag, ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react';
+import { showToast } from '@/components/shared/Toast';
+import FavoriteButton from '@/components/shared/FavoriteButton';
 
 const dishes = [
-  { id: 'featured-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop', price: 280, veg: false },
-  { id: 'featured-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop', price: 220, veg: false },
-  { id: 'featured-3', name: 'Shorshe Ilish', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop', price: 350, veg: false },
-  { id: 'featured-4', name: 'Mutton Kosha', image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop', price: 320, veg: false },
-  { id: 'featured-5', name: 'Misti Doi', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop', price: 80, veg: true },
-  { id: 'featured-6', name: 'Daal & Rice', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=400&fit=crop', price: 160, veg: true },
+  { id: 'featured-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop', price: 280, veg: false, desc: 'Fragrant basmati rice with tender chicken' },
+  { id: 'featured-2', name: 'Macher Jhol', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop', price: 220, veg: false, desc: 'Traditional Bengali fish curry' },
+  { id: 'featured-3', name: 'Shorshe Ilish', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=400&fit=crop', price: 350, veg: false, desc: 'Hilsa fish in mustard gravy' },
+  { id: 'featured-4', name: 'Mutton Kosha', image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop', price: 320, veg: false, desc: 'Slow-cooked mutton in thick gravy' },
+  { id: 'featured-5', name: 'Misti Doi', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop', price: 80, veg: true, desc: 'Traditional Bengali sweet yogurt' },
+  { id: 'featured-6', name: 'Daal & Rice', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=400&fit=crop', price: 160, veg: true, desc: 'Comforting dal chawal with ghee' },
 ];
 
 export default function FeaturedDishes() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const addItem = useCartStore((s) => s.addItem);
+  const { addItem, items, updateQuantity, total, totalItems } = useCartStore();
+  const cartCount = totalItems();
 
   const updateScrollState = useCallback(() => {
     const el = scrollRef.current;
@@ -30,39 +34,44 @@ export default function FeaturedDishes() {
   function scroll(dir: 'left' | 'right') {
     const el = scrollRef.current;
     if (!el) return;
-    const amount = 320;
-    el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
+    el.scrollBy({ left: dir === 'left' ? -280 : 280, behavior: 'smooth' });
     setTimeout(updateScrollState, 350);
   }
 
+  function getQty(id: string) {
+    return items.find((i) => i.id === id)?.quantity ?? 0;
+  }
+
+  function handleAdd(dish: (typeof dishes)[0]) {
+    addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image });
+  }
+
   return (
-    <section id="featured" className="py-12 sm:py-16 bg-zgray">
+    <section className="py-5 sm:py-8 bg-zgray">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-6 sm:mb-8">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-ztext tracking-tight">
-              Today's Menu
+            <h2 className="text-base sm:text-lg font-bold text-ztext tracking-tight">
+              Today&apos;s Specials
             </h2>
-            <p className="text-ztext-light text-sm mt-1 max-w-xl">
-              Handpicked favorites that define the soul of Bengali cuisine
-            </p>
+            <p className="text-xs text-ztext-light mt-0.5">Fresh from the kitchen</p>
           </div>
-          <div className="hidden sm:flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1.5">
             <button
               onClick={() => scroll('left')}
               disabled={!canScrollLeft}
-              className="w-9 h-9 rounded-full bg-zcard border border-zborder flex items-center justify-center text-ztext hover:bg-zsurface transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-8 h-8 rounded-full bg-zcard border border-zborder flex items-center justify-center text-ztext hover:bg-zsurface transition-colors disabled:opacity-30"
               aria-label="Scroll left"
             >
-              <ChevronLeft size={16} />
+              <ChevronLeft size={14} />
             </button>
             <button
               onClick={() => scroll('right')}
               disabled={!canScrollRight}
-              className="w-9 h-9 rounded-full bg-zcard border border-zborder flex items-center justify-center text-ztext hover:bg-zsurface transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-8 h-8 rounded-full bg-zcard border border-zborder flex items-center justify-center text-ztext hover:bg-zsurface transition-colors disabled:opacity-30"
               aria-label="Scroll right"
             >
-              <ChevronRight size={16} />
+              <ChevronRight size={14} />
             </button>
           </div>
         </div>
@@ -70,36 +79,57 @@ export default function FeaturedDishes() {
         <div
           ref={scrollRef}
           onScroll={updateScrollState}
-          className="flex gap-4 overflow-x-auto scroll-smooth pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
         >
-          {dishes.map((dish) => (
-            <div
-              key={dish.id}
-              className="flex-none w-[260px] sm:w-[280px] rounded-2xl overflow-hidden bg-zcard border border-zborder group transition-shadow hover:shadow-z-hover"
-            >
-              <div className="relative h-40 sm:h-44 overflow-hidden">
-                <Image
-                  src={dish.image}
-                  alt={dish.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="280px"
-                />
+          {dishes.map((dish) => {
+            const qty = getQty(dish.id);
+            return (
+              <div
+                key={dish.id}
+                className="flex-none w-[200px] sm:w-[220px] rounded-xl overflow-hidden bg-zcard border border-zborder card-lift"
+              >
+                <div className="relative h-28 sm:h-32 overflow-hidden">
+                  <Image
+                    src={dish.image}
+                    alt={dish.name}
+                    fill
+                    className="object-cover"
+                    sizes="220px"
+                    loading="lazy"
+                    unoptimized
+                  />
+                  <div className={`absolute top-2 left-2 w-4 h-4 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-sm shadow-sm border ${dish.veg ? 'border-green-600' : 'border-red-600'}`}>
+                    <div className={`w-2 h-2 rounded-full ${dish.veg ? 'bg-green-600' : 'bg-red-600'}`}></div>
+                  </div>
+                  <FavoriteButton item={{ ...dish, img: dish.image }} />
+                </div>
+                <div className="p-3">
+                  <h3 className="font-semibold text-ztext text-xs truncate">{dish.name}</h3>
+                  <p className="text-[10px] text-ztext-lighter mt-0.5 truncate">{dish.desc}</p>
+                  <div className="flex items-center justify-between mt-2">
+                    <p className="text-sm font-bold text-ztext">₹{dish.price}</p>
+                    {qty === 0 ? (
+                      <button
+                        onClick={() => handleAdd(dish)}
+                        className="w-16 h-7 flex items-center justify-center text-[10px] font-bold text-zred border border-zred rounded-lg hover:bg-zred hover:text-white transition-colors"
+                      >
+                        ADD
+                      </button>
+                    ) : (
+                      <div className="w-16 h-7 flex items-center justify-between bg-zred text-white rounded-lg px-1">
+                        <button onClick={() => updateQuantity(dish.id, qty - 1)} className="p-0.5 hover:bg-white/20 rounded transition-colors flex items-center justify-center"><Minus size={12} /></button>
+                        <span className="text-[10px] font-bold text-center">{qty}</span>
+                        <button onClick={() => updateQuantity(dish.id, qty + 1)} className="p-0.5 hover:bg-white/20 rounded transition-colors flex items-center justify-center"><Plus size={12} /></button>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div className="p-3 sm:p-4">
-                <h3 className="font-semibold text-ztext text-sm truncate">{dish.name}</h3>
-                <p className="text-zred font-bold text-sm mt-1">₹{dish.price}</p>
-                <button
-                  onClick={() => addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image })}
-                  className="mt-2 w-full text-xs font-bold text-white bg-zred rounded-lg py-2 hover:bg-zred-dark transition-colors flex items-center justify-center gap-1.5"
-                >
-                  <ShoppingBag size={12} /> Add
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
+
+
       </div>
     </section>
   );

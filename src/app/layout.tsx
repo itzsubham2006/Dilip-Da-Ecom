@@ -5,7 +5,9 @@ import Footer from '@/components/shared/Footer';
 import './globals.css';
 
 const NavbarWrapper = dynamic(() => import('@/components/shared/NavbarWrapper'));
+const BottomNav = dynamic(() => import('@/components/shared/BottomNav'));
 const Toast = dynamic(() => import('@/components/shared/Toast'));
+const FloatingCart = dynamic(() => import('@/components/shared/FloatingCart'));
 
 export const metadata: Metadata = {
   title: {
@@ -28,14 +30,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link
           rel="preload"
           as="image"
-          href="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=1080&fit=crop"
+          href="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=600&fit=crop"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
       <body className="min-h-screen bg-zbg font-sans antialiased">
         <Providers>
           <NavbarWrapper />
-          <main className="min-h-[calc(100vh-4rem)]">{children}</main>
+          <main className="min-h-[calc(100vh-4rem)] has-bottom-nav">{children}</main>
           <Footer />
+          <FloatingCart />
+          <BottomNav />
           <Toast />
         </Providers>
       </body>
