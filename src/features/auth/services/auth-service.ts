@@ -29,7 +29,7 @@ export const authService = {
       if (typeof window !== 'undefined') {
         localStorage.setItem('mock_admin_session', 'true');
       }
-      return { user: { id: 'mock-admin', email, fullName: 'Admin', role: 'admin', avatarUrl: null, phone: null }, error: null };
+      return { user: { id: 'mock-admin', email, fullName: 'Admin', role: 'admin' as Role, avatarUrl: null, phone: null }, error: null };
     }
     const supabase = createClient();
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -58,7 +58,7 @@ export const authService = {
 
   async getSession(): Promise<{ user: AuthUser | null }> {
     if (typeof window !== 'undefined' && localStorage.getItem('mock_admin_session') === 'true') {
-      return { user: { id: 'mock-admin', email: 'lastw5232@gmail.com', fullName: 'Admin', role: 'admin', avatarUrl: null, phone: null } };
+      return { user: { id: 'mock-admin', email: 'lastw5232@gmail.com', fullName: 'Admin', role: 'admin' as Role, avatarUrl: null, phone: null } };
     }
     const supabase = createClient();
     const { data } = await supabase.auth.getUser();
