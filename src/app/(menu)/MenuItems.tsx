@@ -131,7 +131,7 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
       </div>
 
       {/* Category pills */}
-      <div className="category-pills sticky top-16 bg-zbg z-10 py-2 -mx-4 px-4 scroll-px-4 sm:mx-0 sm:px-0 sm:scroll-px-0 mb-2">
+      <div className="category-pills sticky top-16 bg-zbg z-40 py-2 -mx-4 px-4 scroll-px-4 sm:mx-0 sm:px-0 sm:scroll-px-0 mb-2">
         <button
           onClick={() => handleCategoryClick('All')}
           className={`pill ${activeCategory === 'All' ? 'active' : ''}`}
