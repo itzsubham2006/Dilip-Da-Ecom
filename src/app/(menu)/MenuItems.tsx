@@ -1,10 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import { useCartStore } from '@/features/cart/store';
-import { ShoppingBag, Minus, Plus, Search } from 'lucide-react';
+import { Minus, Plus, Search } from 'lucide-react';
 import FavoriteButton from '@/components/shared/FavoriteButton';
 
 interface MenuItem {
@@ -24,8 +23,7 @@ interface MenuSection {
 
 export function MenuItems({ sections }: { sections: MenuSection[] }) {
   const store = useCartStore();
-  const { items: cartItems, addItem, updateQuantity, total, totalItems } = store;
-  const cartCount = totalItems();
+  const { items: cartItems, addItem, updateQuantity } = store;
   const [activeCategory, setActiveCategory] = useState('All');
   const [vegOnly, setVegOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

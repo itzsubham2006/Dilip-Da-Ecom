@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-interface UseServerActionOptions<T> {
+interface UseServerActionOptions {
   enabled?: boolean;
 }
 
 export function useServerAction<T>(
   fn: () => Promise<{ success: boolean; data?: T; error?: string }>,
-  options: UseServerActionOptions<T> = {},
+  options: UseServerActionOptions = {},
 ) {
   const [data, setData] = useState<T | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +33,7 @@ export function useServerAction<T>(
 
   useEffect(() => {
     if (options.enabled !== false) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       execute();
     }
   }, [execute, options.enabled]);

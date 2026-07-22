@@ -1,11 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRef, useState, useCallback } from 'react';
 import { useCartStore } from '@/features/cart/store';
-import { ShoppingBag, ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react';
-import { showToast } from '@/components/shared/Toast';
+import { ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react';
 import FavoriteButton from '@/components/shared/FavoriteButton';
 
 const dishes = [
@@ -21,8 +19,7 @@ export default function FeaturedDishes() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const { addItem, items, updateQuantity, total, totalItems } = useCartStore();
-  const cartCount = totalItems();
+  const { addItem, items, updateQuantity } = useCartStore();
 
   const updateScrollState = useCallback(() => {
     const el = scrollRef.current;

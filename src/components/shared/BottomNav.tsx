@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, UtensilsCrossed, ShoppingBag, ClipboardList, User } from 'lucide-react';
-import { useCartStore } from '@/features/cart/store';
+import { Home, UtensilsCrossed, ClipboardList, User } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store';
 
 const tabs = [
@@ -15,7 +14,6 @@ const tabs = [
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const cartCount = useCartStore((s) => s.totalItems());
   const { isAuthenticated } = useAuthStore();
 
   if (pathname?.startsWith('/admin')) return null;

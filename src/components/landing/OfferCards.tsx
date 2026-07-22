@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { Plus, Minus, Flame } from 'lucide-react';
 import { useCartStore } from '@/features/cart/store';
-import { showToast } from '@/components/shared/Toast';
 
 const popularPicks = [
   { id: 'offer-1', name: 'Kolkata Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&h=200&fit=crop', price: 280, veg: false },

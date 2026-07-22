@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   LayoutDashboard, Users, Store, ShoppingBag, Banknote,
-  Settings, Shield, LogOut, Menu, X, Bell,
+  Settings, LogOut, Menu, X, Bell,
   ClipboardList, Wallet,
 } from 'lucide-react';
 import { getServerSession } from '@/features/auth/actions';
