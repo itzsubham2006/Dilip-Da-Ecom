@@ -15,7 +15,7 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, isLoading } = useAuthStore();
 
   function isActive(href: string): boolean {
     if (href === '/') return pathname === '/';
@@ -45,7 +45,7 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               className={`button-z button-z-ghost text-sm font-medium transition-colors ${
-                isActive(link.href) ? '!text-white' : ''
+                isActive(link.href) ? 'text-ztext font-semibold' : ''
               }`}
               aria-current={isActive(link.href) ? 'page' : undefined}
             >
@@ -57,7 +57,9 @@ export default function Navbar() {
 
         {/* Desktop right icons */}
         <div className="hidden sm:flex items-center gap-1">
-          {isAuthenticated ? (
+          {isLoading ? (
+            <div className="w-8 h-8 rounded-full bg-zgray animate-pulse" />
+          ) : isAuthenticated ? (
             <Link href="/profile" className="icon-button-z" aria-label="Profile">
               <UserRound size={18} />
             </Link>

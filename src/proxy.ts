@@ -11,6 +11,8 @@ const publicRoutes = new Set([
   '/auth/callback',
   '/cart',
   '/checkout',
+  '/menu',
+  '/favorites',
   '/orders',
   '/profile',
 ]);
@@ -39,7 +41,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (publicRoutes.has(pathname) || pathname.startsWith('/auth/')) {
+  if (publicRoutes.has(pathname) || pathname.startsWith('/auth/') || pathname.startsWith('/order/')) {
     return NextResponse.next();
   }
 

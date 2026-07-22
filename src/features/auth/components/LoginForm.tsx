@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useAuthStore } from '../store';
 import { authService } from '../services/auth-service';
 import { OAuthButtons } from './OAuthButtons';
 
@@ -19,6 +20,8 @@ export default function LoginForm() {
     const { user, error: err } = await authService.signIn(email, password);
     setLoading(false);
     if (err) { setError(err); return; }
+
+    useAuthStore.getState().setUser(user);
 
     if (user?.role === 'admin') {
       window.location.href = '/admin';

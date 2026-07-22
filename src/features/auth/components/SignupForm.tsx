@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useAuthStore } from '../store';
 import { authService } from '../services/auth-service';
 import { OAuthButtons } from './OAuthButtons';
 
@@ -19,8 +20,12 @@ export default function SignupForm() {
     const { user, error: err } = await authService.signUp(email, password, fullName);
     setLoading(false);
     if (err) { setError(err); return; }
-    if (user) { window.location.href = '/auth/onboarding'; }
-    else { setError('Check your email for a confirmation link.'); }
+    if (user) {
+      useAuthStore.getState().setUser(user);
+      window.location.href = '/auth/onboarding';
+    } else {
+      setError('Check your email for a confirmation link.');
+    }
   }
 
   return (
