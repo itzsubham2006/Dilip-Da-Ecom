@@ -11,7 +11,8 @@ const publicRoutes = new Set([
   '/auth/callback',
   '/cart',
   '/checkout',
-  '/order/track',
+  '/orders',
+  '/profile',
 ]);
 
 export async function proxy(request: NextRequest) {

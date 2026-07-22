@@ -1,0 +1,93 @@
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { Heart, Minus, Plus, ShoppingBag } from 'lucide-react';
+import { useFavoritesStore } from '@/features/favorites/store';
+import { useCartStore } from '@/features/cart/store';
+import FavoriteButton from '@/components/shared/FavoriteButton';
+
+export default function FavoritesPage() {
+  const { items } = useFavoritesStore();
+  const { items: cartItems, addItem, updateQuantity } = useCartStore();
+
+  function getQty(id: string) {
+    return cartItems.find((i) => i.id === id)?.quantity ?? 0;
+  }
+
+  function handleAdd(item: any) {
+    addItem({ id: item.id, name: item.name, price: item.price, veg: item.veg, image: item.img || item.image });
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="page-pad min-h-[60vh] flex flex-col items-center justify-center text-center">
+        <div className="w-20 h-20 bg-zred/10 rounded-full flex items-center justify-center mb-6">
+          <Heart size={40} className="text-zred" />
+        </div>
+        <h1 className="text-2xl font-black text-ztext mb-3">No favorites yet</h1>
+        <p className="text-ztext-light max-w-sm mb-8">
+          You haven't saved any dishes. Explore our menu and tap the heart icon on your favorite items to save them here!
+        </p>
+        <Link href="/menu" className="button-z button-z-primary px-8">
+          Explore Menu
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page-pad">
+      <div className="container-z mx-auto max-w-5xl">
+        <div className="flex items-center gap-3 mb-6 mt-2">
+          <Heart size={28} className="text-zred fill-zred/20" />
+          <h1 className="text-2xl sm:text-3xl font-black text-ztext">My Favorites</h1>
+        </div>
+        
+        <p className="text-ztext-light mb-8 font-medium">You have {items.length} saved dish{items.length > 1 ? 'es' : ''}</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          {items.map((item) => {
+            const qty = getQty(item.id);
+            return (
+              <div key={item.id} className="p-4 flex gap-4 bg-zcard rounded-xl border border-zborder card-lift">
+                <div className="flex-1 min-w-0 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <div className={`w-3.5 h-3.5 flex items-center justify-center border ${item.veg ? 'border-green-500' : 'border-red-500'}`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${item.veg ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                      </div>
+                      {item.popular && <span className="text-[10px] font-bold text-zred bg-zred/10 px-1.5 py-0.5 rounded">Bestseller</span>}
+                    </div>
+                    <h3 className="font-semibold text-ztext text-sm sm:text-base mt-0.5">{item.name}</h3>
+                    <p className="text-sm font-bold text-ztext mt-1">₹{item.price}</p>
+                  </div>
+                  <p className="text-xs text-ztext-light mt-2 leading-relaxed line-clamp-2">{item.desc}</p>
+                </div>
+                <div className="flex flex-col items-center gap-3 shrink-0">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-zgray relative shadow-sm">
+                    <Image src={item.img || item.image!} alt={item.name} fill className="object-cover" sizes="(max-width: 640px) 96px, 112px" />
+                    <FavoriteButton item={item} />
+                  </div>
+                  <div className="-mt-7 z-10 relative bg-zcard rounded-lg shadow-sm border border-zborder overflow-hidden">
+                    {qty === 0 ? (
+                      <button onClick={() => handleAdd(item)} className="w-20 h-8 flex items-center justify-center text-xs font-bold text-zred hover:bg-zred hover:text-white transition-colors">
+                        ADD
+                      </button>
+                    ) : (
+                      <div className="w-20 h-8 flex items-center justify-between bg-zred text-white px-1">
+                        <button onClick={() => updateQuantity(item.id, qty - 1)} aria-label={`Decrease quantity of ${item.name}`} className="p-1 hover:bg-white/20 rounded transition-colors flex items-center justify-center"><Minus size={14} /></button>
+                        <span className="text-xs font-bold text-center">{qty}</span>
+                        <button onClick={() => updateQuantity(item.id, qty + 1)} aria-label={`Increase quantity of ${item.name}`} className="p-1 hover:bg-white/20 rounded transition-colors flex items-center justify-center"><Plus size={14} /></button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
