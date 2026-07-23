@@ -8,6 +8,7 @@ const NavbarWrapper = dynamic(() => import('@/components/shared/NavbarWrapper'))
 const BottomNav = dynamic(() => import('@/components/shared/BottomNav'));
 const Toast = dynamic(() => import('@/components/shared/Toast'));
 const FloatingCart = dynamic(() => import('@/components/shared/FloatingCart'));
+const FlyingBird = dynamic(() => import('@/components/shared/FlyingBird'));
 
 export const metadata: Metadata = {
   title: {
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="min-h-[calc(100vh-4rem)] has-bottom-nav">{children}</main>
           <Footer />
           <FloatingCart />
+          <FlyingBird />
           <BottomNav />
           <Toast />
         </Providers>

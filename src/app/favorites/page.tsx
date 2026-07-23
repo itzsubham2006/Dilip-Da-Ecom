@@ -9,13 +9,17 @@ import FavoriteButton from '@/components/shared/FavoriteButton';
 
 export default function FavoritesPage() {
   const { items } = useFavoritesStore();
-  const { items: cartItems, addItem, updateQuantity } = useCartStore();
+  const { items: cartItems, addItem, setLastAddedRect, updateQuantity } = useCartStore();
 
   function getQty(id: string) {
     return cartItems.find((i) => i.id === id)?.quantity ?? 0;
   }
 
-  function handleAdd(item: FavoriteItem) {
+  function handleAdd(item: FavoriteItem, e?: React.MouseEvent<HTMLButtonElement>) {
+    if (e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setLastAddedRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+    }
     addItem({ id: item.id, name: item.name, price: item.price, veg: item.veg ?? false, image: item.img || item.image! });
   }
 
@@ -71,7 +75,7 @@ export default function FavoritesPage() {
                   </div>
                   <div className="-mt-7 z-10 relative bg-zcard rounded-lg shadow-sm border border-zborder overflow-hidden">
                     {qty === 0 ? (
-                      <button onClick={() => handleAdd(item)} className="w-20 h-8 flex items-center justify-center text-xs font-bold text-zred hover:bg-zred hover:text-white transition-colors">
+                      <button onClick={(e) => handleAdd(item, e)} className="w-20 h-8 flex items-center justify-center text-xs font-bold text-zred hover:bg-zred hover:text-white transition-colors">
                         ADD
                       </button>
                     ) : (

@@ -9,10 +9,13 @@ export interface CartItem {
 
 export interface CartState {
   items: CartItem[];
+  lastAddedAt: number | null;
+  lastAddedRect: { left: number; top: number; width: number; height: number } | null;
 }
 
 export interface CartStore extends CartState {
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
+  setLastAddedRect: (rect: { left: number; top: number; width: number; height: number } | null) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;

@@ -14,13 +14,17 @@ const popularPicks = [
 ];
 
 export default function OfferCards() {
-  const { addItem, items, updateQuantity } = useCartStore();
+  const { addItem, items, setLastAddedRect, updateQuantity } = useCartStore();
 
   function getQty(id: string) {
     return items.find((i) => i.id === id)?.quantity ?? 0;
   }
 
-  function handleAdd(pick: (typeof popularPicks)[0]) {
+  function handleAdd(pick: (typeof popularPicks)[0], e?: React.MouseEvent<HTMLButtonElement>) {
+    if (e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setLastAddedRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+    }
     addItem({ id: pick.id, name: pick.name, price: pick.price, veg: pick.veg, image: pick.image });
   }
 
@@ -64,7 +68,7 @@ export default function OfferCards() {
                 <div className="mt-1.5 flex justify-center">
                   {qty === 0 ? (
                     <button
-                      onClick={() => handleAdd(pick)}
+                      onClick={(e) => handleAdd(pick, e)}
                       className="w-[72px] h-7 flex items-center justify-center gap-1 text-[11px] font-bold text-zred border border-zred rounded-full hover:bg-zred hover:text-white transition-colors"
                     >
                       <Plus size={10} /> ADD

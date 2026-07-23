@@ -19,7 +19,7 @@ export default function FeaturedDishes() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const { addItem, items, updateQuantity } = useCartStore();
+  const { addItem, items, setLastAddedRect, updateQuantity } = useCartStore();
 
   const updateScrollState = useCallback(() => {
     const el = scrollRef.current;
@@ -39,7 +39,11 @@ export default function FeaturedDishes() {
     return items.find((i) => i.id === id)?.quantity ?? 0;
   }
 
-  function handleAdd(dish: (typeof dishes)[0]) {
+  function handleAdd(dish: (typeof dishes)[0], e?: React.MouseEvent<HTMLButtonElement>) {
+    if (e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setLastAddedRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+    }
     addItem({ id: dish.id, name: dish.name, price: dish.price, veg: dish.veg, image: dish.image });
   }
 
@@ -107,7 +111,7 @@ export default function FeaturedDishes() {
                     <p className="text-sm font-bold text-ztext">₹{dish.price}</p>
                     {qty === 0 ? (
                       <button
-                        onClick={() => handleAdd(dish)}
+                        onClick={(e) => handleAdd(dish, e)}
                         className="w-16 h-7 flex items-center justify-center text-[10px] font-bold text-zred border border-zred rounded-lg hover:bg-zred hover:text-white transition-colors"
                       >
                         ADD

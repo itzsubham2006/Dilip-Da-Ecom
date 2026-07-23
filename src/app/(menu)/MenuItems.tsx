@@ -23,7 +23,7 @@ interface MenuSection {
 
 export function MenuItems({ sections }: { sections: MenuSection[] }) {
   const store = useCartStore();
-  const { items: cartItems, addItem, updateQuantity } = store;
+  const { items: cartItems, addItem, setLastAddedRect, updateQuantity } = store;
   const [activeCategory, setActiveCategory] = useState('All');
   const [vegOnly, setVegOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,7 +32,11 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
     return cartItems.find((i) => i.id === id)?.quantity ?? 0;
   }
 
-  function handleAdd(item: MenuItem) {
+  function handleAdd(item: MenuItem, e?: React.MouseEvent<HTMLButtonElement>) {
+    if (e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setLastAddedRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+    }
     addItem({ id: item.id, name: item.name, price: item.price, veg: item.veg, image: item.img });
   }
 
@@ -78,7 +82,7 @@ export function MenuItems({ sections }: { sections: MenuSection[] }) {
           </div>
           <div className="-mt-7 z-10 relative bg-zcard rounded-lg shadow-sm border border-zborder overflow-hidden">
             {qty === 0 ? (
-              <button onClick={() => handleAdd(item)} className="w-20 h-8 flex items-center justify-center text-xs font-bold text-zred hover:bg-zred hover:text-white transition-colors">
+              <button onClick={(e) => handleAdd(item, e)} className="w-20 h-8 flex items-center justify-center text-xs font-bold text-zred hover:bg-zred hover:text-white transition-colors">
                 ADD
               </button>
             ) : (
